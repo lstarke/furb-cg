@@ -21,7 +21,7 @@ public class Main implements GLEventListener, KeyListener {
 		glu = new GLU();
 		glDrawable.setGL(new DebugGL(gl));
 		System.out.println("Espa�o de desenho com tamanho: " + drawable.getWidth() + " x " + drawable.getHeight());
-		gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f); // aqui muda a cor de fundo
 	}
 	
 	public void SRU() {
@@ -58,15 +58,27 @@ public class Main implements GLEventListener, KeyListener {
 		 
 		 // seu desenho ...
 		 gl.glColor3f(0.0f, 0.0f, 0.0f);
-		 gl.glLineWidth(3.0f);
 		 gl.glPointSize(2.0f);
 		 gl.glBegin(GL.GL_POINTS);
-		 	gl.glColor3f(0.0f, 0.0f, 1.0f);
-		 	gl.glVertex2d(10.0, 10.0);
-		   	    
+		 gl.glColor3f(0.0f, 0.0f, 1.0f);
+		 	// 72 pontos
+		 	for (int i = 0; i < 72; i++) {
+		 		// raio = 100
+		 		double x = this.RetornaX(i*5, 100); // 360/72 = 5
+			 	double y = this.RetornaY(i*5, 100);
+			 	gl.glVertex2d(x,y);				
+			}		   	    
 		 gl.glEnd();			
 		 gl.glFlush();
-	}	
+	}
+	
+	public double RetornaX(double angulo, double raio) { 
+		return (raio * Math.cos(Math.PI * angulo / 180.0));
+	} 
+
+	public double RetornaY(double angulo, double raio) { 
+		return (raio * Math.sin(Math.PI * angulo / 180.0)); 
+	}
 
 	public void keyPressed(KeyEvent e) {
 		System.out.println(" --- keyPressed ---");

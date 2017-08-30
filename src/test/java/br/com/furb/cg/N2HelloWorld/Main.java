@@ -28,7 +28,7 @@ public class Main implements GLEventListener, KeyListener {
 //		gl.glDisable(gl.GL_TEXTURE_2D);
 //		gl.glDisableClientState(gl.GL_TEXTURE_COORD_ARRAY);
 //		gl.glDisable(gl.GL_LIGHTING); //TODO: [D] FixMe: check if lighting and texture is enabled
-
+		/*
 		// eixo x
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
 		gl.glLineWidth(1.0f);
@@ -36,6 +36,7 @@ public class Main implements GLEventListener, KeyListener {
 			gl.glVertex2f( -200.0f, 0.0f );
 			gl.glVertex2f(  200.0f, 0.0f );
 			gl.glEnd();
+		*/	
 		// eixo y
 		gl.glColor3f(0.0f, 1.0f, 0.0f);
 		gl.glBegin( GL.GL_LINES);
@@ -60,9 +61,8 @@ public class Main implements GLEventListener, KeyListener {
 		 gl.glLineWidth(3.0f);
 		 gl.glBegin(GL.GL_LINES);
 		 	gl.glVertex2d(0.0, 0.0);
-		    gl.glVertex2d(200.0, 200.0);
-		 gl.glEnd();
-
+		    gl.glVertex2d(200.0, 200.0);		    
+		 gl.glEnd();			
 		 gl.glFlush();
 	}	
 

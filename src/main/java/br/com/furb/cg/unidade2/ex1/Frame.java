@@ -17,7 +17,7 @@ public class Frame extends JFrame{
 	
 	public Frame() {		
 		// Cria o frame.
-		super("CG-N2_HelloWorld");   
+		super("Un2Ex1");   
 		setBounds(300,250,janelaLargura,janelaAltura+22);  // 500 + 22 da borda do t�tulo da janela
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
