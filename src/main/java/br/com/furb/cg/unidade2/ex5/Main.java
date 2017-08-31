@@ -15,6 +15,10 @@ public class Main implements GLEventListener, KeyListener {
 	private GL gl;
 	private GLU glu;
 	private GLAutoDrawable glDrawable;
+	private boolean v = false;
+	int primitiva = GL.GL_POINTS;
+	int listaPrimitivas[] = {0,1,2,3,4,6,5,7,8,9};
+	int i = 0;
 
 	public void init(GLAutoDrawable drawable) {
 		System.out.println(" --- init ---");
@@ -61,27 +65,48 @@ public class Main implements GLEventListener, KeyListener {
 		 // seu desenho ...
 		 gl.glColor3f(0.0f, 0.0f, 0.0f);
 		 gl.glPointSize(5f);
-		 gl.glBegin(GL.GL_POINTS);			
-			 // primeiro quadrante
-			 gl.glColor3f(0.0f, 1.0f, 0.0f);
-	         gl.glVertex2i(200,200);
-	         // quarto quadrante
-	         gl.glColor3f(1.0f, 0.0f, 0.0f);
-	         gl.glVertex2i(200,-200);
-	         // terceiro quadrante
-	         gl.glColor3f(1.0f, 0.0f, 1.0f);
-	         gl.glVertex2i(-200,-200);            
-	         // segundo quadrante
-	      	 gl.glColor3f(0.0f, 0.0f, 1.0f);
-	         gl.glVertex2i(-200,200);
-		gl.glEnd();
-		gl.glFlush();		
+		 gl.glLineWidth(5.0f);
+		 
+		 //System.out.println(GL.GL_POINTS);         //0
+		 //System.out.println(GL.GL_LINES);          //1
+		 //System.out.println(GL.GL_LINE_LOOP);      //2
+		 //System.out.println(GL.GL_LINE_STRIP);     //3
+		 //System.out.println(GL.GL_TRIANGLES);      //4 
+		 //System.out.println(GL.GL_TRIANGLE_FAN);   //6 
+		 //System.out.println(GL.GL_TRIANGLE_STRIP); //5 
+		 //System.out.println(GL.GL_QUADS);          //7
+		 //System.out.println(GL.GL_QUAD_STRIP);     //8 
+		 //System.out.println(GL.GL_POLYGON);        //9		 
+		 
+		 if (v) {			 
+			 gl.glBegin(primitiva);			 
+				 // primeiro quadrante
+				 gl.glColor3f(0.0f, 1.0f, 0.0f);
+		         gl.glVertex2i(200,200);
+		         // quarto quadrante
+		         gl.glColor3f(1.0f, 0.0f, 0.0f);
+		         gl.glVertex2i(200,-200);
+		         // terceiro quadrante
+		         gl.glColor3f(1.0f, 0.0f, 1.0f);
+		         gl.glVertex2i(-200,-200);            
+		         // segundo quadrante
+		      	 gl.glColor3f(0.0f, 0.0f, 1.0f);
+		         gl.glVertex2i(-200,200);
+		     gl.glEnd();
+		     gl.glFlush();			
+		}
 		 
 	}	
 
 	public void keyPressed(KeyEvent e) {
-		System.out.println(" --- keyPressed ---");
-		
+		System.out.println(" --- keyPressed ---");		
+		v = true;		
+		// pega a primitiva na lista de primitivas
+		this.primitiva = listaPrimitivas[i++];		
+		// faz loop na lista de primitivas
+		if (i == 9) {
+			i = 0;
+		}
 		System.out.println(" --- Redesenha ao sair do callback ---");
 		glDrawable.display();
 	}
@@ -99,6 +124,7 @@ public class Main implements GLEventListener, KeyListener {
 		
 		if (arg0.getKeyCode() == 32) {
 			System.out.println("entrou apertando espaço");
+			//v = true;
 		}
 		
 	}
