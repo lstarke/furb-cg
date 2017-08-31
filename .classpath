@@ -22,7 +22,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/dev/projects/cg/lib/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="C:/dev/projects/cg/lib/jogl.jar"/>
+	<classpathentry kind="lib" path="C:/dev/furb-cg/lib/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="C:/dev/furb-cg/lib/jogl.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

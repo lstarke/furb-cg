@@ -52,3 +52,4 @@ jogl_cg.dll
 .cache-main
 .scala_dependencies
 .worksheet
+/target/
