@@ -1,4 +1,4 @@
-package br.com.furb.cg.unidade2.ex3;
+package br.com.furb.cg.unidade2.ex2;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -13,6 +13,7 @@ public class Main implements GLEventListener, KeyListener {
 	private GL gl;
 	private GLU glu;
 	private GLAutoDrawable glDrawable;
+	private final double DESLOCAMENTO = 20.0; // podes-se utilizar o valor que achar interessante
 
 	public void init(GLAutoDrawable drawable) {
 		System.out.println(" --- init ---");
@@ -21,7 +22,7 @@ public class Main implements GLEventListener, KeyListener {
 		glu = new GLU();
 		glDrawable.setGL(new DebugGL(gl));
 		System.out.println("Espa�o de desenho com tamanho: " + drawable.getWidth() + " x " + drawable.getHeight());
-		gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // aqui muda a cor de fundo
+		gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f); // aqui muda a cor de fundo
 	}
 	
 	public void SRU() {
@@ -58,60 +59,18 @@ public class Main implements GLEventListener, KeyListener {
 		 
 		 // seu desenho ...
 		 gl.glColor3f(0.0f, 0.0f, 0.0f);
-		 gl.glPointSize(1.2f);
+		 gl.glPointSize(2.0f);
 		 gl.glBegin(GL.GL_POINTS);
-			 
-			 int qtdePontos = 360;
-			 double x = 0.0;
-			 double y = 0.0;
-			 
-			 // primeiro circulo no primeiro quadrante
-			 for (int i = 0; i < qtdePontos; i++) {		 	
-			 	x = this.RetornaX(i*(qtdePontos/360), 100) + 100; 
-			 	y = this.RetornaY(i*(qtdePontos/360), 100) + 100;
+		 gl.glColor3f(0.0f, 0.0f, 1.0f);
+		 	// 72 pontos
+		 	for (int i = 0; i < 72; i++) {
+		 		// raio = 100
+		 		double x = this.RetornaX(i*5, 100); // 360/72 = 5
+			 	double y = this.RetornaY(i*5, 100);
 			 	gl.glVertex2d(x,y);				
-			 }
-			 
-			// segundo circulo no primeiro quadrante
-			for (int i = 0; i < qtdePontos; i++) {		 	
-			 	x = this.RetornaX(i*(qtdePontos/360), 100) - 100; 
-			 	y = this.RetornaY(i*(qtdePontos/360), 100) + 100;
-			 	gl.glVertex2d(x,y);				
-			}
-			
-			// terceiro circulo no terceiro e quarto quadrante
-			for (int i = 0; i < qtdePontos; i++) {		 	
-			 	x = this.RetornaX(i*(qtdePontos/360), 100); 
-			 	y = this.RetornaY(i*(qtdePontos/360), 100) - 100;
-				gl.glVertex2d(x,y);				
-			}
-			
-		gl.glEnd();
-		// este trecho de código desenha o triangulo
-		gl.glColor3f(0.0f, 1.0f, 1.0f);
-		gl.glBegin(GL.GL_LINES);	
-			// base do triangulo
-		 	gl.glVertex2d(-100, 100);
-		    gl.glVertex2d(100, 100);
-		    // linha lado esquerdo
-		    gl.glVertex2d(-100, 100);
-		    gl.glVertex2d(0, -100);
-		    // linha lado direito
-		    gl.glVertex2d(100, 100);
-		    gl.glVertex2d(0, -100);
-		/*
-		este código desenha o triango passando somente três vertices
-		porem preenche com triangulo com uma cor    
-		    
-		gl.glBegin(GL.GL_TRIANGLES);
-		 	gl.glVertex2d(-100, 100);
-		 	gl.glVertex2d(100, 100);
-		 	gl.glVertex2d(0, -100);	
-		gl.glEnd();	
-		*/
-		gl.glEnd();
-		
-		gl.glFlush();
+			}		   	    
+		 gl.glEnd();			
+		 gl.glFlush();
 	}
 	
 	public double RetornaX(double angulo, double raio) { 
@@ -123,26 +82,71 @@ public class Main implements GLEventListener, KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		System.out.println(" --- keyPressed ---");
+		//System.out.println(" --- keyPressed --- ");
 		
-		System.out.println(" --- Redesenha ao sair do callback ---");
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_I: // Zoom In
+				if (ortho2D_maxX - ortho2D_minX > 100) {
+					ortho2D_minX += DESLOCAMENTO;
+					ortho2D_maxX -= DESLOCAMENTO;
+					ortho2D_minY += DESLOCAMENTO;
+					ortho2D_maxY -= DESLOCAMENTO;
+				} else
+					System.out.println("Limite maximo do Zoom!");
+				break;
+
+			case KeyEvent.VK_O: // Zoom Out
+				if (ortho2D_maxX - ortho2D_minX < 2200) {
+					ortho2D_minX -= DESLOCAMENTO;
+					ortho2D_maxX += DESLOCAMENTO;
+					ortho2D_minY -= DESLOCAMENTO;
+					ortho2D_maxY += DESLOCAMENTO;
+				} else
+					System.out.println("Limite minimo do Zoom!");
+				break;
+
+			case KeyEvent.VK_E: // Pan E = Esquerda
+				ortho2D_minX += DESLOCAMENTO;
+				ortho2D_maxX += DESLOCAMENTO;
+				break;
+
+			case KeyEvent.VK_D: // Pan D = Direita
+				ortho2D_minX -= DESLOCAMENTO;
+				ortho2D_maxX -= DESLOCAMENTO;
+				break;
+
+			case KeyEvent.VK_C:	// Pan C = Cima
+				ortho2D_minY -= DESLOCAMENTO;
+				ortho2D_maxY -= DESLOCAMENTO;
+				break;
+
+			case KeyEvent.VK_B:	// Pan B = Baixo
+				ortho2D_minY += DESLOCAMENTO;
+				ortho2D_maxY += DESLOCAMENTO;
+				break;
+		}
+		System.out.println("minX: " + ortho2D_minX  +
+						   " maxX: " + ortho2D_maxX +
+				           " minY: " + ortho2D_minY +
+				           " maxY: " + ortho2D_maxY);
+		
+		//System.out.println(" --- Redesenha ao sair do callback --- ");
 		glDrawable.display();
 	}
 
 	public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3, int arg4) {
-		System.out.println(" --- reshape ---");
+		//System.out.println(" --- reshape --- ");
 	}
 
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
-		System.out.println(" --- displayChanged ---");
+		//System.out.println(" --- displayChanged --- ");
 	}
 
 	public void keyReleased(KeyEvent arg0) {
-		System.out.println(" --- keyReleased ---");
+		//System.out.println(" --- keyReleased --- ");
 	}
 
 	public void keyTyped(KeyEvent arg0) {
-		System.out.println(" --- keyTyped ---");
+		//System.out.println(" --- keyTyped --- ");
 	}
-	
 }
