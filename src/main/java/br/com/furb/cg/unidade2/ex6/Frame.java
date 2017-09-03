@@ -11,9 +11,7 @@ public class Frame extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private Main renderer = new Main();
-	
 	private int janelaLargura  = 400, janelaAltura = 400;
-
 	
 	public Frame() {		
 		// Cria o frame.
@@ -38,11 +36,12 @@ public class Frame extends JFrame{
 		add(canvas,BorderLayout.CENTER);
 		canvas.addGLEventListener(renderer);        
 		canvas.addKeyListener(renderer);
+		canvas.addMouseListener(renderer);
+		canvas.addMouseMotionListener(renderer);
 		canvas.requestFocus();			
 	}		
 	
 	public static void main(String[] args) {
 		new Frame().setVisible(true);
-	}
-	
+	}	
 }
