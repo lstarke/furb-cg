@@ -16,9 +16,19 @@ public class Main implements GLEventListener, KeyListener {
 	private GLU glu;
 	private GLAutoDrawable glDrawable;
 	private boolean v = false;
-	int primitiva = GL.GL_POINTS;
-	int listaPrimitivas[] = {0,1,2,3,4,6,5,7,8,9};
-	int i = 0;
+	private int primitiva = GL.GL_POINTS;
+	private int i = 0;
+	private int listaPrimitivas[] = {GL.GL_POINTS,
+			                 GL.GL_LINES,
+			                 GL.GL_LINE_LOOP,
+			                 GL.GL_LINE_STRIP,
+			                 GL.GL_TRIANGLES,
+			                 GL.GL_TRIANGLE_FAN,
+			                 GL.GL_TRIANGLE_STRIP,
+			                 GL.GL_QUADS,
+			                 GL.GL_QUAD_STRIP,
+			                 GL.GL_POLYGON};
+	
 
 	public void init(GLAutoDrawable drawable) {
 		System.out.println(" --- init ---");
@@ -67,16 +77,7 @@ public class Main implements GLEventListener, KeyListener {
 		 gl.glPointSize(5f);
 		 gl.glLineWidth(5.0f);
 		 
-		 //System.out.println(GL.GL_POINTS);         //0
-		 //System.out.println(GL.GL_LINES);          //1
-		 //System.out.println(GL.GL_LINE_LOOP);      //2
-		 //System.out.println(GL.GL_LINE_STRIP);     //3
-		 //System.out.println(GL.GL_TRIANGLES);      //4 
-		 //System.out.println(GL.GL_TRIANGLE_FAN);   //6 
-		 //System.out.println(GL.GL_TRIANGLE_STRIP); //5 
-		 //System.out.println(GL.GL_QUADS);          //7
-		 //System.out.println(GL.GL_QUAD_STRIP);     //8 
-		 //System.out.println(GL.GL_POLYGON);        //9		 
+		  
 		 
 		 if (v) {			 
 			 gl.glBegin(primitiva);			 
