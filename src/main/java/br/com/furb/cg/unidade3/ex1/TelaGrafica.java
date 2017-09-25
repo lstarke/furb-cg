@@ -11,10 +11,14 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
-public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
+public class TelaGrafica implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 	private GL gl;
 	private GLU glu;
 	private GLAutoDrawable glDrawable;
+	private Mundo mundo;
+	private Caneta caneta;
+	
+
 
 //	private ObjetoGrafico objeto = new ObjetoGrafico();
 	private ObjetoGrafico[] objetos = { 
@@ -26,56 +30,41 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		glDrawable = drawable;
 		gl = drawable.getGL();
 		glu = new GLU();
-		glDrawable.setGL(new DebugGL(gl));
-
+		glDrawable.setGL(new DebugGL(gl));		
 		gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		
+		mundo = new Mundo();
+		caneta = new Caneta();
 
-		for (byte i=0; i < objetos.length; i++) {
-			objetos[i].atribuirGL(gl);
-		}
-//		objeto.atribuirGL(gl);
+		//for (byte i=0; i < objetos.length; i++) {
+		//	objetos[i].atribuirGL(gl);
+		//}
 	}
 
-	// metodo definido na interface GLEventListener.
-	// "render" feito pelo cliente OpenGL.
 	public void display(GLAutoDrawable arg0) {
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-		glu.gluOrtho2D(-30.0f, 30.0f, -30.0f, 30.0f);
-
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
 
 		gl.glLineWidth(1.0f);
 		gl.glPointSize(1.0f);
-
-		desenhaSRU();
-		for (byte i=0; i < objetos.length; i++) {
-			objetos[i].desenha();
-		}
-
-//		objeto.desenha();
-
+		
+		mundo.posicionaCamera(gl, glu);
+		mundo.desenhaSRU(gl, glu);
+		mundo.desenhaObjetos(gl, glu);
+		
+		//for (byte i=0; i < objetos.length; i++) {
+		//	objetos[i].desenha();
+		//}
+		
 		gl.glFlush();
-	}
-
-	public void desenhaSRU() {
-		gl.glColor3f(1.0f, 0.0f, 0.0f);
-		gl.glBegin(GL.GL_LINES);
-			gl.glVertex2f(-20.0f, 0.0f);
-			gl.glVertex2f(20.0f, 0.0f);
-		gl.glEnd();
-		gl.glColor3f(0.0f, 1.0f, 0.0f);
-		gl.glBegin(GL.GL_LINES);
-			gl.glVertex2f(0.0f, -20.0f);
-			gl.glVertex2f(0.0f, 20.0f);
-		gl.glEnd();
 	}
 	
 	public void keyPressed(KeyEvent e) {
 
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_P:
-			objetos[0].exibeVertices();
+			//objetos[0].exibeVertices();
 			break;
 		case KeyEvent.VK_M:
 			objetos[0].exibeMatriz();
@@ -155,12 +144,13 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		Ponto4D p = new Ponto4D(e.getX(), e.getY(), 0.0, 1.0);
+		this.caneta.atualizaUltimoVertice(p);
+		glDrawable.display();
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -174,8 +164,13 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		
 	}
 
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	public void mousePressed(MouseEvent e) {
+		Ponto4D p = new Ponto4D(e.getX(), e.getY(), 0.0, 1.0);
+		
+		this.mundo.getListaObjetoGrafico().add(this.caneta.novoPonto(p));
+		glDrawable.display();
+		
+		
 		
 	}
 

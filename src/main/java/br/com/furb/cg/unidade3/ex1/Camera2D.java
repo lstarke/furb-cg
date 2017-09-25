@@ -1,9 +1,16 @@
 package br.com.furb.cg.unidade3.ex1;
 
+import javax.media.opengl.GL;
+import javax.media.opengl.glu.GLU;
+
 public class Camera2D {
 	
 	private final double DESLOCAMENTO = 20.0; // podes-se utilizar o valor que achar interessante
-	private float ortho2D_minX = -400.0f, ortho2D_maxX =  400.0f, ortho2D_minY = -400.0f, ortho2D_maxY =  400.0f;
+	
+	private float ortho2D_minX = -400.0f;
+	private float ortho2D_maxX =  400.0f;
+	private float ortho2D_minY = -400.0f;
+	private float ortho2D_maxY =  400.0f;
 	
 	public float getXmin() {
 		return ortho2D_minX;
@@ -19,6 +26,11 @@ public class Camera2D {
 	
 	public float getYmax() {
 		return ortho2D_maxY;
+	}
+	
+	public void posicionar(GL gl, GLU glu)
+	{			
+		glu.gluOrtho2D(this.ortho2D_minX, this.ortho2D_maxX, this.ortho2D_minY, this.ortho2D_maxY);
 	}
 
 	/**
