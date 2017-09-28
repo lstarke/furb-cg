@@ -1,0 +1,26 @@
+* Sempre Utilizaremos a matriz MODELVIEW para passar dados para o OpenGl;
+
+* Nao utilizar o metodo Transformacao4D.public Ponto4D transformPoint(Ponto4D point);
+
+* Para gerar uma matriz com comandos somandos: utilizar a multiplicacao de matrizes;
+
+* Transofrmacao global: guardar apenas uma matriz (acumulada);
+
+* Matriz de transformacao passa dados para a matriz MODELVIEW;
+
+* No grafo de cena do MUNDO cada objeto tem a sua transformacao geometrica;
+
+* Multiplicacao de matrizes nao eh comutativa eh associativas;
+  - Assim: AxB eh diferente de BxA;
+  - Mas: Ax(BxC) = (AxB)xC
+  
+* Escala, rotacao e translacao sao sempre em relacao a origem
+
+* se a origem do cubo for x0;y0;z100, para transladar z=-100, vai para o centro
+
+* Para fazer um rotacao pelo eixo: Rotacao + translacao
+  - Se fizer o contrario nao vai rotacionar pelo centro do objeto
+  - Exemplo: Main.rotacaoZptoFixo
+  
+* Para escalar, normalmente se afasta ou aproxima da origem (x0;y0;z0);
+  - Para nao fazer isto: levar para origem escalar e depois trazer devolta

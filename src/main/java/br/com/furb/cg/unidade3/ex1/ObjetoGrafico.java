@@ -1,7 +1,7 @@
 package br.com.furb.cg.unidade3.ex1;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 public final class ObjetoGrafico {
@@ -48,9 +48,7 @@ public final class ObjetoGrafico {
 	public void addVertice(Ponto4D p) {
 		this.vertices.add(p);
 	}
-	
-	
-	
+
 	public List<Ponto4D> getVertices() {
 		return vertices;
 	}

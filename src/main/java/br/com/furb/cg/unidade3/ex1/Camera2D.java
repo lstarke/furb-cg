@@ -6,8 +6,8 @@ import javax.media.opengl.glu.GLU;
 
 public class Camera2D {
 	
-	private final double DESLOCAMENTO = 20.0; // podes-se utilizar o valor que achar interessante
-	
+	private final double DESLOCAMENTO = 20.0; // pode-se utilizar o valor que achar interessante
+
 	private float ortho2D_minX = -400.0f;
 	private float ortho2D_maxX =  400.0f;
 	private float ortho2D_minY = -400.0f;

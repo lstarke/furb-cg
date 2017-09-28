@@ -2,7 +2,6 @@ package br.com.furb.cg.unidade3.ex1;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
@@ -37,18 +36,17 @@ public class Mundo {
 	 * @param glu
 	 */	
 	public void desenhaSRU(GL gl, GLU glu) {
+	
+		// eixo X
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
-		
 		gl.glBegin(GL.GL_LINES);
-			// eixo X
 			gl.glVertex2f(-sruX, 0.0f);
 			gl.glVertex2f(sruX, 0.0f);
 		gl.glEnd();
 		
+		// eixo Y
 		gl.glColor3f(0.0f, 1.0f, 0.0f);
-		
 		gl.glBegin(GL.GL_LINES);
-			// eixo Y
 			gl.glVertex2f(0.0f, -sruY);
 			gl.glVertex2f(0.0f, sruY);
 		gl.glEnd();
