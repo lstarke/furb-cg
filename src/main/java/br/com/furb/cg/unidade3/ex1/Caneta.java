@@ -2,23 +2,25 @@ package br.com.furb.cg.unidade3.ex1;
 
 public class Caneta {
 	
+	private Mundo mundo;
+	
 	private ObjetoGrafico objeto;
 	private Ponto4D origem;
-	private Ponto4D destino;
+	private Ponto4D destino;	
 	
 	
 	public ObjetoGrafico novoPonto(Ponto4D p) {
+		
 		if (this.objeto == null) {
 			this.objeto = new ObjetoGrafico();
+			this.mundo.getListaObjetoGrafico().add(objeto);
 		}
 		
-		if(this.objeto.getVertices().isEmpty()) {			
-			this.objeto.addVertice(p);		
-			this.origem = p;
-			this.destino = p;			
+		if (objeto.getVertices().isEmpty()) {
+			this.objeto.getVertices().add(p);
 		} else {
-			this.destino = p;
-		}
+			this.objeto.getVertices().add(p);
+		}		
 		
 		return this.objeto;		
 	}
@@ -31,5 +33,15 @@ public class Caneta {
 		}		
 		
 	}
+
+	public Mundo getMundo() {
+		return mundo;
+	}
+
+	public void setMundo(Mundo mundo) {
+		this.mundo = mundo;
+	}
+	
+	
 
 }

@@ -11,12 +11,20 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
+
+
 public class TelaGrafica implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 	private GL gl;
 	private GLU glu;
 	private GLAutoDrawable glDrawable;
 	private Mundo mundo;
 	private Caneta caneta;
+	
+	ObjetoGrafico o = new ObjetoGrafico();
+	
+	boolean desenhando = false;
+	boolean pontoTemp = false;
+	boolean segundoClick = false;
 	
 
 
@@ -35,10 +43,11 @@ public class TelaGrafica implements GLEventListener, KeyListener, MouseListener,
 		
 		mundo = new Mundo();
 		caneta = new Caneta();
+		caneta.setMundo(mundo);
 
-		//for (byte i=0; i < objetos.length; i++) {
-		//	objetos[i].atribuirGL(gl);
-		//}
+		for (byte i=0; i < objetos.length; i++) {
+			objetos[i].atribuirGL(gl);
+		}
 	}
 
 	public void display(GLAutoDrawable arg0) {
@@ -53,9 +62,9 @@ public class TelaGrafica implements GLEventListener, KeyListener, MouseListener,
 		mundo.desenhaSRU(gl, glu);
 		mundo.desenhaObjetos(gl, glu);
 		
-		//for (byte i=0; i < objetos.length; i++) {
-		//	objetos[i].desenha();
-		//}
+		for (byte i=0; i < objetos.length; i++) {
+			objetos[i].desenha(gl, glu);
+		}
 		
 		gl.glFlush();
 	}
@@ -144,9 +153,40 @@ public class TelaGrafica implements GLEventListener, KeyListener, MouseListener,
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		Ponto4D p = new Ponto4D(e.getX(), e.getY(), 0.0, 1.0);
-		this.caneta.atualizaUltimoVertice(p);
+		
+		if (!desenhando) {
+			
+			Ponto4D novoPonto = this.getPontoDeEventoMouse(e);
+			
+			if (pontoTemp) {				
+				
+				this.caneta.novoPonto(novoPonto);
+				pontoTemp = false;
+				
+			}
+			
+		}
+		
 		glDrawable.display();
+		
+		
+		
+//		if (desenhando) {			
+//			
+//			Ponto4D novoP = this.getPontoDeEventoMouse(e);
+//			
+//			if (o.getVertices().size() < 2) {
+//				o.getVertices().add(novoP);
+//			}
+//			
+//			o.getVertices().get(1).atribuirX(novoP.obterX());
+//			o.getVertices().get(1).atribuirY(novoP.obterY());
+//			
+//			//this.caneta.atualizaUltimoVertice(p);
+//			glDrawable.display();
+//			
+//		}
+		
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
@@ -165,9 +205,30 @@ public class TelaGrafica implements GLEventListener, KeyListener, MouseListener,
 	}
 
 	public void mousePressed(MouseEvent e) {
-		Ponto4D p = new Ponto4D(e.getX(), e.getY(), 0.0, 1.0);
 		
-		this.mundo.getListaObjetoGrafico().add(this.caneta.novoPonto(p));
+		this.pontoTemp = true;
+		
+		Ponto4D p = this.getPontoDeEventoMouse(e);
+		
+		if (!desenhando) {
+			
+			this.caneta.novoPonto(p);
+			
+		}
+		
+//		this.desenhando = true;
+//		
+//		Ponto4D p = this.getPontoDeEventoMouse(e);
+//		
+//		if (!segundoClick) {
+//			o.addVertice(p);			
+//			this.mundo.getListaObjetoGrafico().add(o);
+//			this.segundoClick = true;
+//		} else {
+//			o.getVertices().get(0).atribuirX(p.obterX());
+//			o.getVertices().get(0).atribuirY(p.obterY());
+//		}
+//		
 		glDrawable.display();
 		
 		
@@ -178,4 +239,13 @@ public class TelaGrafica implements GLEventListener, KeyListener, MouseListener,
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private Ponto4D getPontoDeEventoMouse(MouseEvent e)
+	{		
+		double xTela = e.getComponent().getWidth();
+		double yTela = e.getComponent().getHeight();
+		
+		return mundo.getCamera().convertePontoTela(e.getX(), e.getY(), xTela, yTela);		
+	}
+	
 }
