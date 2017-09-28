@@ -1,4 +1,4 @@
-package br.com.furb.cg.unidade3.ex1;
+package br.com.furb.cg.unidade3.model;
 /// \file Transformacao4D.java
 /// \brief Classe que define as Transformacoes Geometricas no espaco 3D
 /// \version $Revision: 1.7 $

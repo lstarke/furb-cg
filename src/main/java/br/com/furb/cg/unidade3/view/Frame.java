@@ -1,15 +1,17 @@
-package br.com.furb.cg.unidade3.ex1;
-import java.awt.BorderLayout;
+package br.com.furb.cg.unidade3.view;
 
+import java.awt.BorderLayout;
 import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import br.com.furb.cg.unidade3.controller.Main;
+
 public class Frame extends JFrame{
 
 	private static final long serialVersionUID = 1L;
-	private TelaGrafica renderer = new TelaGrafica();
+	private Main renderer = new Main();
 	
 	private int janelaLargura  = 400, janelaAltura = 400;
 	

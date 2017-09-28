@@ -1,19 +1,23 @@
-package br.com.furb.cg.unidade3.ex1;
+package br.com.furb.cg.unidade3.controller;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
 import javax.media.opengl.DebugGL;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import br.com.furb.cg.unidade3.model.Caneta;
+import br.com.furb.cg.unidade3.model.Mundo;
+import br.com.furb.cg.unidade3.model.ObjetoGrafico;
+import br.com.furb.cg.unidade3.model.Ponto4D;
 
 
 
-public class TelaGrafica implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
+public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 	private GL gl;
 	private GLU glu;
 	private GLAutoDrawable glDrawable;

@@ -1,4 +1,4 @@
-package br.com.furb.cg.unidade3.ex1;
+package br.com.furb.cg.unidade3.model;
 
 import javax.media.opengl.GL;
 

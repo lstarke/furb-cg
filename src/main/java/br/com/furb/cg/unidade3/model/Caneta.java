@@ -1,4 +1,4 @@
-package br.com.furb.cg.unidade3.ex1;
+package br.com.furb.cg.unidade3.model;
 
 public class Caneta {
 	
