@@ -1,14 +1,19 @@
 package br.com.furb.cg.unidade3.model;
 /// \file Transformacao4D.java
-/// \brief Classe que define as Transformacoes Geometricas no espaco 3D
 /// \version $Revision: 1.7 $
 
-/// \class Transformacao4D
-/// \brief As Transformacoes usam coordenadas homogeneas
-///
-/// Uma matriz de Transformacao eh representada por uma matriz 4x4 que acumula trasnformacoes, isto eh, para aplicar as trasnformacoes T1, T2, em seguida, T3,
-/// eh necessario multiplicar T1 * T2 * T3. 
-/// Os valores de Translacao estao na coluna mais a direita.
+
+/**
+ * Esta classe foi fornecida pelo professor
+ *
+ * 
+ * Classe que define as Transformacoes Geometricas no espaco 3D
+ * As Transformacoes usam coordenadas homogeneas
+ *
+ * Uma matriz de Transformacao eh representada por uma matriz 4x4 que acumula trasnformacoes, isto eh, para aplicar as trasnformacoes T1, T2, em seguida, T3,
+ * eh necessario multiplicar T1 * T2 * T3. 
+ * Os valores de Translacao estao na coluna mais a direita.
+ */
 
 import java.lang.Math;
 
@@ -140,6 +145,4 @@ public final class Transformacao4D {
 		System.out.println("|" + GetElement( 2) + " | "+ GetElement( 6) + " | " + GetElement(10) + " | "+ GetElement(14));
 		System.out.println("|" + GetElement( 3) + " | "+ GetElement( 7) + " | " + GetElement(11) + " | "+ GetElement(15));
 	}
-
-	
 }

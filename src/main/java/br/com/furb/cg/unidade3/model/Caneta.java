@@ -6,8 +6,7 @@ public class Caneta {
 	private ObjetoGrafico objeto;
 	private Ponto4D origem;
 	private Ponto4D destino;
-	
-	
+
 	public ObjetoGrafico novoPonto(Ponto4D p) {
 		if (this.objeto == null) {
 			this.objeto = new ObjetoGrafico();

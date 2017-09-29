@@ -1,41 +1,29 @@
 package br.com.furb.cg.unidade3.controller;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import javax.media.opengl.DebugGL;
-import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLEventListener;
+import java.awt.event.*;
+import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
-import br.com.furb.cg.unidade3.model.Caneta;
-import br.com.furb.cg.unidade3.model.Mundo;
-import br.com.furb.cg.unidade3.model.ObjetoGrafico;
-import br.com.furb.cg.unidade3.model.Ponto4D;
-
-
+import br.com.furb.cg.unidade3.model.*;
 
 public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 	private GL gl;
 	private GLU glu;
 	private GLAutoDrawable glDrawable;
+
+	// Leandro o que eh isso ???
+	private boolean pontoTemp;
+	
+	/// Indica o status se esta desenhando ou selecionando
+	private boolean desenhando;
+	
+	/// Mundo da cena
 	private Mundo mundo;
+	
+	/// Desenha demais objetos graficos
 	private Caneta caneta;
 	
-	ObjetoGrafico o = new ObjetoGrafico();
-	
-	boolean desenhando = false;
-	boolean pontoTemp = false;
-	boolean segundoClick = false;
-	
-
-
-//	private ObjetoGrafico objeto = new ObjetoGrafico();
-	private ObjetoGrafico[] objetos = { 
-			new ObjetoGrafico(),
-			new ObjetoGrafico() };
+	/// Objeto graficos selecionado
+	private ObjetoGrafico selecionado;
 	
 	// "render" feito logo apos a inicializacao do contexto OpenGL.
 	public void init(GLAutoDrawable drawable) {
@@ -48,10 +36,10 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		mundo = new Mundo();
 		caneta = new Caneta();
 		caneta.setMundo(mundo);
-
-		for (byte i=0; i < objetos.length; i++) {
-			objetos[i].atribuirGL(gl);
-		}
+		
+		pontoTemp =  false;
+		desenhando = false;
+		selecionado = null;
 	}
 
 	public void display(GLAutoDrawable arg0) {
@@ -65,62 +53,109 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		mundo.posicionaCamera(gl, glu);
 		mundo.desenhaSRU(gl, glu);
 		mundo.desenhaObjetos(gl, glu);
-		
-		for (byte i=0; i < objetos.length; i++) {
-			objetos[i].desenha(gl, glu);
-		}
-		
 		gl.glFlush();
 	}
 	
 	public void keyPressed(KeyEvent e) {
 
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_P:
-			//objetos[0].exibeVertices();
-			break;
-		case KeyEvent.VK_M:
-			objetos[0].exibeMatriz();
-			break;
-
-		case KeyEvent.VK_R:
-			objetos[0].atribuirIdentidade();
-			break;
-
-		case KeyEvent.VK_RIGHT:
-			objetos[0].translacaoXYZ(2.0,0.0,0.0);
-			break;
-		case KeyEvent.VK_LEFT:
-			objetos[0].translacaoXYZ(-2.0,0.0,0.0);
-			break;
-		case KeyEvent.VK_UP:
-			objetos[0].translacaoXYZ(0.0,2.0,0.0);
-			break;
-		case KeyEvent.VK_DOWN:
-			objetos[0].translacaoXYZ(0.0,-2.0,0.0);
-			break;
-
-		case KeyEvent.VK_PAGE_UP:
-			objetos[0].escalaXYZ(2.0,2.0);
-			break;
-		case KeyEvent.VK_PAGE_DOWN:
-			objetos[0].escalaXYZ(0.5,0.5);
-			break;
-
-		case KeyEvent.VK_HOME:
-//			objetos[0].RoracaoZ();
-			break;
-
-		case KeyEvent.VK_1:
-			objetos[0].escalaXYZPtoFixo(0.5, new Ponto4D(-15.0,-15.0,0.0,0.0));
-			break;
+			// Ver o que o exemplo do professor faz
+			case KeyEvent.VK_1:
+				//	objetos[0].escalaXYZPtoFixo(0.5, new Ponto4D(-15.0,-15.0,0.0,0.0));
+				break;
 			
-		case KeyEvent.VK_2:
-			objetos[0].escalaXYZPtoFixo(2.0, new Ponto4D(-15.0,-15.0,0.0,0.0));
-			break;
+			// Ver o que o exemplo do professor faz
+			case KeyEvent.VK_2:
+				//	objetos[0].escalaXYZPtoFixo(2.0, new Ponto4D(-15.0,-15.0,0.0,0.0));
+				break;
 			
+			// Ver o que o exemplo do professor faz
 			case KeyEvent.VK_3:
-				objetos[0].rotacaoZPtoFixo(10.0, new Ponto4D(-15.0,-15.0,0.0,0.0));
+				//	objetos[0].rotacaoZPtoFixo(10.0, new Ponto4D(-15.0,-15.0,0.0,0.0));
+				break;
+				
+			// Camera Pan Baixo 
+			// (deslocar para baixo)
+			case KeyEvent.VK_B:
+				mundo.getCamera().panBaixo();
+				break;
+				
+			// Camera Pan Cima
+			// (deslocar para cima)
+			case KeyEvent.VK_C:
+				mundo.getCamera().panCima();
+				break;
+				
+			// Camera Pan Direita
+			// (deslocar para direita)
+			case KeyEvent.VK_D:
+				mundo.getCamera().panDireita();
+				break;
+				
+			// Camera Pan Esquerda
+			// (deslocar para esquerda)
+			case KeyEvent.VK_E:
+				mundo.getCamera().panEsquerda();
+				break;
+				
+			// Camera Zoom In
+			case KeyEvent.VK_I:
+				mundo.getCamera().zoomIn();
+				break;
+			
+		    // No exemplo do professor apresenta a matriz transformada no console
+			case KeyEvent.VK_M:
+				//	objetos[0].exibeMatriz();
+				break;
+				
+			// Camera Zoom Out
+			case KeyEvent.VK_O:
+				mundo.getCamera().zoomOut();
+				break;
+			
+			// No exemplo do professor apresenta os vertices no console
+			case KeyEvent.VK_P:
+				//  objetos[0].exibeVertices();
+				break;
+
+			// No exemplo do professor atribuir a matriz identidade (reinicia a matriz)
+			case KeyEvent.VK_R:
+				//	objetos[0].atribuirIdentidade();
+				break;
+
+			// Ver o que o exemplo do professor faz
+			case KeyEvent.VK_RIGHT:
+				//	objetos[0].translacaoXYZ(2.0,0.0,0.0);
+				break;
+
+			// Ver o que o exemplo do professor faz
+			case KeyEvent.VK_LEFT:
+				//	objetos[0].translacaoXYZ(-2.0,0.0,0.0);
+				break;
+
+			// Ver o que o exemplo do professor faz
+			case KeyEvent.VK_UP:
+				//	objetos[0].translacaoXYZ(0.0,2.0,0.0);
+				break;
+
+			// Ver o que o exemplo do professor faz
+			case KeyEvent.VK_DOWN:
+				//	objetos[0].translacaoXYZ(0.0,-2.0,0.0);
+				break;
+				
+			// Ver o que o exemplo do professor faz
+			case KeyEvent.VK_PAGE_UP:
+				//	objetos[0].escalaXYZ(2.0,2.0);
+				break;
+			
+			// Ver o que o exemplo do professor faz
+			case KeyEvent.VK_PAGE_DOWN:
+				//	objetos[0].escalaXYZ(0.5,0.5);
+				break;
+	
+			// Ver o que o exemplo do professor faz
+			case KeyEvent.VK_HOME:
+				// objetos[0].RoracaoZ();
 				break;
 		}
 
@@ -130,118 +165,70 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	// metodo definido na interface GLEventListener.
 	// "render" feito depois que a janela foi redimensionada.
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+		// System.out.println(" --- reshape ---");
 	    gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-		// System.out.println(" --- reshape ---");
 	}
 
 	// metodo definido na interface GLEventListener.
 	// "render" feito quando o modo ou dispositivo de exibicao associado foi
 	// alterado.
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
-		// System.out.println(" --- displayChanged ---");
+		System.out.println(" --- displayChanged ---");
 	}
 
 	public void keyReleased(KeyEvent arg0) {
-		// System.out.println(" --- keyReleased ---");
+		System.out.println(" --- keyReleased ---");
 	}
 
 	public void keyTyped(KeyEvent arg0) {
-		// System.out.println(" --- keyTyped ---");
+		System.out.println(" --- keyTyped ---");
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(" --- mouseDragged ---");
 	}
 
 	public void mouseMoved(MouseEvent e) {
+		// System.out.println(" --- mouseMoved ---");
 		
 		if (!desenhando) {
-			
 			Ponto4D novoPonto = this.getPontoDeEventoMouse(e);
-			
 			if (pontoTemp) {				
-				
 				this.caneta.novoPonto(novoPonto);
 				pontoTemp = false;
-				
 			}
-			
 		}
-		
+
 		glDrawable.display();
-		
-		
-		
-//		if (desenhando) {			
-//			
-//			Ponto4D novoP = this.getPontoDeEventoMouse(e);
-//			
-//			if (o.getVertices().size() < 2) {
-//				o.getVertices().add(novoP);
-//			}
-//			
-//			o.getVertices().get(1).atribuirX(novoP.obterX());
-//			o.getVertices().get(1).atribuirY(novoP.obterY());
-//			
-//			//this.caneta.atualizaUltimoVertice(p);
-//			glDrawable.display();
-//			
-//		}
-		
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
-		
-		
+		System.out.println(" --- mouseClicked ---");
 	}
 
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(" --- mouseEntered ---");
 	}
 
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(" --- mouseExited ---");
 	}
 
 	public void mousePressed(MouseEvent e) {
-		
 		this.pontoTemp = true;
-		
 		Ponto4D p = this.getPontoDeEventoMouse(e);
 		
 		if (!desenhando) {
-			
 			this.caneta.novoPonto(p);
-			
 		}
 		
-//		this.desenhando = true;
-//		
-//		Ponto4D p = this.getPontoDeEventoMouse(e);
-//		
-//		if (!segundoClick) {
-//			o.addVertice(p);			
-//			this.mundo.getListaObjetoGrafico().add(o);
-//			this.segundoClick = true;
-//		} else {
-//			o.getVertices().get(0).atribuirX(p.obterX());
-//			o.getVertices().get(0).atribuirY(p.obterY());
-//		}
-//		
 		glDrawable.display();
-		
-		
-		
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(" --- mouseReleased ---");
 	}
 	
 	private Ponto4D getPontoDeEventoMouse(MouseEvent e)
@@ -251,5 +238,4 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		
 		return mundo.getCamera().convertePontoTela(e.getX(), e.getY(), xTela, yTela);		
 	}
-	
 }
