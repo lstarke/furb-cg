@@ -1,11 +1,13 @@
-package br.com.furb.cg.unidade3.model;
+package br.furb.cg.unidade3.model;
+
+import br.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
 
 public class Caneta {
-	
-	private Mundo mundo;
-	private ObjetoGrafico objeto;
+
 	private Ponto4D origem;
 	private Ponto4D destino;
+	private ObjetoGrafico objeto;
+	private ListaObjetosGraficos grafoCenaTmp;
 
 	public ObjetoGrafico novoPonto(Ponto4D p) {
 		if (this.objeto == null) {
@@ -28,13 +30,4 @@ public class Caneta {
 			this.destino.atribuirY(p.obterY());
 		}		
 	}
-
-	public Mundo getMundo() {
-		return mundo;
-	}
-
-	public void setMundo(Mundo mundo) {
-		this.mundo = mundo;
-	}
-
 }

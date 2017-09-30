@@ -24,3 +24,35 @@
   
 * Para escalar, normalmente se afasta ou aproxima da origem (x0;y0;z0);
   - Para nao fazer isto: levar para origem escalar e depois trazer devolta
+  
+====================================================================================================
+O QUE EU FIZ E ENTENDI v0.1
+====================================================================================================
+* O Fonte Frame.java eh a tela;
+
+* O Fonte Main.java eh o controlador, (1 Frame para 1 Main);
+
+* O Fonte Mundo.java eh o universo que se trabalhara (1 Mundo para 1 Main);
+  - O Mundo tem 1 camera, 1 grafo de cena e os eixos X e Y (sru);
+
+* O Fonte Camera2D.java cuida somente da camera (1 camera para 1 mundo);
+
+* O Fonte ListaObjetosGraficos.java ajuda a manipular o grafo de cena (1 grafo de cena para 1 mundo) [incompleto ainda];
+  - Aqui so entram os objetos graficos ja completados
+
+* O Fonte ObjetoGrafico.java representa apenas um objeto grafico, completo ou sendo desenhado;
+  - Um objeto grafico so entra no grafo de cena ao ser completado
+  - Um objeto grafico possui primitivas (GL_LINE_STRIP ou GL_LINE_LOOP), vertices, cor, boundbox, Matriz e objetos graficos filhos (para o grafo de cena)
+  - Um objeto sendo desenhado possui a primitiva GL_LINE_STRIP
+  - Um objeto completo (ja desenhado) possui a primitiva GL_LINE_LOOP
+  
+* O Fonte ListaVertices.java ajuda a manipular os vertices de um objeto grafico (1 lista de vertices para 1 objeto grafico) [incompleto ainda];
+
+* O Fonte Caneta.java deve ser um o cara responsavel por um objeto grafico ainda sendo desenhado;
+  - Depois do objeto grafico ter sido desenhado deve ser inserido no grafo de cena
+  - Precisamos perguntar para o professor se o objeto grafico completo entra no grafo de cena do mundo ou como filho de um outro ojbeto grafico;
+  
+* O Fonte Matriz.java cuida da matriz principal do objeto grafico
+  - A Matriz tem uma Transformacao4D interna
+  - As transformacoes devem ser aplicadas dentro do fonte matriz, utilizando as ferramentas da Transformacao4D
+  - Precisaremos ainda criar as matrizes temporarias para cada tipo de transformacao (rotacao, translacao e escalonamento)

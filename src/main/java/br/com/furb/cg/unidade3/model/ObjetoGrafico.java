@@ -1,142 +1,158 @@
-package br.com.furb.cg.unidade3.model;
+package br.furb.cg.unidade3.model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
+
+import br.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
+import br.furb.cg.unidade3.model.auxiliar.ListaVertices;
+
 public final class ObjetoGrafico {
-	GL gl;
-	private float tamanho = 2.0f;
-
-	private int primitiva = GL.GL_LINE_STRIP;
-	private List<Ponto4D> vertices;
-//	private Ponto4D[] vertices = { 	
-//			new Ponto4D(10.0, 10.0, 0.0, 1.0),
-//			new Ponto4D(20.0, 10.0, 0.0, 1.0), 
-//			new Ponto4D(20.0, 20.0, 0.0, 1.0),
-//			new Ponto4D(10.0, 20.0, 0.0, 1.0) };
-
-//	private int primitiva = GL.GL_POINTS;
-//	private Ponto4D[] vertices = { new Ponto4D(10.0, 10.0, 0.0, 1.0) };	
-
-	private Transformacao4D matrizObjeto = new Transformacao4D();
-
-	/// Matrizes temporarias que sempre sao inicializadas com matriz Identidade entao podem ser "static".
-	private static Transformacao4D matrizTmpTranslacao = new Transformacao4D();
-	private static Transformacao4D matrizTmpTranslacaoInversa = new Transformacao4D();
-	private static Transformacao4D matrizTmpEscala = new Transformacao4D();		
-//	private static Transformacao4D matrizTmpRotacaoZ = new Transformacao4D();
-	private static Transformacao4D matrizGlobal = new Transformacao4D();
-//	private double anguloGlobal = 0.0;
 	
-	public ObjetoGrafico() {
-		this.vertices = new ArrayList<Ponto4D>();
-	}
-
-	public void atribuirGL(GL gl) {
-		this.gl = gl;
-	}
-
-	public double obterTamanho() {
-		return tamanho;
-	}
-
-	public double obterPrimitava() {
-		return primitiva;
-	}
+	// Caracteristicas do objeto grafico
+	private int primitiva;
+	private ListaVertices vertices;
+	private Color cor;
+	private BBox3D bbox;
 	
-	public void addVertice(Ponto4D p) {
-		this.vertices.add(p);
-	}
-
-	public List<Ponto4D> getVertices() {
-		return vertices;
-	}
-
-	public void desenha(GL gl, GLU glu) {
-		gl.glColor3f(0.0f, 0.0f, 0.0f);
-		gl.glLineWidth(tamanho);
-		gl.glPointSize(tamanho);
-
-		gl.glPushMatrix();
-			gl.glMultMatrixd(matrizObjeto.GetDate(), 0);
-			gl.glBegin(primitiva);
-				for (byte i=0; i < vertices.size(); i++) {
-					gl.glVertex2d(vertices.get(i).obterX(), vertices.get(i).obterY());
-				}
-			gl.glEnd();
-
-			//////////// ATENCAO: chamar desenho dos filhos... 
-
-		gl.glPopMatrix();
-	}
-
-	public void translacaoXYZ(double tx, double ty, double tz) {
-		Transformacao4D matrizTranslate = new Transformacao4D();
-		matrizTranslate.atribuirTranslacao(tx,ty,tz);
-		matrizObjeto = matrizTranslate.transformMatrix(matrizObjeto);		
-	}
-
-	public void escalaXYZ(double Sx,double Sy) {
-		Transformacao4D matrizScale = new Transformacao4D();		
-		matrizScale.atribuirEscala(Sx,Sy,1.0);
-		matrizObjeto = matrizScale.transformMatrix(matrizObjeto);
-	}
-
-	///TODO: erro na rotacao
-	public void rotacaoZ(double angulo) {
-//		anguloGlobal += 10.0; // rotacao em 10 graus
-//		Transformacao4D matrizRotacaoZ = new Transformacao4D();		
-//		matrizRotacaoZ.atribuirRotacaoZ(Transformacao4D.DEG_TO_RAD * angulo);
-//		matrizObjeto = matrizRotacaoZ.transformMatrix(matrizObjeto);
+	// Parametros Auxiliares
+	private boolean selecionado;
+	private boolean desenhando;
+	
+	// Transformacao
+	private Matriz matriz;
+	
+	// Grafo de cena
+	private ListaObjetosGraficos filhos;
+	
+	/**
+	 * Contrutor
+	 * 
+	 * @param primitiva = primitiva grafica (lines)
+	 */
+	public ObjetoGrafico(int primitiva)
+	{
+		// Caracteristicas
+		this.setPrimitiva(primitiva);
+		this.vertices = new ListaVertices();
+		this.cor = Color.BLACK;
+		this.bbox = new BBox3D();
+		
+		this.selecionado = false;
+		this.desenhando = false; // serah ???
+		
+		// Transformacao
+		this.matriz = new Transformacao4D();
+		
+		// Grafo de cena
+		this.filhos = new ListaObjetosGraficos();
 	}
 	
-	public void atribuirIdentidade() {
-//		anguloGlobal = 0.0;
-		matrizObjeto.atribuirIdentidade();
-	}
-
-	public void escalaXYZPtoFixo(double escala, Ponto4D ptoFixo) {
-		matrizGlobal.atribuirIdentidade();
-
-		matrizTmpTranslacao.atribuirTranslacao(ptoFixo.obterX(),ptoFixo.obterY(),ptoFixo.obterZ());
-		matrizGlobal = matrizTmpTranslacao.transformMatrix(matrizGlobal);
-
-		matrizTmpEscala.atribuirEscala(escala, escala, 1.0);
-		matrizGlobal = matrizTmpEscala.transformMatrix(matrizGlobal);
-
-		ptoFixo.inverterSinal(ptoFixo);
-		matrizTmpTranslacaoInversa.atribuirTranslacao(ptoFixo.obterX(),ptoFixo.obterY(),ptoFixo.obterZ());
-		matrizGlobal = matrizTmpTranslacaoInversa.transformMatrix(matrizGlobal);
-
-		matrizObjeto = matrizObjeto.transformMatrix(matrizGlobal);
+	/**
+	 * Atribuir/Alterar primitiva gráfica do objeto gráfico
+	 * 
+	 * @param primitiva = primitiva grafica (GL_LINE_STRIP ou GL_LINE_LOOP)
+	 */
+	public void setPrimitiva(int primitiva)
+	{
+		if (primitiva == javax.media.opengl.GL.GL_LINE_STRIP ||
+			primitiva == javax.media.opengl.GL.GL_LINE_LOOP)
+			this.primitiva = primitiva;
+		else
+			throw new java.lang.RuntimeException("Objeto grafico nao preparado para esta primitva, utilize: GL_LINE_STRIP ou GL_LINE_LOOP");
 	}
 	
-	public void rotacaoZPtoFixo(double angulo, Ponto4D ptoFixo) {
-		matrizGlobal.atribuirIdentidade();
-
-		matrizTmpTranslacao.atribuirTranslacao(ptoFixo.obterX(),ptoFixo.obterY(),ptoFixo.obterZ());
-		matrizGlobal = matrizTmpTranslacao.transformMatrix(matrizGlobal);
-
-		matrizTmpEscala.atribuirRotacaoZ(Transformacao4D.DEG_TO_RAD * angulo);
-		matrizGlobal = matrizTmpEscala.transformMatrix(matrizGlobal);
-
-		ptoFixo.inverterSinal(ptoFixo);
-		matrizTmpTranslacaoInversa.atribuirTranslacao(ptoFixo.obterX(),ptoFixo.obterY(),ptoFixo.obterZ());
-		matrizGlobal = matrizTmpTranslacaoInversa.transformMatrix(matrizGlobal);
-
-		matrizObjeto = matrizObjeto.transformMatrix(matrizGlobal);
+	/**
+	 * Atribuir/Alterar cor do objeto grafico
+	 * Se nenhuma cor for atribuida o padrao sera preto
+	 * 
+	 * @param cor = java.awt.Color
+	 */
+	public void setCor(Color cor)
+	{
+		if (cor == null)
+			this.cor = Color.BLACK;
+		else	
+			this.cor = cor;
+	}
+	
+	/**
+	 * Retornar Bound Box do objeto gráfico
+	 */
+	public BBox3D getBbox()
+	{	
+		return bbox;
+	}
+	
+	/**
+	 * Informar se o objeto grafico esta selecionado 
+	 */
+	public boolean isSelecionado()
+	{
+		return selecionado;
+	}
+	
+	/**
+	 * Atribuir selecao do objeto grafico
+	 * 
+	 * @param selecionar
+	 */
+	public void setSelecionado(boolean selecionar)
+	{
+		this.selecionado = selecionar;
+	}
+	
+	/**
+	 * Informar se o objeto grafico esta sendo desenhado
+	 */
+	public boolean isDesenhando()
+	{
+		return desenhando;
 	}
 
-	public void exibeMatriz() {
-		matrizObjeto.exibeMatriz();
+	/**
+	 * Indicar se o objeto grafico esta sendo desenhado
+	 * 
+	 * @param desenhando
+	 */
+	public void setDesenhando(boolean desenhando)
+	{
+		this.desenhando = desenhando;
 	}
-
-//	public void exibeVertices() {
-//		System.out.println("P0[" + vertices[0].obterX() + "," + vertices[0].obterY() + "," + vertices[0].obterZ() + "," + vertices[0].obterW() + "]");
-//		System.out.println("P1[" + vertices[1].obterX() + "," + vertices[1].obterY() + "," + vertices[1].obterZ() + "," + vertices[1].obterW() + "]");
-//		System.out.println("P2[" + vertices[2].obterX() + "," + vertices[2].obterY() + "," + vertices[2].obterZ() + "," + vertices[2].obterW() + "]");
-//		System.out.println("P3[" + vertices[3].obterX() + "," + vertices[3].obterY() + "," + vertices[3].obterZ() + "," + vertices[3].obterW() + "]");
-////		System.out.println("anguloGlobal:" + anguloGlobal);
-//	}
+	
+	public boolean isSelecionavel()
+	{		
+		return matriz.isIdentidade();
+	}
+	
+	/**
+	 * Retornar matriz global do objeto grafico
+	 */
+	public Transformacao4D getMatriz()
+	{
+		return matriz;
+	}
+	
+	/**
+	 * Desenhar objeto grafico
+	 * 
+	 * @param gl = OpenGl gl
+	 * @param glu = OpenGl glu
+	 */
+	public void desenhar(GL gl, GLU glu)
+	{		
+		// seguir o exemplo do professor
+	}
+	
+	public void exibirVertices()
+	{
+		this.vertices.exibir();
+	}
+	
+	public void exibirMatriz()
+	{
+		this.matriz.exibirMatriz();
+	}
 }

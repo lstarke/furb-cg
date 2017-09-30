@@ -1,4 +1,4 @@
-package br.com.furb.cg.unidade3.model;
+package br.furb.cg.unidade3.model;
 
 import javax.media.opengl.GL;
 
@@ -8,7 +8,40 @@ public class BBox3D {
 	private double zMin, zMax;
 	private Ponto4D centro = new Ponto4D();
 	private double corR, corG, corB;
+	
+	/**
+	 * Construtor da Bound Box sem parametros
+	 */
+	public BBox3D() {
+		this.atualizar(0, 0, 0, 0, 0, 0);
+	}
+	
+	/**
+	 * Construtor da Bound Box para 2D
+	 * 
+	 * @param xMin
+	 * @param yMin
+	 * @param xMax
+	 * @param yMax
+	 */
+	public BBox3D(double xMin, double yMin, double zMin, double xMax) {
+		this.atualizar(xMin, xMax, yMin, yMax, 0, 0);
+	}
 
+	/**
+	 * Construtor da Bound Box
+	 * 
+	 * @param xMin
+	 * @param yMin
+	 * @param zMin
+	 * @param xMax
+	 * @param yMax
+	 * @param zMax
+	 */
+	public BBox3D(double xMin, double yMin, double zMin, double xMax, double yMax, double zMax) {
+		this.atualizar(xMin, xMax, yMin, yMax, zMin, zMax);
+	}
+	
 	public double getxMin() {
 		return xMin;
 	}
@@ -60,19 +93,23 @@ public class BBox3D {
 	public Ponto4D getCentro() {
 		return centro;
 	}
-
+	
 	/**
-	 * Construtor da Bound Box
+	 * Atualizar Bound Box para 2D
 	 * 
 	 * @param xMin
 	 * @param yMin
-	 * @param zMin
 	 * @param xMax
 	 * @param yMax
-	 * @param zMax
 	 */
-	public BBox3D(double xMin, double yMin, double zMin, double xMax, double yMax, double zMax) {
-		this.atualizar(xMin, xMax, yMin, yMax, zMin, zMax);
+	public void atualizar(double xMin, double xMax, double yMin, double yMax) {
+		this.xMin = xMin;
+		this.yMin = yMin;
+		this.zMin = 0;
+		this.xMax = xMax;
+		this.yMax = yMax;
+		this.zMax = 0;
+		calcularCentro();
 	}
 
 	/**

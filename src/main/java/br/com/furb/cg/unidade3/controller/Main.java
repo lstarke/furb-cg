@@ -51,8 +51,8 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		gl.glPointSize(1.0f);
 		
 		mundo.posicionaCamera(gl, glu);
-		mundo.desenhaSRU(gl, glu);
-		mundo.desenhaObjetos(gl, glu);
+		mundo.SRU(gl, glu);
+		mundo.desenharObjetos(gl, glu);
 		gl.glFlush();
 	}
 	

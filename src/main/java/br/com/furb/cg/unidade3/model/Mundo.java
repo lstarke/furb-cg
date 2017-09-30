@@ -1,29 +1,48 @@
-package br.com.furb.cg.unidade3.model;
+package br.furb.cg.unidade3.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
+import br.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
+
 public class Mundo {
-	
-	public float sruX = 200f;
-	public float sruY = 200f;
-	
+	// Propriedades do Mundo/Universo
+	private float tamEixoXsru;
+	private float tamEixoYsru;
 	private Camera2D camera;
-	private List<ObjetoGrafico> listaObjetos;
+	private ListaObjetosGraficos grafoCena;
 
 	public Mundo() {
+		this.tamEixoXsru = 200f;
+		this.tamEixoYsru = 200f;
 		camera = new Camera2D();
-		listaObjetos = new ArrayList<ObjetoGrafico>();
+		grafoCena = new ListaObjetosGraficos();
+	}
+	
+	public float getTamEixoXSru() {
+		return this.tamEixoXsru;
+	}
+	
+	public void setTamEixoXSru(float tamX) {
+		this.tamEixoXsru = tamX;
+	}
+	
+	public float getTamEixoYStru() {
+		return this.tamEixoYsru;
+	}
+	
+	public void setTamEixoYSru(float tamY) {
+		this.tamEixoYsru = tamY;
 	}
 	
 	public Camera2D getCamera() {
 		return camera;
 	}
 	
-	public List<ObjetoGrafico> getListaObjetoGrafico(){
-		return listaObjetos;
+	public ListaObjetosGraficos getListaObjetoGrafico(){
+		return grafoCena;
 	}
 	
 	public void posicionaCamera(GL gl, GLU glu) {
@@ -35,26 +54,27 @@ public class Mundo {
 	 * @param gl
 	 * @param glu
 	 */	
-	public void desenhaSRU(GL gl, GLU glu) {
+	public void SRU(GL gl, GLU glu) {
+		gl.glLineWidth(1.0f);
 	
 		// eixo X
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
 		gl.glBegin(GL.GL_LINES);
-			gl.glVertex2f(-sruX, 0.0f);
-			gl.glVertex2f(sruX, 0.0f);
+			gl.glVertex2f(-tamEixoXsru, 0.0f);
+			gl.glVertex2f(tamEixoXsru, 0.0f);
 		gl.glEnd();
 		
 		// eixo Y
 		gl.glColor3f(0.0f, 1.0f, 0.0f);
 		gl.glBegin(GL.GL_LINES);
-			gl.glVertex2f(0.0f, -sruY);
-			gl.glVertex2f(0.0f, sruY);
+			gl.glVertex2f(0.0f, -tamEixoYsru);
+			gl.glVertex2f(0.0f, tamEixoYsru);
 		gl.glEnd();
 	}
 	
-	public void desenhaObjetos(GL gl, GLU glu) {
-		for (ObjetoGrafico obj : this.listaObjetos) {
-			obj.desenha(gl, glu);
+	public void desenharObjetos(GL gl, GLU glu) {
+		for (ObjetoGrafico obj : this.grafoCena) {
+			obj.desenhar(gl, glu);
 		}
 	}
 }

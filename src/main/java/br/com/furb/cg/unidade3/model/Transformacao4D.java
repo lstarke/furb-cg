@@ -1,4 +1,4 @@
-package br.com.furb.cg.unidade3.model;
+package br.furb.cg.unidade3.model;
 /// \file Transformacao4D.java
 /// \version $Revision: 1.7 $
 
@@ -23,7 +23,7 @@ import java.lang.Math;
 //             [ matrix[2] matrix[6] matrix[10] matrix[14] ]
 //             [ matrix[3] matrix[7] matrix[11] matrix[15] ]
 
-public final class Transformacao4D {
+public class Transformacao4D {
 	static final double DEG_TO_RAD = 0.017453292519943295769236907684886;
 
     /// \brief Cria uma matriz de Trasnformacao com uma matriz Identidade.
@@ -144,5 +144,31 @@ public final class Transformacao4D {
 		System.out.println("|" + GetElement( 1) + " | "+ GetElement( 5) + " | " + GetElement( 9) + " | "+ GetElement(13));
 		System.out.println("|" + GetElement( 2) + " | "+ GetElement( 6) + " | " + GetElement(10) + " | "+ GetElement(14));
 		System.out.println("|" + GetElement( 3) + " | "+ GetElement( 7) + " | " + GetElement(11) + " | "+ GetElement(15));
+	}
+	
+	
+	/**
+	 * Indica se a matriz eh uma matriz identidade
+	 */
+	public boolean isIdentidade() {
+		// Nao sei como fazer melhor nesta linguagem
+		// Mas tem que ser extremamente rapido
+		
+		return matriz[0] == 1.0 &&
+				matriz[1] == 0.0 &&
+			    matriz[2] == 0.0 &&
+			    matriz[3] == 0.0 &&
+			    matriz[4] == 0.0 &&
+			    matriz[5] == 1.0 &&
+			    matriz[6] == 0.0 &&
+			    matriz[7] == 0.0 &&
+			    matriz[8] == 0.0 &&
+	    		matriz[9] == 0.0 &&
+	    		matriz[10] == 1.0 &&
+				matriz[11] == 0.0 &&
+			    matriz[12] == 0.0 &&
+	    		matriz[13] == 0.0 &&
+	    		matriz[14] == 0.0 &&
+	    		matriz[15] == 1.0;
 	}
 }

@@ -1,4 +1,4 @@
-package br.com.furb.cg.unidade3.model;
+package br.furb.cg.unidade3.model;
 /// \file Ponto4D.java
 /// \version $Revision: 1.7 $
 
@@ -15,6 +15,10 @@ package br.com.furb.cg.unidade3.model;
  */
 
 public final class Ponto4D {
+	// Distacia aceita para considerar que um ponto esta proximo
+	private static final double DISTANCIA = 5.0;
+	
+	// Propriedades do Ponto
 	private double x; /// valor X.
 	private double y; /// valor Y.
 	private double z; /// valor Z.
@@ -80,4 +84,19 @@ public final class Ponto4D {
 //		this.w = w;
 //	}
 	
+	/**
+	 * Indicar o ponto comparado esta proximo ao ponto atual
+	 * 
+	 * @param pontoComparado
+	 * @return boolean
+	 */
+	public boolean estaPerto(Ponto4D pontoComparado)
+	{
+		return pontoComparado.obterX() <= (this.obterX() + DISTANCIA) ||
+				pontoComparado.obterX() >= (this.obterX() - DISTANCIA) || 
+				pontoComparado.obterY() <= (this.obterY() + DISTANCIA) || 
+				pontoComparado.obterY() >= (this.obterY() - DISTANCIA) ||
+				pontoComparado.obterZ() <= (this.obterZ() + DISTANCIA) ||
+				pontoComparado.obterZ() >= (this.obterZ() - DISTANCIA);
+	}
 }
