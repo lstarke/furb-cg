@@ -1,19 +1,15 @@
-package br.com.furb.cg.unidade3.model;
+package br.com.furb.cg.N3Trasnformacao;
+
 /// \file Transformacao4D.java
+/// \brief Classe que define as Transformacoes Geometricas no espaco 3D
 /// \version $Revision: 1.7 $
 
-
-/**
- * Esta classe foi fornecida pelo professor
- *
- * 
- * Classe que define as Transformacoes Geometricas no espaco 3D
- * As Transformacoes usam coordenadas homogeneas
- *
- * Uma matriz de Transformacao eh representada por uma matriz 4x4 que acumula trasnformacoes, isto eh, para aplicar as trasnformacoes T1, T2, em seguida, T3,
- * eh necessario multiplicar T1 * T2 * T3. 
- * Os valores de Translacao estao na coluna mais a direita.
- */
+/// \class Transformacao4D
+/// \brief As Transformacoes usam coordenadas homogeneas
+///
+/// Uma matriz de Transformacao eh representada por uma matriz 4x4 que acumula trasnformacoes, isto eh, para aplicar as trasnformacoes T1, T2, em seguida, T3,
+/// eh necessario multiplicar T1 * T2 * T3. 
+/// Os valores de Translacao estao na coluna mais a direita.
 
 import java.lang.Math;
 
@@ -23,7 +19,7 @@ import java.lang.Math;
 //             [ matrix[2] matrix[6] matrix[10] matrix[14] ]
 //             [ matrix[3] matrix[7] matrix[11] matrix[15] ]
 
-public class Transformacao4D {
+public final class Transformacao4D {
 	static final double DEG_TO_RAD = 0.017453292519943295769236907684886;
 
     /// \brief Cria uma matriz de Trasnformacao com uma matriz Identidade.
@@ -145,30 +141,6 @@ public class Transformacao4D {
 		System.out.println("|" + GetElement( 2) + " | "+ GetElement( 6) + " | " + GetElement(10) + " | "+ GetElement(14));
 		System.out.println("|" + GetElement( 3) + " | "+ GetElement( 7) + " | " + GetElement(11) + " | "+ GetElement(15));
 	}
+
 	
-	
-	/**
-	 * Indica se a matriz eh uma matriz identidade
-	 */
-	public boolean isIdentidade() {
-		// Nao sei como fazer melhor nesta linguagem
-		// Mas tem que ser extremamente rapido
-		
-		return matriz[0] == 1.0 &&
-				matriz[1] == 0.0 &&
-			    matriz[2] == 0.0 &&
-			    matriz[3] == 0.0 &&
-			    matriz[4] == 0.0 &&
-			    matriz[5] == 1.0 &&
-			    matriz[6] == 0.0 &&
-			    matriz[7] == 0.0 &&
-			    matriz[8] == 0.0 &&
-	    		matriz[9] == 0.0 &&
-	    		matriz[10] == 1.0 &&
-				matriz[11] == 0.0 &&
-			    matriz[12] == 0.0 &&
-	    		matriz[13] == 0.0 &&
-	    		matriz[14] == 0.0 &&
-	    		matriz[15] == 1.0;
-	}
 }

@@ -1,24 +1,16 @@
-package br.com.furb.cg.unidade3.model;
+package br.com.furb.cg.N3Trasnformacao;
+
 /// \file Ponto4D.java
+/// \brief Classe que define ponto no espaco 3D
 /// \version $Revision: 1.7 $
 
-/**
- * Esta classe foi fornecida pelo professor
- *
- *
- * Classe que define ponto no espaco 3D
- * Pontos e vetores usando coordenadas homogeneas
- *
- * A classe Ponto4D fornece uma forma unificada de representar objetos com pontos e vetores, facilitando as operacoes entre estes "dois" tipos de entidade,
- * juntamente com a integracao com a classe Transformacao4D. O ponto 4D homogeneo eh representado por um vector ( x , y , z, w ).
- * A coordenada W eh 0 para vetores e 1 para pontos normalizados.
- */
-
+/// \class Ponto4D
+/// \brief Pontos e vetores usando coordenadas homogeneas
+///
+/// A classe Ponto4D fornece uma forma unificada de representar objetos com pontos e vetores, facilitando as operacoes entre estes "dois" tipos de entidade,
+/// juntamente com a integracao com a classe Transformacao4D. O ponto 4D homogeneo eh representado por um vector ( x , y , z, w ).
+/// A coordenada W eh 0 para vetores e 1 para pontos normalizados.
 public final class Ponto4D {
-	// Distacia aceita para considerar que um ponto esta proximo
-	private static final double DISTANCIA = 5.0;
-	
-	// Propriedades do Ponto
 	private double x; /// valor X.
 	private double y; /// valor Y.
 	private double z; /// valor Z.
@@ -84,19 +76,4 @@ public final class Ponto4D {
 //		this.w = w;
 //	}
 	
-	/**
-	 * Indicar o ponto comparado esta proximo ao ponto atual
-	 * 
-	 * @param pontoComparado
-	 * @return boolean
-	 */
-	public boolean estaPerto(Ponto4D pontoComparado)
-	{
-		return pontoComparado.obterX() <= (this.obterX() + DISTANCIA) ||
-				pontoComparado.obterX() >= (this.obterX() - DISTANCIA) || 
-				pontoComparado.obterY() <= (this.obterY() + DISTANCIA) || 
-				pontoComparado.obterY() >= (this.obterY() - DISTANCIA) ||
-				pontoComparado.obterZ() <= (this.obterZ() + DISTANCIA) ||
-				pontoComparado.obterZ() >= (this.obterZ() - DISTANCIA);
-	}
 }

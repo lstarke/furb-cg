@@ -1,4 +1,4 @@
-package br.furb.cg.unidade3.model;
+package br.com.furb.cg.unidade3.model;
 
 public class Matriz {
 

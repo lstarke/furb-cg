@@ -1,4 +1,4 @@
-package br.furb.cg.unidade3.model.auxiliar;
+package br.com.furb.cg.unidade3.model.auxiliar;
 
 /**
  * Encapsulamento da lista de objetos graficos
@@ -8,7 +8,7 @@ package br.furb.cg.unidade3.model.auxiliar;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.furb.cg.unidade3.model.ObjetoGrafico;
+import br.com.furb.cg.unidade3.model.ObjetoGrafico;
 
 public class ListaObjetosGraficos {
 

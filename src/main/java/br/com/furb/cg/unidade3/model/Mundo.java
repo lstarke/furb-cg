@@ -1,11 +1,11 @@
-package br.furb.cg.unidade3.model;
+package br.com.furb.cg.unidade3.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
-import br.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
+import br.com.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
 
 public class Mundo {
 	// Propriedades do Mundo/Universo
@@ -72,9 +72,9 @@ public class Mundo {
 		gl.glEnd();
 	}
 	
-	public void desenharObjetos(GL gl, GLU glu) {
-		for (ObjetoGrafico obj : this.grafoCena) {
-			obj.desenhar(gl, glu);
-		}
-	}
+//	public void desenharObjetos(GL gl, GLU glu) {
+//		for (ObjetoGrafico obj : this.grafoCena) {
+//			obj.desenhar(gl, glu);
+//		}
+//	}
 }

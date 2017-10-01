@@ -1,4 +1,4 @@
-package br.furb.cg.unidade3.model.auxiliar;
+package br.com.furb.cg.unidade3.model.auxiliar;
 
 /**
  * Encapsulamento da lista de verices do objeto grafico
@@ -8,7 +8,7 @@ package br.furb.cg.unidade3.model.auxiliar;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.furb.cg.unidade3.model.Ponto4D;
+import br.com.furb.cg.unidade3.model.Ponto4D;
 
 public class ListaVertices {
 	

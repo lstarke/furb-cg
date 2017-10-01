@@ -35,7 +35,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		
 		mundo = new Mundo();
 		caneta = new Caneta();
-		caneta.setMundo(mundo);
+		//caneta.setMundo(mundo);
 		
 		pontoTemp =  false;
 		desenhando = false;
@@ -52,7 +52,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		
 		mundo.posicionaCamera(gl, glu);
 		mundo.SRU(gl, glu);
-		mundo.desenharObjetos(gl, glu);
+		//mundo.desenharObjetos(gl, glu);
 		gl.glFlush();
 	}
 	
@@ -196,7 +196,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		if (!desenhando) {
 			Ponto4D novoPonto = this.getPontoDeEventoMouse(e);
 			if (pontoTemp) {				
-				this.caneta.novoPonto(novoPonto);
+				//this.caneta.novoPonto(novoPonto);
 				pontoTemp = false;
 			}
 		}
@@ -221,7 +221,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		Ponto4D p = this.getPontoDeEventoMouse(e);
 		
 		if (!desenhando) {
-			this.caneta.novoPonto(p);
+		//	this.caneta.novoPonto(p);
 		}
 		
 		glDrawable.display();
