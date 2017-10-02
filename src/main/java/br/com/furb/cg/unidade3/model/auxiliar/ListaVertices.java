@@ -21,18 +21,15 @@ public class ListaVertices {
 	public ListaVertices() {
 		this.vertices = new ArrayList<Ponto4D>();
 		this.selecionado = null;
-	}
-	
+	}	
+
 	/**
 	 * Adicionar vertice no objeto grafico/poligono
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
+	 * @param ponto
 	 */
-	public Ponto4D add(double x, double y)
-	{
-		return null;
+	public void add(Ponto4D ponto)
+	{		
+		this.vertices.add(ponto);
 	}
 	
 	/**
@@ -123,5 +120,9 @@ public class ListaVertices {
 				return v;
 		
 		return null;
+	}
+	
+	public Ponto4D get(int i) {
+		return this.vertices.get(i);
 	}
 }

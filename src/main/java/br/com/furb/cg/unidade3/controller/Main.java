@@ -9,9 +9,6 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	private GL gl;
 	private GLU glu;
 	private GLAutoDrawable glDrawable;
-
-	// Leandro o que eh isso ???
-	private boolean pontoTemp;
 	
 	/// Indica o status se esta desenhando ou selecionando
 	private boolean desenhando;
@@ -35,9 +32,8 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		
 		mundo = new Mundo();
 		caneta = new Caneta();
-		//caneta.setMundo(mundo);
+		//caneta.setMundo(mundo);		
 		
-		pontoTemp =  false;
 		desenhando = false;
 		selecionado = null;
 	}
@@ -52,13 +48,31 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		
 		mundo.posicionaCamera(gl, glu);
 		mundo.SRU(gl, glu);
-		//mundo.desenharObjetos(gl, glu);
+		mundo.desenharObjetos(gl, glu);
 		gl.glFlush();
 	}
 	
 	public void keyPressed(KeyEvent e) {
+		
+		if (e.isControlDown()) {
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_D:
+				this.desenhando = true;
+				this.caneta.setMundo(mundo);
+				System.out.println("Pronto para desenhar.");
+				break;
+			default:
+				break;
+			}
+			
+		}
+		
 
-		switch (e.getKeyCode()) {
+		switch (e.getKeyCode()) {	
+			case KeyEvent.VK_ESCAPE:
+				this.desenhando = false;
+				this.caneta.finalizar();
+				break;
 			// Ver o que o exemplo do professor faz
 			case KeyEvent.VK_1:
 				//	objetos[0].escalaXYZPtoFixo(0.5, new Ponto4D(-15.0,-15.0,0.0,0.0));
@@ -89,7 +103,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			// Camera Pan Direita
 			// (deslocar para direita)
 			case KeyEvent.VK_D:
-				mundo.getCamera().panDireita();
+				//mundo.getCamera().panDireita();
 				break;
 				
 			// Camera Pan Esquerda
@@ -191,17 +205,14 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		// System.out.println(" --- mouseMoved ---");
 		
-		if (!desenhando) {
-			Ponto4D novoPonto = this.getPontoDeEventoMouse(e);
-			if (pontoTemp) {				
-				//this.caneta.novoPonto(novoPonto);
-				pontoTemp = false;
-			}
+		if (desenhando) {
+			Ponto4D p = this.getPontoDeEventoMouse(e);
+			this.caneta.atualizarUltimoVertice(p);
+			glDrawable.display();
 		}
 
-		glDrawable.display();
+		
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
@@ -217,11 +228,10 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mousePressed(MouseEvent e) {
-		this.pontoTemp = true;
-		Ponto4D p = this.getPontoDeEventoMouse(e);
 		
-		if (!desenhando) {
-		//	this.caneta.novoPonto(p);
+		if (desenhando) {
+			Ponto4D p = this.getPontoDeEventoMouse(e);
+			this.caneta.inserirNovoPonto(p);
 		}
 		
 		glDrawable.display();

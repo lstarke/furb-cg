@@ -6,6 +6,7 @@ import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
+import br.com.furb.cg.N3Trasnformacao.Transformacao4D;
 import br.com.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
 import br.com.furb.cg.unidade3.model.auxiliar.ListaVertices;
 
@@ -22,10 +23,13 @@ public final class ObjetoGrafico {
 	private boolean desenhando;
 	
 	// Transformacao
-	private Matriz matriz;
+	private Matriz matriz = new Matriz();
 	
 	// Grafo de cena
 	private ListaObjetosGraficos filhos;
+	
+	// Variaveis de configurações das linhas
+	private float tamanho = 1.0f;
 	
 	/**
 	 * Contrutor
@@ -143,7 +147,21 @@ public final class ObjetoGrafico {
 	 */
 	public void desenhar(GL gl, GLU glu)
 	{		
-		// seguir o exemplo do professor
+		gl.glColor3f(0.0f, 0.0f, 0.0f);
+		gl.glLineWidth(tamanho);
+		gl.glPointSize(tamanho);
+
+		gl.glPushMatrix();
+			gl.glMultMatrixd(matriz.getMatriz().GetDate(), 0);
+			gl.glBegin(primitiva);
+				for (byte i=0; i < vertices.size(); i++) {
+					gl.glVertex2d(vertices.get(i).obterX(), vertices.get(i).obterY());
+				}
+			gl.glEnd();
+
+			//////////// ATENCAO: chamar desenho dos filhos... 
+
+		gl.glPopMatrix();
 	}
 	
 	public void exibirVertices()
@@ -154,5 +172,19 @@ public final class ObjetoGrafico {
 	public void exibirMatriz()
 	{
 		this.matriz.exibirMatriz();
+	}
+
+	public Ponto4D addVertice(double x, double y) {
+		
+		Ponto4D vertice = new Ponto4D(x, y, 0, 1);
+		
+		this.vertices.add(vertice);
+		
+		return vertice;
+	}
+
+	public void removerUltimoVertice() {
+		this.vertices.removerUltimo();
+		
 	}
 }

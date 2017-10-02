@@ -12,6 +12,7 @@ public class Mundo {
 	private float tamEixoXsru;
 	private float tamEixoYsru;
 	private Camera2D camera;
+	private List<ObjetoGrafico> objetos;
 	private ListaObjetosGraficos grafoCena;
 
 	public Mundo() {
@@ -19,6 +20,7 @@ public class Mundo {
 		this.tamEixoYsru = 200f;
 		camera = new Camera2D();
 		grafoCena = new ListaObjetosGraficos();
+		this.objetos = new ArrayList<ObjetoGrafico>();
 	}
 	
 	public float getTamEixoXSru() {
@@ -49,6 +51,10 @@ public class Mundo {
 		this.camera.posicionar(gl, glu);
 	}
 	
+	public void adicionarObjetoGrafico(ObjetoGrafico objeto) {
+		this.objetos.add(objeto);
+	}
+	
 	/**
 	 * Desenha os eixos X e Y
 	 * @param gl
@@ -72,9 +78,9 @@ public class Mundo {
 		gl.glEnd();
 	}
 	
-//	public void desenharObjetos(GL gl, GLU glu) {
-//		for (ObjetoGrafico obj : this.grafoCena) {
-//			obj.desenhar(gl, glu);
-//		}
-//	}
+	public void desenharObjetos(GL gl, GLU glu) {
+		for (ObjetoGrafico obj : this.objetos) {
+			obj.desenhar(gl, glu);
+		}
+	}
 }

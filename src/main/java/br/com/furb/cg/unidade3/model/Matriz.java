@@ -12,6 +12,12 @@ public class Matriz {
 		matriz.atribuirIdentidade();
 	}
 	
+	
+	
+	public Transformacao4D getMatriz() {
+		return matriz;
+	}
+
 	/**
 	 * 
 	 */
@@ -49,4 +55,5 @@ public class Matriz {
 	public void exibirMatriz() {
 		this.matriz.exibeMatriz();
 	}
+
 }
