@@ -5,14 +5,12 @@ import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-
 import br.com.furb.cg.unidade3.controller.Main;
 
 public class Frame extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private Main renderer = new Main();
-	
 	private int janelaLargura  = 400, janelaAltura = 400;
 	
 	public Frame() {		

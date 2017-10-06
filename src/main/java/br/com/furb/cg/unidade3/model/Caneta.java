@@ -36,16 +36,14 @@ public class Caneta {
 	
 	public void inserirNovoPonto(Ponto4D ponto) {
 		
-		if(this.objeto == null) {
+		if (this.objeto == null) {
 			this.objeto = new ObjetoGrafico(GL.GL_LINE_STRIP);
 			this.objeto.setDesenhando(true);
 			this.pontoOrigem = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
 			this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
 			this.getMundo().adicionarObjetoGrafico(objeto);
-		} else {
+		} else
 			this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
-		}		
-		
 	}
 	
 	/**
@@ -60,7 +58,7 @@ public class Caneta {
 	}
 
 	/**
-	 * Pega o mundo(folha) em que a caneta está desenhando. 
+	 * Pega o mundo(folha) em que a caneta esta desenhando. 
 	 * @return
 	 */
 	public Mundo getMundo() {
@@ -82,17 +80,15 @@ public class Caneta {
 			this.objeto.setPrimitiva(GL.GL_LINE_LOOP);
 			this.setNullAttributes();
 		}
-		
 	}
 
 	/**
 	 * Iniciar um novo desenho.
-	 * Seta null para as variáveis do objeto gráfico.
+	 * Seta null para as variaveis do objeto grafico.
 	 */
 	private void setNullAttributes() {
 		this.objeto = null;
 		this.pontoOrigem = null;
 		this.pontoDestino = null;		
 	}
-	
 }

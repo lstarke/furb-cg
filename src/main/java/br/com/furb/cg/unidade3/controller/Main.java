@@ -64,10 +64,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			default:
 				break;
 			}
-			
-		}
-		
-
+		} else {
 		switch (e.getKeyCode()) {	
 			case KeyEvent.VK_ESCAPE:
 				this.desenhando = false;
@@ -103,7 +100,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			// Camera Pan Direita
 			// (deslocar para direita)
 			case KeyEvent.VK_D:
-				//mundo.getCamera().panDireita();
+				mundo.getCamera().panDireita();
 				break;
 				
 			// Camera Pan Esquerda
@@ -172,6 +169,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				// objetos[0].RoracaoZ();
 				break;
 		}
+		}
 
 		glDrawable.display();
 	}
@@ -207,12 +205,10 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	public void mouseMoved(MouseEvent e) {
 		
 		if (desenhando) {
-			Ponto4D p = this.getPontoDeEventoMouse(e);
-			this.caneta.atualizarUltimoVertice(p);
+			Ponto4D novoPonto = this.getPontoDeEventoMouse(e);
+			this.caneta.atualizarUltimoVertice(novoPonto);
 			glDrawable.display();
 		}
-
-		
 	}
 
 	public void mouseClicked(MouseEvent arg0) {

@@ -1,10 +1,10 @@
 package br.com.furb.cg.unidade3.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
-
 import br.com.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
 
 public class Mundo {
@@ -12,15 +12,13 @@ public class Mundo {
 	private float tamEixoXsru;
 	private float tamEixoYsru;
 	private Camera2D camera;
-	private List<ObjetoGrafico> objetos;
-	private ListaObjetosGraficos grafoCena;
+	private ListaObjetosGraficos objetos;
 
 	public Mundo() {
 		this.tamEixoXsru = 200f;
 		this.tamEixoYsru = 200f;
-		camera = new Camera2D();
-		grafoCena = new ListaObjetosGraficos();
-		this.objetos = new ArrayList<ObjetoGrafico>();
+		this.camera = new Camera2D();
+		this.objetos = new ListaObjetosGraficos();
 	}
 	
 	public float getTamEixoXSru() {
@@ -44,7 +42,7 @@ public class Mundo {
 	}
 	
 	public ListaObjetosGraficos getListaObjetoGrafico(){
-		return grafoCena;
+		return objetos;
 	}
 	
 	public void posicionaCamera(GL gl, GLU glu) {
@@ -78,9 +76,14 @@ public class Mundo {
 		gl.glEnd();
 	}
 	
+	/**
+	 * Desenhar todos os objetos graficos contidos
+	 * 
+	 * @param gl
+	 * @param glu
+	 */
 	public void desenharObjetos(GL gl, GLU glu) {
-		for (ObjetoGrafico obj : this.objetos) {
-			obj.desenhar(gl, glu);
-		}
+		for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();) 
+			it.next().desenhar(gl, glu);
 	}
 }
