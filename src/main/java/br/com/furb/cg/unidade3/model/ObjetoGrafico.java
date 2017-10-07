@@ -1,12 +1,8 @@
 package br.com.furb.cg.unidade3.model;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
-
-import br.com.furb.cg.N3Trasnformacao.Transformacao4D;
 import br.com.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
 import br.com.furb.cg.unidade3.model.auxiliar.ListaVertices;
 
@@ -23,7 +19,7 @@ public final class ObjetoGrafico {
 	private boolean desenhando;
 	
 	// Transformacao
-	private Matriz matriz = new Matriz();
+	private Matriz matriz;
 	
 	// Grafo de cena
 	private ListaObjetosGraficos filhos;
@@ -48,7 +44,7 @@ public final class ObjetoGrafico {
 		this.desenhando = false; // serah ???
 		
 		// Transformacao
-		//this.matriz = new Transformacao4D();
+		this.matriz = new Matriz();
 		
 		// Grafo de cena
 		this.filhos = new ListaObjetosGraficos();
@@ -134,10 +130,10 @@ public final class ObjetoGrafico {
 	/**
 	 * Retornar matriz global do objeto grafico
 	 */
-//	public Transformacao4D getMatriz()
-//	{
-//		return matriz;
-//	}
+	public Matriz getMatriz()
+	{
+		return matriz;
+	}
 	
 	/**
 	 * Desenhar objeto grafico
@@ -185,6 +181,5 @@ public final class ObjetoGrafico {
 
 	public void removerUltimoVertice() {
 		this.vertices.removerUltimo();
-		
 	}
 }

@@ -11,9 +11,7 @@ public class Matriz {
 		matriz = new Transformacao4D();
 		matriz.atribuirIdentidade();
 	}
-	
-	
-	
+
 	public Transformacao4D getMatriz() {
 		return matriz;
 	}
@@ -55,5 +53,4 @@ public class Matriz {
 	public void exibirMatriz() {
 		this.matriz.exibeMatriz();
 	}
-
 }

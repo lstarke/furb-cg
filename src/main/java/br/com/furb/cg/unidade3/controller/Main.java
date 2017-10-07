@@ -68,11 +68,11 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				break;
 			default:
 				break;
-			}
-			
+			}			
 		} else {
 			
 			switch (e.getKeyCode()) {	
+
 			case KeyEvent.VK_ESCAPE:
 				this.desenhando = false;
 				this.caneta.finalizar(false);
@@ -212,12 +212,10 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	public void mouseMoved(MouseEvent e) {
 		
 		if (desenhando) {
-			Ponto4D p = this.getPontoDeEventoMouse(e);
-			this.caneta.atualizarUltimoVertice(p);
+			Ponto4D novoPonto = this.getPontoDeEventoMouse(e);
+			this.caneta.atualizarUltimoVertice(novoPonto);
 			glDrawable.display();
 		}
-
-		
 	}
 
 	public void mouseClicked(MouseEvent arg0) {

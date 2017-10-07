@@ -23,7 +23,7 @@ import java.lang.Math;
 //             [ matrix[2] matrix[6] matrix[10] matrix[14] ]
 //             [ matrix[3] matrix[7] matrix[11] matrix[15] ]
 
-public class Transformacao4D {
+public final class Transformacao4D {
 	static final double DEG_TO_RAD = 0.017453292519943295769236907684886;
 
     /// \brief Cria uma matriz de Trasnformacao com uma matriz Identidade.
