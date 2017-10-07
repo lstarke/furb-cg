@@ -11,29 +11,11 @@ public class Caneta {
 	private ObjetoGrafico objeto;
 	private ListaObjetosGraficos grafoCenaTmp;
 	private Mundo mundo;
-
-//	public ObjetoGrafico novoPonto(Ponto4D p) {
-//		if (this.objeto == null) {
-//			this.objeto = new ObjetoGrafico();
-//			this.mundo.getListaObjetoGrafico().add(objeto);
-//		}
-//		
-//		if (objeto.getVertices().isEmpty()) {
-//			this.objeto.getVertices().add(p);
-//		} else {
-//			this.objeto.getVertices().add(p);
-//		}		
-//		
-//		return this.objeto;		
-//	}
-//	
-//	public void atualizaUltimoVertice(Ponto4D p) {
-//		if (this.objeto != null) {
-//			this.destino.atribuirX(p.obterX());
-//			this.destino.atribuirY(p.obterY());
-//		}		
-//	}
 	
+	/**
+	 * Insere/adiciona novo ponto na tela
+	 * @param ponto
+	 */
 	public void inserirNovoPonto(Ponto4D ponto) {
 		
 		if(this.objeto == null) {
@@ -43,9 +25,14 @@ public class Caneta {
 			this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
 			this.getMundo().adicionarObjetoGrafico(objeto);
 		} else {
-			this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
-		}		
-		
+			if (this.pontoOrigem != null) {
+				if (this.pontoOrigem.estaPerto(ponto)) {
+					this.finalizar(true);
+				} else {
+					this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
+				}
+			}
+		}
 	}
 	
 	/**
@@ -61,7 +48,7 @@ public class Caneta {
 
 	/**
 	 * Pega o mundo(folha) em que a caneta está desenhando. 
-	 * @return
+	 * @return Mundo
 	 */
 	public Mundo getMundo() {
 		return mundo;
@@ -75,14 +62,17 @@ public class Caneta {
 		this.mundo = mundo;
 	}
 
-	public void finalizar() {
+	public void finalizar(boolean poligonoFechado) {
 		if (this.objeto != null) {
 			this.objeto.removerUltimoVertice();
-			this.objeto.setDesenhando(false);
-			this.objeto.setPrimitiva(GL.GL_LINE_LOOP);
-			this.setNullAttributes();
+			this.objeto.setDesenhando(false);			
+			
+			if (poligonoFechado) {
+				this.objeto.setPrimitiva(GL.GL_LINE_LOOP);
+			}
+			
+			this.setNullAttributes();			
 		}
-		
 	}
 
 	/**

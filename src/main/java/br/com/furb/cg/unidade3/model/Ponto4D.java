@@ -92,11 +92,22 @@ public final class Ponto4D {
 	 */
 	public boolean estaPerto(Ponto4D pontoComparado)
 	{
-		return pontoComparado.obterX() <= (this.obterX() + DISTANCIA) ||
-				pontoComparado.obterX() >= (this.obterX() - DISTANCIA) || 
-				pontoComparado.obterY() <= (this.obterY() + DISTANCIA) || 
-				pontoComparado.obterY() >= (this.obterY() - DISTANCIA) ||
-				pontoComparado.obterZ() <= (this.obterZ() + DISTANCIA) ||
-				pontoComparado.obterZ() >= (this.obterZ() - DISTANCIA);
+//		ISSO AQUI NÃO FUNCIONA		
+//		return pontoComparado.obterX() <= (this.obterX() + DISTANCIA) ||
+//				pontoComparado.obterX() >= (this.obterX() - DISTANCIA) || 
+//				pontoComparado.obterY() <= (this.obterY() + DISTANCIA) || 
+//				pontoComparado.obterY() >= (this.obterY() - DISTANCIA) ||
+//				pontoComparado.obterZ() <= (this.obterZ() + DISTANCIA) ||
+//				pontoComparado.obterZ() >= (this.obterZ() - DISTANCIA);
+		
+		double xmax = this.obterX() + DISTANCIA;
+		double xmin = this.obterX() - DISTANCIA;
+		double ymax = this.obterY() + DISTANCIA;
+		double ymin = this.obterY() - DISTANCIA;
+		
+		return pontoComparado.obterX() <= xmax && 
+			pontoComparado.obterX() >= xmin && 
+			pontoComparado.obterY() <= ymax && 
+			pontoComparado.obterY() >= ymin;
 	}
 }

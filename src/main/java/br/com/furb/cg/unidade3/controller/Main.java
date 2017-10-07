@@ -12,6 +12,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	
 	/// Indica o status se esta desenhando ou selecionando
 	private boolean desenhando;
+	private boolean selecionando;
 	
 	/// Mundo da cena
 	private Mundo mundo;
@@ -20,7 +21,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	private Caneta caneta;
 	
 	/// Objeto graficos selecionado
-	private ObjetoGrafico selecionado;
+	private ObjetoGrafico objetoSelecionado;
 	
 	// "render" feito logo apos a inicializacao do contexto OpenGL.
 	public void init(GLAutoDrawable drawable) {
@@ -35,7 +36,8 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		//caneta.setMundo(mundo);		
 		
 		desenhando = false;
-		selecionado = null;
+		selecionando = false;
+		objetoSelecionado = null;
 	}
 
 	public void display(GLAutoDrawable arg0) {
@@ -61,17 +63,19 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				this.caneta.setMundo(mundo);
 				System.out.println("Pronto para desenhar.");
 				break;
+			case KeyEvent.VK_S:
+				this.selecionando = true;
+				break;
 			default:
 				break;
 			}
 			
-		}
-		
-
-		switch (e.getKeyCode()) {	
+		} else {
+			
+			switch (e.getKeyCode()) {	
 			case KeyEvent.VK_ESCAPE:
 				this.desenhando = false;
-				this.caneta.finalizar();
+				this.caneta.finalizar(false);
 				break;
 			// Ver o que o exemplo do professor faz
 			case KeyEvent.VK_1:
@@ -103,7 +107,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			// Camera Pan Direita
 			// (deslocar para direita)
 			case KeyEvent.VK_D:
-				//mundo.getCamera().panDireita();
+				mundo.getCamera().panDireita();
 				break;
 				
 			// Camera Pan Esquerda
@@ -171,8 +175,9 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			case KeyEvent.VK_HOME:
 				// objetos[0].RoracaoZ();
 				break;
+			}
+			
 		}
-
 		glDrawable.display();
 	}
 
