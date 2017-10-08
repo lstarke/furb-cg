@@ -96,4 +96,8 @@ public class Mundo {
 	public Ponto4D selecionaPonto(Ponto4D p) {
 		return this.objetos.localizarPonto(p);		
 	}
+
+	public ObjetoGrafico selecionaObjeto(Ponto4D p) {
+		return this.objetos.localizarObjeto(p);
+	}
 }

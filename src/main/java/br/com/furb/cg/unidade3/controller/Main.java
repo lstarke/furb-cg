@@ -82,6 +82,11 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				this.desenhando = false;
 				this.caneta.finalizar(false);
 				break;
+			case KeyEvent.VK_DELETE:
+				if (this.pSelecionado != null && this.selecionando) {
+					this.objetoSelecionado.removeVerticeSelecionado();
+				}
+				break;
 			// Ver o que o exemplo do professor faz
 			case KeyEvent.VK_1:
 				//	objetos[0].escalaXYZPtoFixo(0.5, new Ponto4D(-15.0,-15.0,0.0,0.0));
@@ -248,7 +253,9 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			this.caneta.inserirNovoPonto(p);
 		} else {
 			if (selecionando) {
-				pSelecionado = this.mundo.selecionaPonto(p);				
+				pSelecionado = this.mundo.selecionaPonto(p);
+				objetoSelecionado = this.mundo.selecionaObjeto(p);
+				System.out.println(p.toString());
 			}
 		}
 		glDrawable.display();

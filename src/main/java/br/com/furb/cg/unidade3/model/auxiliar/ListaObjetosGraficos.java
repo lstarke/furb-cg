@@ -134,4 +134,15 @@ public class ListaObjetosGraficos {
 		}
 		return null;
 	}
+
+
+
+	public ObjetoGrafico localizarObjeto(Ponto4D p) {
+		for (ObjetoGrafico objetoGrafico : objetos) {			
+			if (objetoGrafico.localizaVertice(p) != null) {
+				return objetoGrafico;
+			}			
+		}
+		return null;
+	}
 }

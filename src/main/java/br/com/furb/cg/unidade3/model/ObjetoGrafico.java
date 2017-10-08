@@ -16,7 +16,7 @@ public final class ObjetoGrafico {
 	
 	// Parametros Auxiliares
 	private boolean selecionado;
-	private boolean desenhando;
+	private boolean desenhando;	
 	
 	// Transformacao
 	private Matriz matriz;
@@ -188,13 +188,21 @@ public final class ObjetoGrafico {
 	public void removerUltimoVertice() {
 		this.vertices.removerUltimo();
 	}
+	
+	/**
+	 * Remove vertice selecionado.
+	 * @return
+	 */
+	public boolean removeVerticeSelecionado() {
+		return this.vertices.removerSelecionado();
+	}
 
 	/**
 	 * Procura ponto na lista de pontos do vertice.
 	 * @param Ponto4D
 	 * @return Ponto4D
 	 */
-	public Ponto4D localizaVertice(Ponto4D p) {		
-		return this.vertices.localizaVertice(p);
+	public Ponto4D localizaVertice(Ponto4D p) {
+		return this.vertices.localizaVertice(p);		
 	}
 }

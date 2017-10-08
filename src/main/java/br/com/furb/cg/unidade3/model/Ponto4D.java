@@ -110,4 +110,12 @@ public final class Ponto4D {
 			pontoComparado.obterY() <= ymax && 
 			pontoComparado.obterY() >= ymin;
 	}
+
+	@Override
+	public String toString() {
+		return "Ponto selecionado [x=" + x + ", y=" + y + "]";
+	}
+	
+	
+	
 }
