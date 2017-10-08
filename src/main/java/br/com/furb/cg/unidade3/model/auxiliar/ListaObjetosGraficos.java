@@ -6,11 +6,10 @@ package br.com.furb.cg.unidade3.model.auxiliar;
  */
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
-
 import br.com.furb.cg.unidade3.model.ObjetoGrafico;
 import br.com.furb.cg.unidade3.model.Ponto4D;
 
@@ -26,8 +25,6 @@ public class ListaObjetosGraficos {
 		this.objetos = new ArrayList<ObjetoGrafico>();
 		this.selecionado = null;
 	}
-	
-	
 	
 	/**
 	 * Adicionar objeto grafico no grafo de cena
@@ -105,44 +102,46 @@ public class ListaObjetosGraficos {
 	}
 	
 	/**
-	 * Imprimir vertices no console
+	 * Iterador
+	 */
+	public Iterator<ObjetoGrafico> iterador() {
+		return this.objetos.iterator();
+	}
+
+// Regra de negocio, foi transferido para o mundo
+//	public void desenharObjetos(GL gl, GLU glu) {
+//		for (ObjetoGrafico objetoGrafico : objetos)
+//			objetoGrafico.desenhar(gl, glu);			
+//	}
+
+	/**
+	 * Procurar pelo ponto na lista de vertices do objeto
+	 */
+	public Ponto4D localizarPonto(Ponto4D pontoComparado) {
+		for (ObjetoGrafico objetoGrafico : this.objetos)		
+			return objetoGrafico.localizarVertice(pontoComparado);			
+
+		return null;
+	}
+
+	/**
+	 * Procurar um objeto grafico na lista de objetos
+	 */
+	public ObjetoGrafico localizarObjeto(Ponto4D pontoComparado) {
+		for (ObjetoGrafico objetoGrafico : this.objetos) {			
+			if (objetoGrafico.localizarVertice(pontoComparado) != null)
+				return objetoGrafico;		
+		}
+
+		return null;
+	}
+	
+	/**
+	 * Imprimir todos os vertices no console
 	 */
 	public void exibir()
 	{
 		for (int i = 0; i < objetos.size(); i++)
 			System.out.println(String.format("Objetos nro %d: %s", i, objetos.get(i).toString()));
-	}
-
-
-
-	public void desenharObjetos(GL gl, GLU glu) {
-		for (ObjetoGrafico objetoGrafico : objetos) {
-			objetoGrafico.desenhar(gl, glu);			
-		}
-		
-	}
-
-
-	/**
-	 * Procura ponto nas lista de vertices do objeto.
-	 * @param Ponto4D
-	 * @return Ponto4D
-	 */
-	public Ponto4D localizarPonto(Ponto4D p) {
-		for (ObjetoGrafico objetoGrafico : objetos) {			
-			return objetoGrafico.localizaVertice(p);			
-		}
-		return null;
-	}
-
-
-
-	public ObjetoGrafico localizarObjeto(Ponto4D p) {
-		for (ObjetoGrafico objetoGrafico : objetos) {			
-			if (objetoGrafico.localizaVertice(p) != null) {
-				return objetoGrafico;
-			}			
-		}
-		return null;
 	}
 }

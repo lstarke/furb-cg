@@ -1,5 +1,12 @@
 package br.com.furb.cg.unidade3.model;
 
+/**
+ * Bound Box de um objeto grafico
+ * 
+ * Preparado para 2 e 3 dimensoes
+ * Cada objeto grafico possui uma Bound Box individual
+ */
+
 import javax.media.opengl.GL;
 
 public class BBox3D {
@@ -29,7 +36,7 @@ public class BBox3D {
 	}
 
 	/**
-	 * Construtor da Bound Box
+	 * Construtor da Bound Box para 3D
 	 * 
 	 * @param xMin
 	 * @param yMin
@@ -113,7 +120,7 @@ public class BBox3D {
 	}
 
 	/**
-	 * Atualizar Bound Box
+	 * Atualizar Bound Box para 3D
 	 * 
 	 * @param xMin
 	 * @param yMin

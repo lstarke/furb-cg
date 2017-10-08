@@ -92,7 +92,7 @@ public final class Ponto4D {
 	 */
 	public boolean estaPerto(Ponto4D pontoComparado)
 	{
-//		ISSO AQUI NÃO FUNCIONA		
+//		ISSO AQUI NÃO FUNCIONOU		
 //		return pontoComparado.obterX() <= (this.obterX() + DISTANCIA) ||
 //				pontoComparado.obterX() >= (this.obterX() - DISTANCIA) || 
 //				pontoComparado.obterY() <= (this.obterY() + DISTANCIA) || 
@@ -100,22 +100,19 @@ public final class Ponto4D {
 //				pontoComparado.obterZ() <= (this.obterZ() + DISTANCIA) ||
 //				pontoComparado.obterZ() >= (this.obterZ() - DISTANCIA);
 		
-		double xmax = this.obterX() + DISTANCIA;
-		double xmin = this.obterX() - DISTANCIA;
-		double ymax = this.obterY() + DISTANCIA;
-		double ymin = this.obterY() - DISTANCIA;
+		double xMax = this.obterX() + DISTANCIA;
+		double xMin = this.obterX() - DISTANCIA;
+		double yMax = this.obterY() + DISTANCIA;
+		double yMin = this.obterY() - DISTANCIA;
 		
-		return pontoComparado.obterX() <= xmax && 
-			pontoComparado.obterX() >= xmin && 
-			pontoComparado.obterY() <= ymax && 
-			pontoComparado.obterY() >= ymin;
+		return pontoComparado.obterX() <= xMax && 
+			pontoComparado.obterX() >= xMin && 
+			pontoComparado.obterY() <= yMax && 
+			pontoComparado.obterY() >= yMin;
 	}
 
 	@Override
 	public String toString() {
 		return "Ponto selecionado [x=" + x + ", y=" + y + "]";
 	}
-	
-	
-	
 }

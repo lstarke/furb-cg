@@ -1,5 +1,12 @@
 package br.com.furb.cg.unidade3.model;
 
+/**
+ * Objeto grafico
+ * 
+ * Cada poligono eh um objeto grafico
+ * Aqui econtram-se todas as informacoes necessarias
+ */
+
 import java.awt.Color;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
@@ -26,12 +33,6 @@ public final class ObjetoGrafico {
 	
 	// Variaveis de configurações das linhas
 	private float tamanho = 1.0f;
-	
-	
-	
-	public ListaVertices getVertices() {
-		return vertices;
-	}
 
 	/**
 	 * Contrutor
@@ -69,6 +70,11 @@ public final class ObjetoGrafico {
 		else
 			throw new java.lang.RuntimeException("Objeto grafico nao preparado para esta primitva, utilize: GL_LINE_STRIP ou GL_LINE_LOOP");
 	}
+	
+//  Se realmente precisar, descomente
+//	public ListaVertices getVertices() {
+//		return vertices;
+//	}
 	
 	/**
 	 * Atribuir/Alterar cor do objeto grafico
@@ -128,10 +134,11 @@ public final class ObjetoGrafico {
 		this.desenhando = desenhando;
 	}
 	
-	public boolean isSelecionavel()
-	{		
-		return matriz.isIdentidade();
-	}
+//  Se realmente precisa, descomente
+//	public boolean isSelecionavel()
+//	{		
+//		return matriz.isIdentidade();
+//	}
 	
 	/**
 	 * Retornar matriz global do objeto grafico
@@ -165,17 +172,10 @@ public final class ObjetoGrafico {
 
 		gl.glPopMatrix();
 	}
-	
-	public void exibirVertices()
-	{
-		this.vertices.exibir();
-	}
-	
-	public void exibirMatriz()
-	{
-		this.matriz.exibirMatriz();
-	}
 
+	/**
+	 * Inserir vertice na lista de vertices
+	 */
 	public Ponto4D addVertice(double x, double y) {
 		
 		Ponto4D vertice = new Ponto4D(x, y, 0, 1);
@@ -185,24 +185,40 @@ public final class ObjetoGrafico {
 		return vertice;
 	}
 
+	/**
+	 * Remover ultimo vertice da lista de vertices
+	 */
 	public void removerUltimoVertice() {
 		this.vertices.removerUltimo();
 	}
 	
 	/**
-	 * Remove vertice selecionado.
-	 * @return
+	 * Remover vertice selecionado
 	 */
-	public boolean removeVerticeSelecionado() {
+	public boolean removerVerticeSelecionado() {
 		return this.vertices.removerSelecionado();
 	}
 
 	/**
-	 * Procura ponto na lista de pontos do vertice.
-	 * @param Ponto4D
-	 * @return Ponto4D
+	 * Procurar ponto na lista de pontos do vertice
 	 */
-	public Ponto4D localizaVertice(Ponto4D p) {
-		return this.vertices.localizaVertice(p);		
+	public Ponto4D localizarVertice(Ponto4D pontoComparado) {
+		return this.vertices.getPontoVerticeMaisPertoSelecionado(pontoComparado);		
+	}
+	
+	/**
+	 * Imprimir todos os vertices (pontos) no console
+	 */
+	public void exibirVertices()
+	{
+		this.vertices.exibir();
+	}
+	
+	/**
+	 * Imprimir a matriz de um objeto grafico no console
+	 */
+	public void exibirMatriz()
+	{
+		this.matriz.exibirMatriz();
 	}
 }

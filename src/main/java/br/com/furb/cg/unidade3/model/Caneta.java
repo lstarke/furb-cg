@@ -1,19 +1,21 @@
 package br.com.furb.cg.unidade3.model;
 
-import javax.media.opengl.GL;
+/**
+ * Objeto responsavel por desenhar os poligonos na cena grafica
+ */
 
+import javax.media.opengl.GL;
 import br.com.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
 
-public class Caneta {
+public final class Caneta {
 
 	private Ponto4D pontoOrigem;
 	private Ponto4D pontoDestino;
 	private ObjetoGrafico objeto;
-	private ListaObjetosGraficos grafoCenaTmp;
-	private Mundo mundo;
+	private ListaObjetosGraficos objetosTmp;
 	
 	/**
-	 * Insere/adiciona novo ponto na tela
+	 * Inserir/adicionar novo ponto na tela
 	 * @param ponto
 	 */
 	public void inserirNovoPonto(Ponto4D ponto) {
@@ -23,21 +25,18 @@ public class Caneta {
 			this.objeto.setDesenhando(true);
 			this.pontoOrigem = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
 			this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
-			this.getMundo().adicionarObjetoGrafico(objeto);
-		} else {
+			this.objetosTmp.add(objeto);
+		} else
 			if (this.pontoOrigem != null) {
-				if (this.pontoOrigem.estaPerto(ponto)) {
+				if (this.pontoOrigem.estaPerto(ponto))
 					this.finalizar(true);
-				} else {
+				else
 					this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
-				}
 			}
-		}
-
 	}
 	
 	/**
-	 * Atualiza o ultimo ponto para fazer o rastro ao mover o mouse.
+	 * Atualizar o ultimo ponto para fazer o rastro ao mover o mouse.
 	 * @param ponto
 	 */
 	public void atualizarUltimoVertice(Ponto4D ponto) {
@@ -46,26 +45,9 @@ public class Caneta {
 			this.pontoDestino.atribuirY(ponto.obterY());
 		}
 	}
-
-	/**
-<<<<<<< HEAD
-	 * Pega o mundo(folha) em que a caneta está desenhando. 
-	 * @return Mundo
-=======
-	 * Pega o mundo(folha) em que a caneta esta desenhando. 
-	 * @return
->>>>>>> af997f8e25e41552c79e551f612ca82d72c6b9f5
-	 */
-	public Mundo getMundo() {
-		return mundo;
-	}
-
-	/**
-	 * Define o mundo(folha) em que a caneta deve desenhar. 
-	 * @param mundo
-	 */
-	public void setMundo(Mundo mundo) {
-		this.mundo = mundo;
+	
+	public void setObjetosGraficos(ListaObjetosGraficos objetos) {
+		this.objetosTmp = objetos;
 	}
 
 	public void finalizar(boolean poligonoFechado) {
@@ -73,9 +55,8 @@ public class Caneta {
 			this.objeto.removerUltimoVertice();
 			this.objeto.setDesenhando(false);			
 			
-			if (poligonoFechado) {
+			if (poligonoFechado)
 				this.objeto.setPrimitiva(GL.GL_LINE_LOOP);
-			}
 			
 			this.setNullAttributes();			
 		}

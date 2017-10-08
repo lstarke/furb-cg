@@ -1,8 +1,13 @@
 package br.com.furb.cg.unidade3.model;
 
+/**
+ * Camera da cena grafica
+ * 
+ * Preparada para trabalhar em cenas 2D
+ */
+
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
-
 
 public class Camera2D {
 	
@@ -29,24 +34,49 @@ public class Camera2D {
 		return ortho2D_maxY;
 	}
 	
+	public float getTamX() {
+		return ortho2D_maxX - ortho2D_minX;
+	}
+	
+	public float getTamY() {
+		return ortho2D_maxY - ortho2D_minY;
+	}
+	
+	/**
+	 * Posicionar a camera
+	 * 
+	 * @param gl
+	 * @param glu
+	 */
 	public void posicionar(GL gl, GLU glu)
 	{			
 		glu.gluOrtho2D(this.ortho2D_minX, this.ortho2D_maxX, this.ortho2D_minY, this.ortho2D_maxY);
 	}
 	
-	public Ponto4D convertePontoTela(double xPonto, double yPonto, double xTela, double yTela)
-	{
-		double xTotal = ortho2D_maxX - ortho2D_minX;
-		double yTotal = ortho2D_maxY - ortho2D_minY;
-		
-		double escalaX = xTotal / xTela;
-		double escalaY = yTotal / yTela;
-
-		double x = ((xPonto * escalaX) + ortho2D_minX);
-		double y = ((yPonto * escalaY) + ortho2D_minY) * -1;
-		
-		return new Ponto4D(x, y, 0.0, 1.0);
-	}
+// transferido para o controller Main
+// Isto nao aparenta ser responsabilidade da camera
+//	/**
+//	 * Converter o x, y do clique do mouse (absoluto) para ponto na tela do programa
+//	 *  
+//	 * @param xPonto
+//	 * @param yPonto
+//	 * @param xTela
+//	 * @param yTela
+//	 * @return
+//	 */
+//	public Ponto4D convertePontoTela(double xPonto, double yPonto, double xTela, double yTela)
+//	{
+//		double xTotal = ortho2D_maxX - ortho2D_minX;
+//		double yTotal = ortho2D_maxY - ortho2D_minY;
+//		
+//		double escalaX = xTotal / xTela;
+//		double escalaY = yTotal / yTela;
+//
+//		double x = ((xPonto * escalaX) + ortho2D_minX);
+//		double y = ((yPonto * escalaY) + ortho2D_minY) * -1;
+//		
+//		return new Ponto4D(x, y, 0.0, 1.0);
+//	}
 
 	/**
 	 * Zoom In da camera

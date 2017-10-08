@@ -1,8 +1,10 @@
 package br.com.furb.cg.unidade3.model;
 
-import java.util.ArrayList;
+/**
+ * Cena grafica
+ */
+
 import java.util.Iterator;
-import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 import br.com.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
@@ -41,22 +43,26 @@ public class Mundo {
 		return camera;
 	}
 	
-	public ListaObjetosGraficos getListaObjetoGrafico(){
+	/**
+	 * Retornar a lista de objetos graficos da cena
+	 */
+	public ListaObjetosGraficos getObjetosGraficos(){
 		return objetos;
 	}
 	
-	public void posicionaCamera(GL gl, GLU glu) {
-		this.camera.posicionar(gl, glu);
-	}
-	
-	public void adicionarObjetoGrafico(ObjetoGrafico objeto) {
+	/**
+	 * Inserir um objeto grafico na cena (lista de objetos)
+	 */
+	public void addObjetoGrafico(ObjetoGrafico objeto) {
 		this.objetos.add(objeto);
 	}
 	
+	public void posicionarCamera(GL gl, GLU glu) {
+		this.camera.posicionar(gl, glu);
+	}
+	
 	/**
-	 * Desenha os eixos X e Y
-	 * @param gl
-	 * @param glu
+	 * Desenha os eixos X e Y na cena grafica
 	 */	
 	public void SRU(GL gl, GLU glu) {
 		gl.glLineWidth(1.0f);
@@ -78,26 +84,22 @@ public class Mundo {
 	
 	/**
 	 * Desenhar todos os objetos graficos contidos
-	 * 
-	 * @param gl
-	 * @param glu
 	 */
 	public void desenharObjetos(GL gl, GLU glu) {
-		this.objetos.desenharObjetos(gl, glu);
-//		for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();) 
-//			it.next().desenhar(gl, glu);
+//		this.objetos.desenharObjetos(gl, glu);
+
+		for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();) 
+			it.next().desenhar(gl, glu);		
 	}
 
 	/**
-	 * Procura Ponto selecionado na lista de objeto contidos no mundo.
-	 * @param Ponto4D
-	 * @return Ponto4D
+	 * Procurar o ponto selecionado na lista de objetos contidos no mundo
 	 */
-	public Ponto4D selecionaPonto(Ponto4D p) {
+	public Ponto4D selecionarPonto(Ponto4D p) {
 		return this.objetos.localizarPonto(p);		
 	}
-
-	public ObjetoGrafico selecionaObjeto(Ponto4D p) {
+	
+	public ObjetoGrafico selecionarObjeto(Ponto4D p) {
 		return this.objetos.localizarObjeto(p);
 	}
 }

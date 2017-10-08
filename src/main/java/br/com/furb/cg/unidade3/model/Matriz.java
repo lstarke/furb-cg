@@ -1,6 +1,13 @@
 package br.com.furb.cg.unidade3.model;
 
-public class Matriz {
+/**
+ * Matriz de um objeto grafico
+ * 
+ * Cada objeto possui uma matriz individual
+ * Este objeto e responsavel por todas as transformacoes nesta matriz
+ */
+
+public final class Matriz {
 
 	private Transformacao4D matriz;
 	
@@ -17,12 +24,12 @@ public class Matriz {
 	}
 
 	/**
-	 * 
+	 * Identificar se a matriz eh uma matriz identidade (sem transformacao)
 	 */
 	public boolean isIdentidade() {
 		return matriz.isIdentidade();
 	}
-	
+
 	public void escalar(double proporcao)
 	{		
 		// transformacao escalar na matriz global
@@ -50,6 +57,9 @@ public class Matriz {
 		// Leia o arquivo Dicas.txt
 	}
 	
+	/**
+	 * Imprimir no console o formato atual da matriz
+	 */
 	public void exibirMatriz() {
 		this.matriz.exibeMatriz();
 	}

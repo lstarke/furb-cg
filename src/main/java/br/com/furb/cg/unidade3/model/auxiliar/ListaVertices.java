@@ -33,6 +33,13 @@ public class ListaVertices {
 	}
 	
 	/**
+	 * Retornar o ponto do vertice pela posicao da lista
+	 */
+	public Ponto4D get(int i) {
+		return this.vertices.get(i);
+	}
+	
+	/**
 	 * Retornar o primeiro vertice da lista de vertices do objeto grafico/poligono
 	 */
 	public Ponto4D getPrimeiro()
@@ -99,16 +106,7 @@ public class ListaVertices {
 	}
 	
 	/**
-	 * Imprimir vertices no console
-	 */
-	public void exibir()
-	{
-		for (int i = 0; i < vertices.size(); i++)
-			System.out.println(String.format("Vertice nro %d: %s", i, vertices.get(i).toString()));
-	}
-	
-	/**
-	 * Retorna o ponto mais perto do vertice mais perto
+	 * Retornar o ponto mais perto do vertice mais perto
 	 * 
 	 * @param pontoComparado
 	 * @return pontoMaisPertoDoVerticeMaisPerto
@@ -122,23 +120,30 @@ public class ListaVertices {
 		return null;
 	}
 	
-	public Ponto4D get(int i) {
-		return this.vertices.get(i);
-	}
-
 	/**
-	 * Procura o vertice que contem o ponto selecionado na tela.
+	 * Procurar o vertice que contem o ponto selecionado na tela.
 	 * Seleciona o vertice que contem o ponto.
+	 * 
 	 * @param Ponto4D
 	 * @return Ponto4D
 	 */
-	public Ponto4D localizaVertice(Ponto4D p) {
+	public Ponto4D getPontoVerticeMaisPertoSelecionado(Ponto4D pontoComparado) {
 		for (Ponto4D v : vertices) {
-			if (v.estaPerto(p)) {
+			if (v.estaPerto(pontoComparado)) {
 				this.selecionado = v;
 				return v;
 			}			
 		}
+
 		return null;
+	}
+	
+	/**
+	 * Imprimir vertices no console
+	 */
+	public void exibir()
+	{
+		for (int i = 0; i < vertices.size(); i++)
+			System.out.println(String.format("Vertice nro %d: %s", i, vertices.get(i).toString()));
 	}
 }
