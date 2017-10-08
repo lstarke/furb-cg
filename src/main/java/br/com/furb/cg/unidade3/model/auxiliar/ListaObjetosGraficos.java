@@ -8,7 +8,11 @@ package br.com.furb.cg.unidade3.model.auxiliar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.media.opengl.GL;
+import javax.media.opengl.glu.GLU;
+
 import br.com.furb.cg.unidade3.model.ObjetoGrafico;
+import br.com.furb.cg.unidade3.model.Ponto4D;
 
 public class ListaObjetosGraficos {
 
@@ -28,11 +32,10 @@ public class ListaObjetosGraficos {
 	/**
 	 * Adicionar objeto grafico no grafo de cena
 	 * 
-	 * @param novo
-	 * @return
+	 * @param novo 
 	 */
-	public ObjetoGrafico add(ObjetoGrafico novo) {
-		return null;
+	public void add(ObjetoGrafico novo) {
+		this.objetos.add(novo);
 	}
 	
 	/**
@@ -108,5 +111,27 @@ public class ListaObjetosGraficos {
 	{
 		for (int i = 0; i < objetos.size(); i++)
 			System.out.println(String.format("Objetos nro %d: %s", i, objetos.get(i).toString()));
+	}
+
+
+
+	public void desenharObjetos(GL gl, GLU glu) {
+		for (ObjetoGrafico objetoGrafico : objetos) {
+			objetoGrafico.desenhar(gl, glu);			
+		}
+		
+	}
+
+
+	/**
+	 * Procura ponto nas lista de vertices do objeto.
+	 * @param Ponto4D
+	 * @return Ponto4D
+	 */
+	public Ponto4D localizarPonto(Ponto4D p) {
+		for (ObjetoGrafico objetoGrafico : objetos) {			
+			return objetoGrafico.localizaVertice(p);			
+		}
+		return null;
 	}
 }

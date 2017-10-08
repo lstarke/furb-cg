@@ -125,4 +125,18 @@ public class ListaVertices {
 	public Ponto4D get(int i) {
 		return this.vertices.get(i);
 	}
+
+	/**
+	 * Procura o vertice que contamm o ponto selecionado na tela.
+	 * @param Ponto4D
+	 * @return Ponto4D
+	 */
+	public Ponto4D localizaVertice(Ponto4D p) {
+		for (Ponto4D v : vertices) {
+			if (v.estaPerto(p)) {
+				return v;
+			}			
+		}
+		return null;
+	}
 }

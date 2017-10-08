@@ -27,6 +27,12 @@ public final class ObjetoGrafico {
 	// Variaveis de configurações das linhas
 	private float tamanho = 1.0f;
 	
+	
+	
+	public ListaVertices getVertices() {
+		return vertices;
+	}
+
 	/**
 	 * Contrutor
 	 * 
@@ -181,5 +187,14 @@ public final class ObjetoGrafico {
 
 	public void removerUltimoVertice() {
 		this.vertices.removerUltimo();
+	}
+
+	/**
+	 * Procura ponto na lista de pontos do vertice.
+	 * @param Ponto4D
+	 * @return Ponto4D
+	 */
+	public Ponto4D localizaVertice(Ponto4D p) {		
+		return this.vertices.localizaVertice(p);
 	}
 }

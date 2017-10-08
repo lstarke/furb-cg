@@ -83,7 +83,17 @@ public class Mundo {
 	 * @param glu
 	 */
 	public void desenharObjetos(GL gl, GLU glu) {
-		for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();) 
-			it.next().desenhar(gl, glu);
+		this.objetos.desenharObjetos(gl, glu);
+//		for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();) 
+//			it.next().desenhar(gl, glu);
+	}
+
+	/**
+	 * Procura Ponto selecionado na lista de objeto contidos no mundo.
+	 * @param Ponto4D
+	 * @return Ponto4D
+	 */
+	public Ponto4D selecionaPonto(Ponto4D p) {
+		return this.objetos.localizarPonto(p);		
 	}
 }

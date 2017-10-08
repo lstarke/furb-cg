@@ -23,6 +23,9 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	/// Objeto graficos selecionado
 	private ObjetoGrafico objetoSelecionado;
 	
+	// Ponto selecionado
+	private Ponto4D pSelecionado;
+	
 	// "render" feito logo apos a inicializacao do contexto OpenGL.
 	public void init(GLAutoDrawable drawable) {
 		glDrawable = drawable;
@@ -38,6 +41,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		desenhando = false;
 		selecionando = false;
 		objetoSelecionado = null;
+		pSelecionado = null;
 	}
 
 	public void display(GLAutoDrawable arg0) {
@@ -65,6 +69,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				break;
 			case KeyEvent.VK_S:
 				this.selecionando = true;
+				this.desenhando = false;
 				break;
 			default:
 				break;
@@ -206,7 +211,14 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		System.out.println(" --- mouseDragged ---");
+		if (selecionando) {
+			if (pSelecionado != null) {
+				Ponto4D p = this.getPontoDeEventoMouse(e);
+				this.pSelecionado.atribuirX(p.obterX());
+				this.pSelecionado.atribuirY(p.obterY());
+				glDrawable.display();
+			}
+		}
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -231,12 +243,14 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mousePressed(MouseEvent e) {
-		
-		if (desenhando) {
-			Ponto4D p = this.getPontoDeEventoMouse(e);
+		Ponto4D p = this.getPontoDeEventoMouse(e);
+		if (desenhando) {			
 			this.caneta.inserirNovoPonto(p);
+		} else {
+			if (selecionando) {
+				pSelecionado = this.mundo.selecionaPonto(p);				
+			}
 		}
-		
 		glDrawable.display();
 	}
 
