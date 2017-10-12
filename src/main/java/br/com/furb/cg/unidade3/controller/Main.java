@@ -265,6 +265,11 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseReleased(MouseEvent arg0) {
 		System.out.println(" --- mouseReleased ---");
+		if (this.objetoSelecionado != null) {
+			this.objetoSelecionado.setPontosBbox();
+			glDrawable.display();
+		}
+		
 	}
 	
 	/**

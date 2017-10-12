@@ -170,8 +170,7 @@ public final class ObjetoGrafico {
 
 			//////////// ATENCAO: chamar desenho dos filhos...
 			
-			if (this.isSelecionado()) {
-				System.out.println("passou aqui");
+			if (this.isSelecionado()) {				
 				this.bbox.desenhar(gl);
 			}
 
@@ -192,7 +191,7 @@ public final class ObjetoGrafico {
 		return vertice;
 	}
 	
-	private void setPontosBbox() {
+	public void setPontosBbox() {
 		this.bbox.setPontos(this.vertices);
 	}
 
