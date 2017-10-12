@@ -245,4 +245,19 @@ public class BBox3D {
 		this.yMax = maxY;
 		
 	}
+	
+	public boolean pontoEstaDentro(Ponto4D ponto) {
+		
+		double x = ponto.obterX();
+		double y = ponto.obterY();
+		
+		if (x > this.getxMin() && x < this.getxMax() && 
+			y > this.getyMin() && y < this.getyMax()){
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
 }

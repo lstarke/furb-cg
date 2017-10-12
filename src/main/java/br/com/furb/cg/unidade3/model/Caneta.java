@@ -36,6 +36,20 @@ public final class Caneta {
 			}
 	}
 	
+	
+	
+	public ObjetoGrafico getObjeto() {
+		return objeto;
+	}
+
+
+
+	public void setObjeto(ObjetoGrafico objeto) {
+		this.objeto = objeto;
+	}
+
+
+
 	/**
 	 * Atualizar o ultimo ponto para fazer o rastro ao mover o mouse.
 	 * @param ponto

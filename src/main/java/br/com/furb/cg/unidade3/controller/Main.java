@@ -81,6 +81,8 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				case KeyEvent.VK_ESCAPE:
 					this.desenhando = false;
 					this.caneta.finalizar(false);
+					this.ptoSelecionado = null;
+					this.objetoSelecionado = null;
 					break;
 
 				// Excluir o ponto selecionado
@@ -257,6 +259,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			if (selecionando) {
 				ptoSelecionado = this.mundo.selecionarPonto(p);
 				objetoSelecionado = this.mundo.selecionarObjeto(p);
+				this.caneta.setObjeto(objetoSelecionado);
 				System.out.println(p.toString());
 			}
 

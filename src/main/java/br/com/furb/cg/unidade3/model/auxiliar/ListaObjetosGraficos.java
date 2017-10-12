@@ -118,10 +118,16 @@ public class ListaObjetosGraficos {
 	 * Procurar pelo ponto na lista de vertices do objeto
 	 */
 	public Ponto4D localizarPonto(Ponto4D pontoComparado) {
-		for (ObjetoGrafico objetoGrafico : this.objetos)		
-			return objetoGrafico.localizarVertice(pontoComparado);			
-
-		return null;
+		
+		Ponto4D p = null;
+		
+		for (ObjetoGrafico objetoGrafico : this.objetos) {
+			p = objetoGrafico.localizarVertice(pontoComparado);
+			if (p != null) {
+				return p;
+			}
+		}
+		return p;
 	}
 
 	/**
@@ -129,10 +135,12 @@ public class ListaObjetosGraficos {
 	 */
 	public ObjetoGrafico localizarObjeto(Ponto4D pontoComparado) {
 		for (ObjetoGrafico objetoGrafico : this.objetos) {			
-			if (objetoGrafico.localizarVertice(pontoComparado) != null)
-				return objetoGrafico;		
+			if (objetoGrafico.getBbox().pontoEstaDentro(pontoComparado)) {
+				return objetoGrafico;
+			}
+//			if (objetoGrafico.localizarVertice(pontoComparado) != null)
+//				return objetoGrafico;		
 		}
-
 		return null;
 	}
 	
