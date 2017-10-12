@@ -23,6 +23,7 @@ public final class Caneta {
 		if (this.objeto == null) {
 			this.objeto = new ObjetoGrafico(GL.GL_LINE_STRIP);
 			this.objeto.setDesenhando(true);
+			this.objeto.setSelecionado(false);
 			this.pontoOrigem = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
 			this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
 			this.objetosTmp.add(objeto);
@@ -53,7 +54,8 @@ public final class Caneta {
 	public void finalizar(boolean poligonoFechado) {
 		if (this.objeto != null) {
 			this.objeto.removerUltimoVertice();
-			this.objeto.setDesenhando(false);			
+			this.objeto.setDesenhando(false);	
+			this.objeto.setSelecionado(true);
 			
 			if (poligonoFechado)
 				this.objeto.setPrimitiva(GL.GL_LINE_LOOP);

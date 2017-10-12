@@ -69,7 +69,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				break;
 			case KeyEvent.VK_S:
 				this.selecionando = true;
-				this.desenhando = false;
+				this.desenhando = false;				
 				break;
 			default:
 				break;

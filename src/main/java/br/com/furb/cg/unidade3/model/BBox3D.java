@@ -9,6 +9,8 @@ package br.com.furb.cg.unidade3.model;
 
 import javax.media.opengl.GL;
 
+import br.com.furb.cg.unidade3.model.auxiliar.ListaVertices;
+
 public class BBox3D {
 	private double xMin, xMax;
 	private double yMin, yMax;
@@ -153,34 +155,94 @@ public class BBox3D {
 	 * @param gl
 	 */
 	public void desenhar(GL gl) {
-		gl.glColor3d(corR, corG, corB);
+//		gl.glColor3d(corR, corG, corB);
+//
+//		gl.glBegin(GL.GL_LINE_LOOP);
+//			gl.glVertex3d(xMin, yMax, zMin);
+//			gl.glVertex3d(xMax, yMax, zMin);
+//			gl.glVertex3d(xMax, yMin, zMin);
+//			gl.glVertex3d(xMin, yMin, zMin);
+//		gl.glEnd();
+//		
+//		gl.glBegin(GL.GL_LINE_LOOP);
+//			gl.glVertex3d(xMin, yMin, zMin);
+//			gl.glVertex3d(xMin, yMin, zMax);
+//			gl.glVertex3d(xMin, yMax, zMax);
+//			gl.glVertex3d(xMin, yMax, zMin);
+//		gl.glEnd();
+//		
+//		gl.glBegin(GL.GL_LINE_LOOP);
+//			gl.glVertex3d(xMax, yMax, zMax);
+//			gl.glVertex3d(xMin, yMax, zMax);
+//			gl.glVertex3d(xMin, yMin, zMax);
+//			gl.glVertex3d(xMax, yMin, zMax);
+//		gl.glEnd();
+//		
+//		gl.glBegin(GL.GL_LINE_LOOP);
+//			gl.glVertex3d(xMax, yMin, zMin);
+//			gl.glVertex3d(xMax, yMax, zMin);
+//			gl.glVertex3d(xMax, yMax, zMax);
+//			gl.glVertex3d(xMax, yMin, zMax);
+//		gl.glEnd();
+		this.calcularCentro();
+		gl.glColor3f(0.0f, 1.0f, 0.0f);
+		gl.glLineStipple(1, (short)0XAAAA);
+		
+		gl.glEnable(GL.GL_LINE_STIPPLE);
+		gl.glBegin(GL.GL_LINE_LOOP);
+		{	
+			gl.glVertex2d(xMin, yMin);
+			gl.glVertex2d(xMax, yMin);
+			gl.glVertex2d(xMax, yMax);
+			gl.glVertex2d(xMin, yMax);
+		}
+		gl.glEnd();
+		gl.glDisable(GL.GL_LINE_STIPPLE);
+		
+		gl.glBegin(GL.GL_POINTS);
+		{	
+			gl.glVertex2d(xMin, yMin);
+			gl.glVertex2d(xMax, yMin);
+			gl.glVertex2d(xMax, yMax);
+			gl.glVertex2d(xMin, yMax);
+			
+			gl.glVertex2d(xMin, centro.obterY());
+			gl.glVertex2d(xMax, centro.obterY());
+			gl.glVertex2d(centro.obterX(), yMax);
+			gl.glVertex2d(centro.obterX(), yMin);
+		}
+		gl.glEnd();
+	}
 
-		gl.glBegin(GL.GL_LINE_LOOP);
-			gl.glVertex3d(xMin, yMax, zMin);
-			gl.glVertex3d(xMax, yMax, zMin);
-			gl.glVertex3d(xMax, yMin, zMin);
-			gl.glVertex3d(xMin, yMin, zMin);
-		gl.glEnd();
+	public void setPontos(ListaVertices vertices) {
 		
-		gl.glBegin(GL.GL_LINE_LOOP);
-			gl.glVertex3d(xMin, yMin, zMin);
-			gl.glVertex3d(xMin, yMin, zMax);
-			gl.glVertex3d(xMin, yMax, zMax);
-			gl.glVertex3d(xMin, yMax, zMin);
-		gl.glEnd();
+		double minX = Integer.MAX_VALUE;
+		double maxX = Integer.MIN_VALUE;
+		double minY = Integer.MAX_VALUE;
+		double maxY = Integer.MIN_VALUE;
 		
-		gl.glBegin(GL.GL_LINE_LOOP);
-			gl.glVertex3d(xMax, yMax, zMax);
-			gl.glVertex3d(xMin, yMax, zMax);
-			gl.glVertex3d(xMin, yMin, zMax);
-			gl.glVertex3d(xMax, yMin, zMax);
-		gl.glEnd();
 		
-		gl.glBegin(GL.GL_LINE_LOOP);
-			gl.glVertex3d(xMax, yMin, zMin);
-			gl.glVertex3d(xMax, yMax, zMin);
-			gl.glVertex3d(xMax, yMax, zMax);
-			gl.glVertex3d(xMax, yMin, zMax);
-		gl.glEnd();
+		for (int i = 0; i < vertices.size(); i++) {
+			
+			Ponto4D p = vertices.get(i);
+			
+			if (p.obterX() > maxX)
+				maxX = p.obterX() + Ponto4D.DISTANCIA;
+			
+			if (p.obterX() < minX)
+				minX = p.obterX() - Ponto4D.DISTANCIA;
+			
+			if (p.obterY() > maxY)
+				maxY = p.obterY() + Ponto4D.DISTANCIA;
+			
+			if (p.obterY() < minY)
+				minY = p.obterY() - Ponto4D.DISTANCIA;
+		}
+		
+		this.xMin = minX;
+		this.xMax = maxX;
+		this.yMin = minY;
+		this.yMax = maxY;
+		
 	}
 }

@@ -16,7 +16,7 @@ package br.com.furb.cg.unidade3.model;
 
 public final class Ponto4D {
 	// Distacia aceita para considerar que um ponto esta proximo
-	private static final double DISTANCIA = 5.0;
+	public static final double DISTANCIA = 5.0;
 	
 	// Propriedades do Ponto
 	private double x; /// valor X.

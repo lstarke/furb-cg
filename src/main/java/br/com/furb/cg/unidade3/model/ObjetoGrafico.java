@@ -168,7 +168,12 @@ public final class ObjetoGrafico {
 				}
 			gl.glEnd();
 
-			//////////// ATENCAO: chamar desenho dos filhos... 
+			//////////// ATENCAO: chamar desenho dos filhos...
+			
+			if (this.isSelecionado()) {
+				System.out.println("passou aqui");
+				this.bbox.desenhar(gl);
+			}
 
 		gl.glPopMatrix();
 	}
@@ -178,11 +183,17 @@ public final class ObjetoGrafico {
 	 */
 	public Ponto4D addVertice(double x, double y) {
 		
+		this.setPontosBbox();
+		
 		Ponto4D vertice = new Ponto4D(x, y, 0, 1);
 		
 		this.vertices.add(vertice);
 		
 		return vertice;
+	}
+	
+	private void setPontosBbox() {
+		this.bbox.setPontos(this.vertices);
 	}
 
 	/**
@@ -190,13 +201,16 @@ public final class ObjetoGrafico {
 	 */
 	public void removerUltimoVertice() {
 		this.vertices.removerUltimo();
+		this.setPontosBbox();
 	}
 	
 	/**
 	 * Remover vertice selecionado
 	 */
 	public boolean removerVerticeSelecionado() {
-		return this.vertices.removerSelecionado();
+		boolean b = this.vertices.removerSelecionado(); 
+		this.setPontosBbox();
+		return b;
 	}
 
 	/**
