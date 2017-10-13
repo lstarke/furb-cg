@@ -41,11 +41,9 @@ public final class Matriz {
 	
 	public void transladar(double x, double y)
 	{
-		// transformaca de translacao na matriz global
-		
-		// Seguir o exemplo do professor
-		
-		// Leia o arquivo Dicas.txt
+		Transformacao4D matrizTranslate = new Transformacao4D();
+		matrizTranslate.atribuirTranslacao(x, y, 0f);
+		matriz = matrizTranslate.transformMatrix(matriz);
 	}
 	
 	public void rotacionar(double graus)

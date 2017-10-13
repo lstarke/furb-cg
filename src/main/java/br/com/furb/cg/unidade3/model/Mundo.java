@@ -99,6 +99,9 @@ public class Mundo {
 		return this.objetos.localizarPonto(p);		
 	}
 	
+	/**
+	 * Procurar um ponto na lista de objetos contidos no mundo
+	 */
 	public ObjetoGrafico selecionarObjeto(Ponto4D p) {
 		return this.objetos.localizarObjeto(p);
 	}

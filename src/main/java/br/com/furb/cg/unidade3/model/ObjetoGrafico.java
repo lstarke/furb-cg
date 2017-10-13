@@ -220,6 +220,13 @@ public final class ObjetoGrafico {
 	}
 	
 	/**
+	 * Mover Objeto grafico para os lados (translacao)
+	 */
+	public void mover(double x, double y) {
+		this.matriz.transladar(x, y);
+	}
+	
+	/**
 	 * Imprimir todos os vertices (pontos) no console
 	 */
 	public void exibirVertices()

@@ -69,7 +69,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				break;
 			case KeyEvent.VK_S:
 				this.selecionando = true;
-				this.desenhando = false;				
+				this.desenhando = false;
 				break;
 			default:
 				break;
@@ -157,22 +157,34 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	
 				// Ver o que o exemplo do professor faz
 				case KeyEvent.VK_RIGHT:
-					//	objetos[0].translacaoXYZ(2.0,0.0,0.0);
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					objetoSelecionado.mover(2f, 0f);
 					break;
 	
 				// Ver o que o exemplo do professor faz
 				case KeyEvent.VK_LEFT:
-					//	objetos[0].translacaoXYZ(-2.0,0.0,0.0);
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					objetoSelecionado.mover(-2f, 0f);
 					break;
 	
 				// Ver o que o exemplo do professor faz
 				case KeyEvent.VK_UP:
-					//	objetos[0].translacaoXYZ(0.0,2.0,0.0);
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					objetoSelecionado.mover(0f, 2f);
 					break;
 	
 				// Ver o que o exemplo do professor faz
 				case KeyEvent.VK_DOWN:
-					//	objetos[0].translacaoXYZ(0.0,-2.0,0.0);
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					objetoSelecionado.mover(0f, -2f);
 					break;
 					
 				// Ver o que o exemplo do professor faz
