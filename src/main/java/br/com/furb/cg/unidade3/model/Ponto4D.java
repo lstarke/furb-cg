@@ -113,6 +113,6 @@ public final class Ponto4D {
 
 	@Override
 	public String toString() {
-		return "Ponto selecionado [x=" + x + ", y=" + y + "]";
+		return "x = " + x + "; y = " + y;
 	}
 }

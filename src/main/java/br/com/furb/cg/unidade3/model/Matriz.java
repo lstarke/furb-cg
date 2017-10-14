@@ -10,6 +10,7 @@ package br.com.furb.cg.unidade3.model;
 public final class Matriz {
 
 	private Transformacao4D matriz;
+	private Transformacao4D matrizTranslacao;
 	
 	/**
 	 * Construtor
@@ -17,6 +18,7 @@ public final class Matriz {
 	public Matriz() {
 		matriz = new Transformacao4D();
 		matriz.atribuirIdentidade();
+		matrizTranslacao = new Transformacao4D();
 	}
 
 	public Transformacao4D getMatriz() {
@@ -39,11 +41,13 @@ public final class Matriz {
 		// Leia o arquivo Dicas.txt
 	}
 	
+	/**
+	 * Transformar a matriz para translacao do objeto grafico
+	 */
 	public void transladar(double x, double y)
 	{
-		Transformacao4D matrizTranslate = new Transformacao4D();
-		matrizTranslate.atribuirTranslacao(x, y, 0f);
-		matriz = matrizTranslate.transformMatrix(matriz);
+		matrizTranslacao.atribuirTranslacao(x, y, 0f);
+		matriz = matrizTranslacao.transformMatrix(matriz);
 	}
 	
 	public void rotacionar(double graus)

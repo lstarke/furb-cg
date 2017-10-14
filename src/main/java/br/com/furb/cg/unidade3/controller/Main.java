@@ -62,16 +62,17 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		
 		if (e.isControlDown()) {
 			switch (e.getKeyCode()) {
+			// Desenhar
 			case KeyEvent.VK_D:
 				this.desenhando = true;
 				this.caneta.setObjetosGraficos(mundo.getObjetosGraficos());
 				System.out.println("Pronto para desenhar.");
 				break;
+				
+			// Selecionar
 			case KeyEvent.VK_S:
 				this.selecionando = true;
 				this.desenhando = false;
-				break;
-			default:
 				break;
 			}			
 		} else {
@@ -135,19 +136,25 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					mundo.getCamera().zoomIn();
 					break;
 				
-			    // No exemplo do professor apresenta a matriz transformada no console
+			    // Apresentar a matriz transformada do objeto selecionado no console
 				case KeyEvent.VK_M:
-					//	objetos[0].exibeMatriz();
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objetoSelecionado.exibirMatriz();
 					break;
 					
 				// Camera Zoom Out
 				case KeyEvent.VK_O:
-					mundo.getCamera().zoomOut();
+					this.mundo.getCamera().zoomOut();
 					break;
 				
-				// No exemplo do professor apresenta os vertices no console
+				// Apresentar os vertices(pontos) do objeto selecionado no console
 				case KeyEvent.VK_P:
-					//  objetos[0].exibeVertices();
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objetoSelecionado.exibirVertices();
 					break;
 	
 				// No exemplo do professor atribuir a matriz identidade (reinicia a matriz)
@@ -155,36 +162,36 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					//	objetos[0].atribuirIdentidade();
 					break;
 	
-				// Ver o que o exemplo do professor faz
+				// Mover o objeto grafico selecionado para direita
 				case KeyEvent.VK_RIGHT:
 					if (objetoSelecionado == null)
 						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					objetoSelecionado.mover(2f, 0f);
+					this.objetoSelecionado.mover(2f, 0f);
 					break;
 	
-				// Ver o que o exemplo do professor faz
+				// Mover o objeto grafico selecionado para esquerda
 				case KeyEvent.VK_LEFT:
 					if (objetoSelecionado == null)
 						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					objetoSelecionado.mover(-2f, 0f);
+					this.objetoSelecionado.mover(-2f, 0f);
 					break;
 	
-				// Ver o que o exemplo do professor faz
+				// Mover o objeto grafico selecionado para cima
 				case KeyEvent.VK_UP:
 					if (objetoSelecionado == null)
 						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					objetoSelecionado.mover(0f, 2f);
+					this.objetoSelecionado.mover(0f, 2f);
 					break;
 	
-				// Ver o que o exemplo do professor faz
+				// Mover o objeto grafico selecionado para baixo
 				case KeyEvent.VK_DOWN:
 					if (objetoSelecionado == null)
 						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					objetoSelecionado.mover(0f, -2f);
+					this.objetoSelecionado.mover(0f, -2f);
 					break;
 					
 				// Ver o que o exemplo do professor faz

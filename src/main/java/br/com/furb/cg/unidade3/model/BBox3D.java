@@ -16,7 +16,6 @@ public class BBox3D {
 	private double yMin, yMax;
 	private double zMin, zMax;
 	private Ponto4D centro = new Ponto4D();
-	private double corR, corG, corB;
 	
 	/**
 	 * Construtor da Bound Box sem parametros
@@ -155,36 +154,7 @@ public class BBox3D {
 	 * @param gl
 	 */
 	public void desenhar(GL gl) {
-//		gl.glColor3d(corR, corG, corB);
-//
-//		gl.glBegin(GL.GL_LINE_LOOP);
-//			gl.glVertex3d(xMin, yMax, zMin);
-//			gl.glVertex3d(xMax, yMax, zMin);
-//			gl.glVertex3d(xMax, yMin, zMin);
-//			gl.glVertex3d(xMin, yMin, zMin);
-//		gl.glEnd();
-//		
-//		gl.glBegin(GL.GL_LINE_LOOP);
-//			gl.glVertex3d(xMin, yMin, zMin);
-//			gl.glVertex3d(xMin, yMin, zMax);
-//			gl.glVertex3d(xMin, yMax, zMax);
-//			gl.glVertex3d(xMin, yMax, zMin);
-//		gl.glEnd();
-//		
-//		gl.glBegin(GL.GL_LINE_LOOP);
-//			gl.glVertex3d(xMax, yMax, zMax);
-//			gl.glVertex3d(xMin, yMax, zMax);
-//			gl.glVertex3d(xMin, yMin, zMax);
-//			gl.glVertex3d(xMax, yMin, zMax);
-//		gl.glEnd();
-//		
-//		gl.glBegin(GL.GL_LINE_LOOP);
-//			gl.glVertex3d(xMax, yMin, zMin);
-//			gl.glVertex3d(xMax, yMax, zMin);
-//			gl.glVertex3d(xMax, yMax, zMax);
-//			gl.glVertex3d(xMax, yMin, zMax);
-//		gl.glEnd();
-		this.calcularCentro();
+		//this.calcularCentro();
 		gl.glColor3f(0.0f, 1.0f, 0.0f);
 		gl.glLineStipple(1, (short)0XAAAA);
 		
@@ -220,8 +190,7 @@ public class BBox3D {
 		double maxX = Integer.MIN_VALUE;
 		double minY = Integer.MAX_VALUE;
 		double maxY = Integer.MIN_VALUE;
-		
-		
+
 		for (int i = 0; i < vertices.size(); i++) {
 			
 			Ponto4D p = vertices.get(i);
@@ -239,25 +208,24 @@ public class BBox3D {
 				minY = p.obterY() - Ponto4D.DISTANCIA;
 		}
 		
-		this.xMin = minX;
-		this.xMax = maxX;
-		this.yMin = minY;
-		this.yMax = maxY;
-		
+//		this.xMin = minX;
+//		this.xMax = maxX;
+//		this.yMin = minY;
+//		this.yMax = maxY;
+		this.atualizar(minX, maxX, minY, maxY);
 	}
 	
 	public boolean pontoEstaDentro(Ponto4D ponto) {
 		
 		double x = ponto.obterX();
 		double y = ponto.obterY();
-		
+
 		if (x > this.getxMin() && x < this.getxMax() && 
 			y > this.getyMin() && y < this.getyMax()){
 			return true;
 		}
 		
 		return false;
-		
 	}
-	
+
 }

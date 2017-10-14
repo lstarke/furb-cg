@@ -8,8 +8,6 @@ package br.com.furb.cg.unidade3.model.auxiliar;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.media.opengl.GL;
-import javax.media.opengl.glu.GLU;
 import br.com.furb.cg.unidade3.model.ObjetoGrafico;
 import br.com.furb.cg.unidade3.model.Ponto4D;
 
@@ -123,10 +121,11 @@ public class ListaObjetosGraficos {
 		
 		for (ObjetoGrafico objetoGrafico : this.objetos) {
 			p = objetoGrafico.localizarVertice(pontoComparado);
-			if (p != null) {
+
+			if (p != null)
 				return p;
-			}
 		}
+
 		return p;
 	}
 
@@ -134,13 +133,10 @@ public class ListaObjetosGraficos {
 	 * Procurar um objeto grafico na lista de objetos
 	 */
 	public ObjetoGrafico localizarObjeto(Ponto4D pontoComparado) {
-		for (ObjetoGrafico objetoGrafico : this.objetos) {			
-			if (objetoGrafico.getBbox().pontoEstaDentro(pontoComparado)) {
-				return objetoGrafico;
-			}
-//			if (objetoGrafico.localizarVertice(pontoComparado) != null)
-//				return objetoGrafico;		
-		}
+		for (ObjetoGrafico objetoGrafico : this.objetos)	
+			if (objetoGrafico.getBbox().pontoEstaDentro(pontoComparado))
+				return objetoGrafico;		
+		
 		return null;
 	}
 	
