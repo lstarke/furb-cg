@@ -95,16 +95,28 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				// Ver o que o exemplo do professor faz
 				case KeyEvent.VK_1:
 					//	objetos[0].escalaXYZPtoFixo(0.5, new Ponto4D(-15.0,-15.0,0.0,0.0));
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objetoSelecionado.alterarEscalaFixado(0.5);
 					break;
 				
 				// Ver o que o exemplo do professor faz
 				case KeyEvent.VK_2:
 					//	objetos[0].escalaXYZPtoFixo(2.0, new Ponto4D(-15.0,-15.0,0.0,0.0));
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objetoSelecionado.alterarEscalaFixado(2f);
 					break;
 				
 				// Ver o que o exemplo do professor faz
 				case KeyEvent.VK_3:
 					//	objetos[0].rotacaoZPtoFixo(10.0, new Ponto4D(-15.0,-15.0,0.0,0.0));
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objetoSelecionado.rotacionar();
 					break;
 					
 				// Camera Pan Baixo 
@@ -136,26 +148,28 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					mundo.getCamera().zoomIn();
 					break;
 				
-			    // Apresentar a matriz transformada do objeto selecionado no console
-				case KeyEvent.VK_M:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
-					
-					this.objetoSelecionado.exibirMatriz();
-					break;
+//				FOI PARA F1
+//			    // Apresentar a matriz transformada do objeto selecionado no console
+//				case KeyEvent.VK_M:
+//					if (objetoSelecionado == null)
+//						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+//					
+//					this.objetoSelecionado.exibirMatriz();
+//					break;
 					
 				// Camera Zoom Out
 				case KeyEvent.VK_O:
 					this.mundo.getCamera().zoomOut();
 					break;
 				
-				// Apresentar os vertices(pontos) do objeto selecionado no console
-				case KeyEvent.VK_P:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
-					
-					this.objetoSelecionado.exibirVertices();
-					break;
+//              FOI PARA F2
+//				// Apresentar os vertices(pontos) do objeto selecionado no console
+//				case KeyEvent.VK_P:
+//					if (objetoSelecionado == null)
+//						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+//					
+//					this.objetoSelecionado.exibirVertices();
+//					break;
 	
 				// No exemplo do professor atribuir a matriz identidade (reinicia a matriz)
 				case KeyEvent.VK_R:
@@ -214,6 +228,30 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				case KeyEvent.VK_HOME:
 					// objetos[0].RoracaoZ();
 					break;
+					
+				// Apresentar a matriz transformada do objeto selecionado no console 
+				case KeyEvent.VK_F1:
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objetoSelecionado.exibirMatriz();
+					break;
+					
+				// Apresentar os vertices(pontos) do objeto selecionado no console
+				case KeyEvent.VK_F2:
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objetoSelecionado.exibirVertices();
+					break;
+					
+				// Apresentar os pontos (vertices e centro) da bound box do objeto selecionado
+				case KeyEvent.VK_F3:
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objetoSelecionado.exibirBbox();
+					break;
 			}
 		}
 
@@ -237,11 +275,11 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void keyReleased(KeyEvent arg0) {
-		System.out.println(" --- keyReleased ---");
+//		System.out.println(" --- keyReleased ---");
 	}
 
 	public void keyTyped(KeyEvent arg0) {
-		System.out.println(" --- keyTyped ---");
+//		System.out.println(" --- keyTyped ---");
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -256,7 +294,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		
+//		System.out.println(" --- mouseMoved ---");
 		if (desenhando) {
 			Ponto4D novoPonto = this.getPontoCliqueMouse(e);
 			this.caneta.atualizarUltimoVertice(novoPonto);
@@ -265,15 +303,15 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
-		System.out.println(" --- mouseClicked ---");
+//		System.out.println(" --- mouseClicked ---");
 	}
 
 	public void mouseEntered(MouseEvent arg0) {
-		System.out.println(" --- mouseEntered ---");
+//		System.out.println(" --- mouseEntered ---");
 	}
 
 	public void mouseExited(MouseEvent arg0) {
-		System.out.println(" --- mouseExited ---");
+//		System.out.println(" --- mouseExited ---");
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -292,12 +330,11 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
-		System.out.println(" --- mouseReleased ---");
+//		System.out.println(" --- mouseReleased ---");
 		if (this.objetoSelecionado != null) {
-			this.objetoSelecionado.setPontosBbox();
+			this.objetoSelecionado.calcularBbox();
 			glDrawable.display();
 		}
-		
 	}
 	
 	/**

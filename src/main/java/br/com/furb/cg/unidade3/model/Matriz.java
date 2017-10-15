@@ -10,8 +10,8 @@ package br.com.furb.cg.unidade3.model;
 public final class Matriz {
 
 	private Transformacao4D matriz;
-	private Transformacao4D matrizEscala;
-	private Transformacao4D matrizTranslacao;
+	private static Transformacao4D matrizGlobal;
+	private static Transformacao4D matrizTransformacao;
 	
 	/**
 	 * Construtor
@@ -20,9 +20,9 @@ public final class Matriz {
 		this.matriz = new Transformacao4D();
 		this.matriz.atribuirIdentidade();
 		
-		// Criadas somente quando houver a necessidade
-		this.matrizEscala = null;
-		this.matrizTranslacao = null;
+		// Criada somente quando houver a necessidade
+		matrizGlobal = null;
+		matrizTransformacao = null;
 	}
 
 	/**
@@ -32,26 +32,24 @@ public final class Matriz {
 		return this.matriz;
 	}
 	
-	/**
-	 * Get interno para a matriz de escala
-	 */
-	// Criar a matriz de escala somente quanto for chamada pela primeira vez
-	private Transformacao4D getMatrizEscala() {
-		if (this.matrizEscala == null)
-			this.matrizEscala = new Transformacao4D();
+	// Get interno para a matriz global
+	// Cria a matriz somente quando for necessario
+	// Por ser uma matriz auxiliar, eh apenas uma matriz para todos os objetos graficos
+	private static Transformacao4D getUniqueMatrizGlobal() {
+		if (matrizGlobal == null)
+			matrizGlobal = new Transformacao4D();
 		
-		return this.matrizEscala;
+		return matrizGlobal;
 	}
 	
-	/**
-	 * Get interno para a matriz de translacao
-	 */
-	// Criar a matriz de translacao somente quanto for chamada pela primeira vez
-	private Transformacao4D getMatrizTranslacao() {
-		if (this.matrizTranslacao == null)
-			this.matrizTranslacao = new Transformacao4D();
+	// Get interno para a matriz de transfromacoes
+	// Cria a matriz somente quando for necessario
+	// Por ser uma matriz auxiliar, eh apenas uma matriz para todos os objetos graficos
+	private static Transformacao4D getUniqueMatrizTransformacao() {
+		if (matrizTransformacao == null)
+			matrizTransformacao = new Transformacao4D();
 		
-		return this.matrizTranslacao;
+		return matrizTransformacao;
 	}
 
 	/**
@@ -61,10 +59,29 @@ public final class Matriz {
 		return this.matriz.isIdentidade();
 	}
 
-	public void escalar(double proporcao)
+	/**
+	 * Transformar a matriz para escala do objeto grafico
+	 */
+	public void escalar(double multiplicador)
 	{		
-		getMatrizEscala().atribuirEscala(proporcao, proporcao, 1f);
-		this.matriz = getMatrizEscala().transformMatrix(this.matriz);
+		this.matriz = escalarInterno(multiplicador, this.matriz);
+	}
+	
+	public Transformacao4D escalarInterno(double multiplicador, Transformacao4D matrizOperacao) {
+		getUniqueMatrizTransformacao().atribuirEscala(multiplicador, multiplicador, 1f);
+		return matrizTransformacao.transformMatrix(matrizOperacao);
+	}
+	
+	/**
+	 * Transformar a matriz para escala em ponto fixo
+	 */
+	public void escalarFixo(double multiplicador, Ponto4D pontoFixo) {
+		getUniqueMatrizGlobal().atribuirIdentidade();
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), matrizGlobal, true);
+		matrizGlobal = escalarInterno(multiplicador, matrizGlobal);
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), matrizGlobal, false);
+
+		matriz = matriz.transformMatrix(matrizGlobal);
 	}
 	
 	/**
@@ -72,23 +89,35 @@ public final class Matriz {
 	 */
 	public void transladar(double x, double y)
 	{
-		getMatrizTranslacao().atribuirTranslacao(x, y, 0f);
-		this.matriz = getMatrizTranslacao().transformMatrix(this.matriz);
+		this.matriz = transladarInterno(x, y, this.matriz, false);
 	}
 	
-	public void rotacionar(double graus)
+	private Transformacao4D transladarInterno(double x, double y, Transformacao4D matrizOperacao, boolean negativo) {
+		if (negativo)
+			getUniqueMatrizTransformacao().atribuirTranslacao(-x, -y, 0f);
+		else
+			getUniqueMatrizTransformacao().atribuirTranslacao(x, y, 0f);
+		
+		return matrizTransformacao.transformMatrix(matrizOperacao);
+	}
+	
+	public void rotacionarFixo(double angulo, Ponto4D pontoFixo)
 	{		
-		// transformacao de rotacao na matriz global
+		getUniqueMatrizGlobal().atribuirIdentidade();
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), matrizGlobal, true);
 		
-		// Seguir o exemplo do professor
-		
-		// Leia o arquivo Dicas.txt
+		matrizTransformacao.atribuirRotacaoZ(Transformacao4D.DEG_TO_RAD * angulo);
+		matrizGlobal = matrizTransformacao.transformMatrix(matrizGlobal);
+	
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), matrizGlobal, false);
+
+		matriz = matriz.transformMatrix(matrizGlobal);
 	}
 	
 	/**
 	 * Imprimir no console o formato atual da matriz
 	 */
-	public void exibirMatriz() {
+	public void exibir() {
 		this.matriz.exibeMatriz();
 	}
 }

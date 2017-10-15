@@ -113,6 +113,6 @@ public final class Ponto4D {
 
 	@Override
 	public String toString() {
-		return "x = " + x + "; y = " + y;
+		return String.format("x = %f; y = %f", x, y);
 	}
 }

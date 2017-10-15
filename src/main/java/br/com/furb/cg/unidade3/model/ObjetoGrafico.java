@@ -183,7 +183,7 @@ public final class ObjetoGrafico {
 	 */
 	public Ponto4D addVertice(double x, double y) {
 		
-		this.setPontosBbox();
+		this.calcularBbox();
 		
 		Ponto4D vertice = new Ponto4D(x, y, 0, 1);
 		
@@ -192,8 +192,8 @@ public final class ObjetoGrafico {
 		return vertice;
 	}
 	
-	public void setPontosBbox() {
-		this.bbox.setPontos(this.vertices);
+	public void calcularBbox() {
+		this.bbox.calcular(this.vertices);
 	}
 
 	/**
@@ -201,7 +201,7 @@ public final class ObjetoGrafico {
 	 */
 	public void removerUltimoVertice() {
 		this.vertices.removerUltimo();
-		this.setPontosBbox();
+		this.calcularBbox();
 	}
 	
 	/**
@@ -209,7 +209,7 @@ public final class ObjetoGrafico {
 	 */
 	public boolean removerVerticeSelecionado() {
 		boolean b = this.vertices.removerSelecionado(); 
-		this.setPontosBbox();
+		this.calcularBbox();
 		return b;
 	}
 
@@ -230,16 +230,36 @@ public final class ObjetoGrafico {
 	/**
 	 * Ampliar/reduzir Objeto Grafico (escala) 
 	 */
-	public void alterarEscala(double proporcao) {
-		this.matriz.escalar(proporcao);
+	public void alterarEscala(double multiplicador) {
+		this.matriz.escalar(multiplicador);
 	}
 	
 	/**
-	 * Imprimir todos os vertices (pontos) no console
+	 * Ampliar/reduzir Objeto Grafico (escala) e mantendo no mesmo local 
 	 */
-	public void exibirVertices()
-	{
-		this.vertices.exibir();
+	public void alterarEscalaFixado(double multiplicador) {
+		this.matriz.escalarFixo(multiplicador, 
+								new Ponto4D(this.bbox.getCentro().obterX(), 
+										    this.bbox.getCentro().obterY(), 
+										    0f, 0f));
+	}
+	
+	/**
+	 * Rotacionar o Objeto Grafico em Z
+	 */
+	public void rotacionar() {
+		this.matriz.rotacionarFixo(10f, 
+								   new Ponto4D(this.bbox.getCentro().obterX(), 
+										   	   this.bbox.getCentro().obterY(), 
+										       0f, 0f));
+	}
+	
+	/**
+	 * Imprimir todos os pontos (vertices e centro) da bound box no console
+	 */
+	public void exibirBbox() {
+		System.out.println("Bound Box:");
+		this.bbox.exibir();
 	}
 	
 	/**
@@ -247,6 +267,16 @@ public final class ObjetoGrafico {
 	 */
 	public void exibirMatriz()
 	{
-		this.matriz.exibirMatriz();
+		System.out.println("Matriz:");
+		this.matriz.exibir();
+	}
+	
+	/**
+	 * Imprimir todos os vertices (pontos) no console
+	 */
+	public void exibirVertices()
+	{
+		System.out.println("Vertices:");
+		this.vertices.exibir();
 	}
 }

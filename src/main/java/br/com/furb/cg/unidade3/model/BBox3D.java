@@ -154,7 +154,7 @@ public class BBox3D {
 	 * @param gl
 	 */
 	public void desenhar(GL gl) {
-		//this.calcularCentro();
+//		this.calcularCentro();
 		gl.glColor3f(0.0f, 1.0f, 0.0f);
 		gl.glLineStipple(1, (short)0XAAAA);
 		
@@ -184,7 +184,10 @@ public class BBox3D {
 		gl.glEnd();
 	}
 
-	public void setPontos(ListaVertices vertices) {
+	/**
+	 * Calcular o tamanho da bound box a partir dos vertices do objeto grafico
+	 */
+	public void calcular(ListaVertices vertices) {
 		
 		double minX = Integer.MAX_VALUE;
 		double maxX = Integer.MIN_VALUE;
@@ -228,4 +231,15 @@ public class BBox3D {
 		return false;
 	}
 
+	/**
+	 * Imprimir no console o formato atual da bound box
+	 */
+	public void exibir()
+	{
+		System.out.println(String.format("Vertice nro 1: x = %f; y = %f", xMin, yMin));
+		System.out.println(String.format("Vertice nro 2: x = %f; y = %f", xMax, yMin));
+		System.out.println(String.format("Vertice nro 3: x = %f; y = %f", xMax, yMax));
+		System.out.println(String.format("Vertice nro 4: x = %f; y = %f", xMin, yMax));
+		System.out.println(String.format("Centro: %s",  centro));
+	}
 }
