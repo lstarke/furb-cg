@@ -101,6 +101,9 @@ public final class Matriz {
 		return matrizTransformacao.transformMatrix(matrizOperacao);
 	}
 	
+	/**
+	 * Transformar a matriz para rotacao do objeto grafico em ponto fixo
+	 */
 	public void rotacionarFixo(double angulo, Ponto4D pontoFixo)
 	{		
 		getUniqueMatrizGlobal().atribuirIdentidade();

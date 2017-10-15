@@ -11,8 +11,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	private GLAutoDrawable glDrawable;
 	
 	/// Indica o status se esta desenhando ou selecionando
-	private boolean desenhando;
-	private boolean selecionando;
+	private StatusEdicao status;
 	
 	/// Mundo da cena
 	private Mundo mundo;
@@ -21,7 +20,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	private Caneta caneta;
 	
 	/// Objeto graficos selecionado
-	private ObjetoGrafico objetoSelecionado;
+	private ObjetoGrafico objSelecionado;
 	
 	// Ponto selecionado
 	private Ponto4D ptoSelecionado;
@@ -35,12 +34,10 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		mundo = new Mundo();
-		caneta = new Caneta();
-		//caneta.setMundo(mundo);		
+		caneta = new Caneta();		
 		
-		desenhando = false;
-		selecionando = false;
-		objetoSelecionado = null;
+		status = StatusEdicao.NENHUM;
+		objSelecionado = null;
 		ptoSelecionado = null;
 	}
 
@@ -62,62 +59,67 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		
 		if (e.isControlDown()) {
 			switch (e.getKeyCode()) {
-			// Desenhar
-			case KeyEvent.VK_D:
-				this.desenhando = true;
-				this.caneta.setObjetosGraficos(mundo.getObjetosGraficos());
-				System.out.println("Pronto para desenhar.");
-				break;
-				
-			// Selecionar
-			case KeyEvent.VK_S:
-				this.selecionando = true;
-				this.desenhando = false;
-				break;
-			}			
+				// Desenhar
+				case KeyEvent.VK_D:
+					this.status = StatusEdicao.DESENHANDO;
+					this.caneta.setObjetosGraficos(mundo.getObjetosGraficos());
+					System.out.println("Pronto para desenhar.");
+					break;
+					
+				// Selecionar
+				case KeyEvent.VK_S:
+					this.status = StatusEdicao.SELECIONANDO;
+					break;
+					
+				// Aumetar objeto selecionado
+				case KeyEvent.VK_ADD:
+				case KeyEvent.VK_EQUALS:
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objSelecionado.alterarEscalaFixado(2f);
+					break;
+					
+				// Reduzir objeto selecionado
+				case KeyEvent.VK_MINUS:
+					if (this.objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objSelecionado.alterarEscalaFixado(0.5);
+					break;
+			}
 		} else {
 			
 			switch (e.getKeyCode()) {
 				// Concluir o desenho do poligono (objeto grafico)
 				case KeyEvent.VK_ESCAPE:
-					this.desenhando = false;
+					this.status = StatusEdicao.NENHUM; // evita cacas
 					this.caneta.finalizar(false);
 					this.ptoSelecionado = null;
-					this.objetoSelecionado = null;
+					this.objSelecionado = null;
 					break;
 
 				// Excluir o ponto selecionado
 				case KeyEvent.VK_DELETE:
-					if (this.ptoSelecionado != null && this.selecionando)
-						this.objetoSelecionado.removerVerticeSelecionado();
+					if (isSelecionando() && this.ptoSelecionado != null)
+						this.objSelecionado.removerVerticeSelecionado();
 					break;
 
-				// Ver o que o exemplo do professor faz
-				case KeyEvent.VK_1:
-					//	objetos[0].escalaXYZPtoFixo(0.5, new Ponto4D(-15.0,-15.0,0.0,0.0));
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
-					
-					this.objetoSelecionado.alterarEscalaFixado(0.5);
-					break;
+				// foi para ctrl + vk_minus
+//				case KeyEvent.VK_1:
+//					if (this.objSelecionado == null)
+//						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
+//					
+//					this.objSelecionado.alterarEscalaFixado(0.5);
+//					break;
 				
-				// Ver o que o exemplo do professor faz
-				case KeyEvent.VK_2:
-					//	objetos[0].escalaXYZPtoFixo(2.0, new Ponto4D(-15.0,-15.0,0.0,0.0));
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
-					
-					this.objetoSelecionado.alterarEscalaFixado(2f);
-					break;
-				
-				// Ver o que o exemplo do professor faz
-				case KeyEvent.VK_3:
-					//	objetos[0].rotacaoZPtoFixo(10.0, new Ponto4D(-15.0,-15.0,0.0,0.0));
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
-					
-					this.objetoSelecionado.rotacionar();
-					break;
+				// foi para ctrl + vk_add
+//				case KeyEvent.VK_2:
+//					if (objSelecionado == null)
+//						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
+//					
+//					this.objSelecionado.alterarEscalaFixado(2f);
+//					break;
 					
 				// Camera Pan Baixo 
 				// (deslocar camera para baixo)
@@ -151,10 +153,10 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 //				FOI PARA F1
 //			    // Apresentar a matriz transformada do objeto selecionado no console
 //				case KeyEvent.VK_M:
-//					if (objetoSelecionado == null)
-//						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+//					if (objSelecionado == null)
+//						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 //					
-//					this.objetoSelecionado.exibirMatriz();
+//					this.objSelecionado.exibirMatriz();
 //					break;
 					
 				// Camera Zoom Out
@@ -165,63 +167,66 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 //              FOI PARA F2
 //				// Apresentar os vertices(pontos) do objeto selecionado no console
 //				case KeyEvent.VK_P:
-//					if (objetoSelecionado == null)
-//						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+//					if (objSelecionado == null)
+//						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 //					
-//					this.objetoSelecionado.exibirVertices();
+//					this.objSelecionado.exibirVertices();
 //					break;
 	
-				// No exemplo do professor atribuir a matriz identidade (reinicia a matriz)
+				// Rotacionar objeto grafico selecionado
 				case KeyEvent.VK_R:
-					//	objetos[0].atribuirIdentidade();
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objSelecionado.rotacionar();
 					break;
 	
 				// Mover o objeto grafico selecionado para direita
 				case KeyEvent.VK_RIGHT:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					this.objetoSelecionado.mover(2f, 0f);
+					this.objSelecionado.mover(2f, 0f);
 					break;
 	
 				// Mover o objeto grafico selecionado para esquerda
 				case KeyEvent.VK_LEFT:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					this.objetoSelecionado.mover(-2f, 0f);
+					this.objSelecionado.mover(-2f, 0f);
 					break;
 	
 				// Mover o objeto grafico selecionado para cima
 				case KeyEvent.VK_UP:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					this.objetoSelecionado.mover(0f, 2f);
+					this.objSelecionado.mover(0f, 2f);
 					break;
 	
 				// Mover o objeto grafico selecionado para baixo
 				case KeyEvent.VK_DOWN:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					this.objetoSelecionado.mover(0f, -2f);
+					this.objSelecionado.mover(0f, -2f);
 					break;
 					
 				// Ampliar escala do objeto selecionado
 				case KeyEvent.VK_PAGE_UP:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					this.objetoSelecionado.alterarEscala(1.5);
+					this.objSelecionado.alterarEscala(1.5);
 					break;
 				
 				// Reduzir escala do objeto selecionado
 				case KeyEvent.VK_PAGE_DOWN:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					this.objetoSelecionado.alterarEscala(0.5);
+					this.objSelecionado.alterarEscala(0.5);
 					break;
 		
 				// Ver o que o exemplo do professor faz
@@ -231,26 +236,26 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					
 				// Apresentar a matriz transformada do objeto selecionado no console 
 				case KeyEvent.VK_F1:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					this.objetoSelecionado.exibirMatriz();
+					this.objSelecionado.exibirMatriz();
 					break;
 					
 				// Apresentar os vertices(pontos) do objeto selecionado no console
 				case KeyEvent.VK_F2:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					this.objetoSelecionado.exibirVertices();
+					this.objSelecionado.exibirVertices();
 					break;
 					
 				// Apresentar os pontos (vertices e centro) da bound box do objeto selecionado
 				case KeyEvent.VK_F3:
-					if (objetoSelecionado == null)
-						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					if (objSelecionado == null)
+						this.objSelecionado = mundo.getObjetosGraficos().getUltimo();
 					
-					this.objetoSelecionado.exibirBbox();
+					this.objSelecionado.exibirBbox();
 					break;
 			}
 		}
@@ -283,7 +288,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		if (selecionando) {
+		if (isSelecionando()) {
 			if (ptoSelecionado != null) {
 				Ponto4D p = this.getPontoCliqueMouse(e);
 				this.ptoSelecionado.atribuirX(p.obterX());
@@ -295,7 +300,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseMoved(MouseEvent e) {
 //		System.out.println(" --- mouseMoved ---");
-		if (desenhando) {
+		if (isDesenhando()) {
 			Ponto4D novoPonto = this.getPontoCliqueMouse(e);
 			this.caneta.atualizarUltimoVertice(novoPonto);
 			glDrawable.display();
@@ -316,25 +321,46 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mousePressed(MouseEvent e) {
 		Ponto4D p = this.getPontoCliqueMouse(e);
-		if (desenhando)			
-			this.caneta.inserirNovoPonto(p);
-		else
-			if (selecionando) {
+		
+		switch (this.status) {
+			case DESENHANDO:
+				this.caneta.inserirNovoPonto(p);
+				break;
+	
+			case SELECIONANDO:
 				ptoSelecionado = this.mundo.selecionarPonto(p);
-				objetoSelecionado = this.mundo.selecionarObjeto(p);
-				this.caneta.setObjeto(objetoSelecionado);
+				objSelecionado = this.mundo.selecionarObjeto(p);
+				this.caneta.setObjeto(objSelecionado);
 				System.out.println(p.toString());
-			}
+				break;
+				
+			default:
+				break;
+		}
 
 		glDrawable.display();
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
 //		System.out.println(" --- mouseReleased ---");
-		if (this.objetoSelecionado != null) {
-			this.objetoSelecionado.calcularBbox();
+		if (this.objSelecionado != null) {
+			this.objSelecionado.calcularBbox();
 			glDrawable.display();
 		}
+	}
+	
+	/**
+	 * Indica se o estado da edicao eh desenhando objetos graficos
+	 */
+	private boolean isDesenhando() {
+		return status == StatusEdicao.DESENHANDO;
+	}
+	
+	/**
+	 * Indica se o estado da edicao eh selecionando objetos graficos
+	 */
+	private boolean isSelecionando() {
+		return status == StatusEdicao.SELECIONANDO;
 	}
 	
 	/**

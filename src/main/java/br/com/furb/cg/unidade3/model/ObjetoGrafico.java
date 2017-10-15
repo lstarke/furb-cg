@@ -192,6 +192,9 @@ public final class ObjetoGrafico {
 		return vertice;
 	}
 	
+	/**
+	 * Calcular os vertices e o centro da Bound Box
+	 */
 	public void calcularBbox() {
 		this.bbox.calcular(this.vertices);
 	}
