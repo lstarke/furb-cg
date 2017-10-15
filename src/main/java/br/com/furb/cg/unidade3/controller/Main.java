@@ -108,25 +108,25 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					break;
 					
 				// Camera Pan Baixo 
-				// (deslocar para baixo)
+				// (deslocar camera para baixo)
 				case KeyEvent.VK_B:
 					mundo.getCamera().panBaixo();
 					break;
 					
 				// Camera Pan Cima
-				// (deslocar para cima)
+				// (deslocar camera para cima)
 				case KeyEvent.VK_C:
 					mundo.getCamera().panCima();
 					break;
 					
 				// Camera Pan Direita
-				// (deslocar para direita)
+				// (deslocar camera para direita)
 				case KeyEvent.VK_D:
 					mundo.getCamera().panDireita();
 					break;
 					
 				// Camera Pan Esquerda
-				// (deslocar para esquerda)
+				// (deslocar camera para esquerda)
 				case KeyEvent.VK_E:
 					mundo.getCamera().panEsquerda();
 					break;
@@ -194,14 +194,20 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					this.objetoSelecionado.mover(0f, -2f);
 					break;
 					
-				// Ver o que o exemplo do professor faz
+				// Ampliar escala do objeto selecionado
 				case KeyEvent.VK_PAGE_UP:
-					//	objetos[0].escalaXYZ(2.0,2.0);
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objetoSelecionado.alterarEscala(1.5);
 					break;
 				
-				// Ver o que o exemplo do professor faz
+				// Reduzir escala do objeto selecionado
 				case KeyEvent.VK_PAGE_DOWN:
-					//	objetos[0].escalaXYZ(0.5,0.5);
+					if (objetoSelecionado == null)
+						this.objetoSelecionado = mundo.getObjetosGraficos().getUltimo();
+					
+					this.objetoSelecionado.alterarEscala(0.5);
 					break;
 		
 				// Ver o que o exemplo do professor faz

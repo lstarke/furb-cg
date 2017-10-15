@@ -140,13 +140,14 @@ public final class ObjetoGrafico {
 //		return matriz.isIdentidade();
 //	}
 	
-	/**
-	 * Retornar matriz global do objeto grafico
-	 */
-	public Matriz getMatriz()
-	{
-		return matriz;
-	}
+//  Se realmente precisar, descomente
+//	/**
+//	 * Retornar matriz global do objeto grafico
+//	 */
+//	public Matriz getMatriz()
+//	{
+//		return matriz;
+//	}
 	
 	/**
 	 * Desenhar objeto grafico
@@ -220,10 +221,17 @@ public final class ObjetoGrafico {
 	}
 	
 	/**
-	 * Mover Objeto grafico para os lados (translacao)
+	 * Mover Objeto Grafico para os lados (translacao)
 	 */
 	public void mover(double x, double y) {
 		this.matriz.transladar(x, y);
+	}
+	
+	/**
+	 * Ampliar/reduzir Objeto Grafico (escala) 
+	 */
+	public void alterarEscala(double proporcao) {
+		this.matriz.escalar(proporcao);
 	}
 	
 	/**
