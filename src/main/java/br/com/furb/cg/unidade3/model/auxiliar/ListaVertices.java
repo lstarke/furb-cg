@@ -39,6 +39,10 @@ public class ListaVertices {
 		return this.vertices.get(i);
 	}
 	
+	public List<Ponto4D> getVertices() {
+		return vertices;
+	}
+
 	/**
 	 * Retornar o primeiro vertice da lista de vertices do objeto grafico/poligono
 	 */

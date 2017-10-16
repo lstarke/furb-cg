@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
 import br.com.furb.cg.unidade3.model.*;
+import br.com.furb.cg.unidade3.model.auxiliar.AlgoritmoDeSelecao;
 
 public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 	private GL gl;
@@ -331,7 +332,9 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				ptoSelecionado = this.mundo.selecionarPonto(p);
 				objSelecionado = this.mundo.selecionarObjeto(p);
 				this.caneta.setObjeto(objSelecionado);
-				System.out.println(p.toString());
+
+				if (objSelecionado != null)
+					System.out.println("Clicou dentro do poligono? " + AlgoritmoDeSelecao.pontoEmPoligono(objSelecionado, p));
 				break;
 				
 			default:

@@ -8,6 +8,7 @@ package br.com.furb.cg.unidade3.model;
  */
 
 import java.awt.Color;
+import java.util.List;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 import br.com.furb.cg.unidade3.model.auxiliar.ListaObjetosGraficos;
@@ -57,6 +58,10 @@ public final class ObjetoGrafico {
 		this.filhos = new ListaObjetosGraficos();
 	}
 	
+	public List<Ponto4D> getVertices() {
+		return vertices.getVertices();
+	}
+
 	/**
 	 * Atribuir/Alterar primitiva gráfica do objeto gráfico
 	 * 
