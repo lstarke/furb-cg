@@ -1,4 +1,4 @@
-package br.furb.cg.unidade3.controller;
+package br.com.furb.cg.unidade3.controller;
 
 public enum StatusEdicao {
 	NENHUM,

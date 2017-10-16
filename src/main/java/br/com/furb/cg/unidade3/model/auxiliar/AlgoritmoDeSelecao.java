@@ -1,11 +1,18 @@
 package br.com.furb.cg.unidade3.model.auxiliar;
 
 import java.util.List;
-import br.furb.cg.unidade3.model.ObjetoGrafico;
-import br.furb.cg.unidade3.model.Ponto4D;
+import br.com.furb.cg.unidade3.model.ObjetoGrafico;
+import br.com.furb.cg.unidade3.model.Ponto4D;
 
 public class AlgoritmoDeSelecao {
 	
+	
+	/**
+	 * Verifica se o clique do mouse foi dentro ou fora do poligono.
+	 * @param objeto
+	 * @param pontoClicado
+	 * @return
+	 */
 	public static boolean pontoEmPoligono(ObjetoGrafico objeto, Ponto4D pontoClicado) {
 		
 		List<Ponto4D> vertices = objeto.getVertices();
@@ -41,6 +48,14 @@ public class AlgoritmoDeSelecao {
 		return !((n%2) == 0);			
 	}
 	
+	
+	/**
+	 * Calcula ponto de intersecção do ponto com a aresta do ponto 1 ao ponto 2
+	 * @param p1
+	 * @param p2
+	 * @param scanline
+	 * @return ponto se tiver intersecção ou null caso contrário
+	 */
 	private static Ponto4D getPontoInterseccao(Ponto4D p1, Ponto4D p2, double scanline) {
 		
 		double ti = (scanline - p1.obterY()) / (p2.obterY() - p1.obterY());
