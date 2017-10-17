@@ -49,7 +49,7 @@ public final class ObjetoGrafico {
 		this.bbox = new BBox3D();
 		
 		this.selecionado = false;
-		this.desenhando = false; // serah ???
+		this.desenhando = false;
 		
 		// Transformacao
 		this.matriz = new Matriz();
@@ -75,11 +75,6 @@ public final class ObjetoGrafico {
 		else
 			throw new java.lang.RuntimeException("Objeto grafico nao preparado para esta primitva, utilize: GL_LINE_STRIP ou GL_LINE_LOOP");
 	}
-	
-//  Se realmente precisar, descomente
-//	public ListaVertices getVertices() {
-//		return vertices;
-//	}
 	
 	/**
 	 * Atribuir/Alterar cor do objeto grafico
@@ -138,21 +133,6 @@ public final class ObjetoGrafico {
 	{
 		this.desenhando = desenhando;
 	}
-	
-//  Se realmente precisa, descomente
-//	public boolean isSelecionavel()
-//	{		
-//		return matriz.isIdentidade();
-//	}
-	
-//  Se realmente precisar, descomente
-//	/**
-//	 * Retornar matriz global do objeto grafico
-//	 */
-//	public Matriz getMatriz()
-//	{
-//		return matriz;
-//	}
 	
 	/**
 	 * Desenhar objeto grafico
@@ -247,7 +227,7 @@ public final class ObjetoGrafico {
 	/**
 	 * Ampliar/reduzir Objeto Grafico (escala) e mantendo no mesmo local 
 	 */
-	public void alterarEscalaFixado(double multiplicador) {
+	public void escalonarFixado(double multiplicador) {
 		this.matriz.escalarFixo(multiplicador, 
 								new Ponto4D(this.bbox.getCentro().obterX(), 
 										    this.bbox.getCentro().obterY(), 

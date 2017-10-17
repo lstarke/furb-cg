@@ -8,7 +8,6 @@ package br.com.furb.cg.unidade3.model;
  */
 
 import javax.media.opengl.GL;
-
 import br.com.furb.cg.unidade3.model.auxiliar.ListaVertices;
 
 public class BBox3D {

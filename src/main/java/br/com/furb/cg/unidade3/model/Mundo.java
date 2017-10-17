@@ -30,21 +30,21 @@ public class Mundo {
 		this.desenhando = false;
 	}
 
-	public float getTamEixoXSru() {
-		return this.tamEixoXsru;
-	}
-	
-	public void setTamEixoXSru(float tamX) {
-		this.tamEixoXsru = tamX;
-	}
-	
-	public float getTamEixoYStru() {
-		return this.tamEixoYsru;
-	}
-	
-	public void setTamEixoYSru(float tamY) {
-		this.tamEixoYsru = tamY;
-	}
+//	public float getTamEixoXSru() {
+//		return this.tamEixoXsru;
+//	}
+//	
+//	public void setTamEixoXSru(float tamX) {
+//		this.tamEixoXsru = tamX;
+//	}
+//	
+//	public float getTamEixoYStru() {
+//		return this.tamEixoYsru;
+//	}
+//	
+//	public void setTamEixoYSru(float tamY) {
+//		this.tamEixoYsru = tamY;
+//	}
 	
 	public Camera2D getCamera() {
 		return camera;
@@ -55,7 +55,7 @@ public class Mundo {
 	}
 
 	public ListaObjetosGraficos getObjetosGraficos(){
-		return objetos;
+		return this.objetos;
 	}
 	
 	public Ponto4D getVerticeSelecionado() {
@@ -89,6 +89,7 @@ public class Mundo {
 	
 	/**
 	 * Atribuir se esta em tempo de edicao
+	 * @param boolean
 	 */
 	public void setDesenhando(boolean desenhando) {
 		this.desenhando = desenhando;
@@ -96,7 +97,7 @@ public class Mundo {
 		if (this.desenhando) {
 			this.objSelecionado = null;
 			this.ptoSelecionado = null;
-		}else
+		} else
 			this.selecionarUltimoObjeto();
 	}
 	
@@ -132,6 +133,8 @@ public class Mundo {
 	
 	/**
 	 * Posicionar a camera em um ponto especifico da cena
+	 * @param gl
+	 * @param glu
 	 */
 	public void posicionarCamera(GL gl, GLU glu) {
 		this.camera.posicionar(gl, glu);
@@ -139,9 +142,11 @@ public class Mundo {
 	
 	/**
 	 * Desenhar todos os objetos graficos contidos
+	 * @param gl
+	 * @param glu
 	 */
 	public void desenharObjetos(GL gl, GLU glu) {
-		for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();) 
+		for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();)
 			it.next().desenhar(gl, glu);		
 	}
 	
@@ -194,7 +199,7 @@ public class Mundo {
 	public void escalonarObjeto(double escala, boolean manterPontoFixo) {
 		if (! this.desenhando) {
 			if (manterPontoFixo)
-				this.objSelecionado.alterarEscalaFixado(escala);
+				this.objSelecionado.escalonarFixado(escala);
 			else
 				this.objSelecionado.escalonar(escala);
 		}

@@ -210,7 +210,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	// "render" feito quando o modo ou dispositivo de exibicao associado foi
 	// alterado.
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
-		System.out.println(" --- displayChanged ---");
+//		System.out.println(" --- displayChanged ---");
 	}
 
 	public void keyReleased(KeyEvent arg0) {
@@ -277,7 +277,9 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 	
 	/**
-	 * Informar em qual ponto da tela (Frame) se refe o clique do mouse
+	 * Informar em qual ponto da tela (Frame) se refere o clique do mouse
+	 * @param MouseEvent
+	 * @return Ponto4D
 	 */
 	private Ponto4D getPontoCliqueMouse(MouseEvent e)
 	{	
@@ -298,6 +300,10 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	
 	/**
 	 * Converter o x, y do clique do mouse (absoluto) para ponto na tela do programa
+	 * @param double xAbsoluto
+	 * @param double yAbsoluto
+	 * @param double xFrame
+	 * @param double yFrame
 	 */
 	public Ponto4D converterPontoCliqueMouse(double xAbsoluto, double yAbsoluto, double xFrame, double yFrame)
 	{

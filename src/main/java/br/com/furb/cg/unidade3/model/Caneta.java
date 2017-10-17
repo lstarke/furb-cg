@@ -11,50 +11,50 @@ public final class Caneta {
 
 	private Ponto4D pontoOrigem;
 	private Ponto4D pontoDestino;
-	private ObjetoGrafico objeto;
-	private ListaObjetosGraficos objetosTmp;
-	
+	private ObjetoGrafico objetoTmp;
+	private ListaObjetosGraficos listaObjetosTmp;
+
 	public ObjetoGrafico getObjeto() {
-		return objeto;
+		return objetoTmp;
 	}
 
-	public void setObjeto(ObjetoGrafico objeto) {
-		this.objeto = objeto;
+	public void setObjeto(ObjetoGrafico objetoTmp) {
+		this.objetoTmp = objetoTmp;
 	}
-	
+
 	public void setObjetosGraficos(ListaObjetosGraficos objetos) {
-		this.objetosTmp = objetos;
+		this.listaObjetosTmp = objetos;
 	}
-	
+
 	/**
 	 * Iniciar um novo desenho.
-	 * Seta null para as variaveis do objeto grafico.
+	 * Atribuir null para as variaveis do objetoTmp grafico.
 	 */
 	private void setNullAttributes() {
-		this.objeto = null;
+		this.objetoTmp = null;
 		this.pontoOrigem = null;
 		this.pontoDestino = null;		
 	}
-	
+
 	/**
 	 * Inserir/adicionar novo ponto na tela
 	 * @param ponto
 	 */
 	public void inserirNovoPonto(Ponto4D ponto) {
 		
-		if (this.objeto == null) {
-			this.objeto = new ObjetoGrafico(GL.GL_LINE_STRIP);
-			this.objeto.setDesenhando(true);
-			this.objeto.setSelecionado(false);
-			this.pontoOrigem = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
-			this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
-			this.objetosTmp.add(objeto);
+		if (this.objetoTmp == null) {
+			this.objetoTmp = new ObjetoGrafico(GL.GL_LINE_STRIP);
+			this.objetoTmp.setDesenhando(true);
+			this.objetoTmp.setSelecionado(false);
+			this.pontoOrigem = this.objetoTmp.addVertice(ponto.obterX(), ponto.obterY());
+			this.pontoDestino = this.objetoTmp.addVertice(ponto.obterX(), ponto.obterY());
+			this.listaObjetosTmp.add(objetoTmp);
 		} else
 			if (this.pontoOrigem != null) {
 				if (this.pontoOrigem.estaPerto(ponto))
 					this.finalizar(true);
 				else
-					this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
+					this.pontoDestino = this.objetoTmp.addVertice(ponto.obterX(), ponto.obterY());
 			}
 	}
 
@@ -70,13 +70,13 @@ public final class Caneta {
 	}
 
 	public void finalizar(boolean poligonoFechado) {
-		if (this.objeto != null) {
-			this.objeto.removerUltimoVertice();
-			this.objeto.setDesenhando(false);	
-			this.objeto.setSelecionado(true);
+		if (this.objetoTmp != null) {
+			this.objetoTmp.removerUltimoVertice();
+			this.objetoTmp.setDesenhando(false);	
+			this.objetoTmp.setSelecionado(true);
 			
 			if (poligonoFechado)
-				this.objeto.setPrimitiva(GL.GL_LINE_LOOP);
+				this.objetoTmp.setPrimitiva(GL.GL_LINE_LOOP);
 			
 			this.setNullAttributes();			
 		}
