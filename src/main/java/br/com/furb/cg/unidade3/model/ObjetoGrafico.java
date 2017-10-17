@@ -161,8 +161,10 @@ public final class ObjetoGrafico {
 	 * @param glu = OpenGl glu
 	 */
 	public void desenhar(GL gl, GLU glu)
-	{		
-		gl.glColor3f(0.0f, 0.0f, 0.0f);
+	{
+	    // obedecer a cor escolhida pelo usuario
+		gl.glColor3ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue());
+
 		gl.glLineWidth(tamanho);
 		gl.glPointSize(tamanho);
 

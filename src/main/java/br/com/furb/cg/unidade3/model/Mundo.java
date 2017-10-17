@@ -182,7 +182,7 @@ public class Mundo {
 	/**
 	 * Calcular bound box do objeto grafico selecionado
 	 */
-	public void calcularBondBox() {
+	public void calcularBoundBox() {
 		this.objSelecionado.calcularBbox();
 	}
 	

@@ -1,8 +1,10 @@
 package br.com.furb.cg.unidade3.controller;
 
+import java.awt.Color;
 import java.awt.event.*;
 import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
+import javax.swing.JColorChooser;
 import br.com.furb.cg.unidade3.model.*;
 import br.com.furb.cg.unidade3.model.auxiliar.AlgoritmoDeSelecao;
 
@@ -57,18 +59,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				// Selecionar
 				case KeyEvent.VK_S:
 					mundo.setDesenhando(false);
-					break;
-					
-				// Aumetar objeto selecionado
-				case KeyEvent.VK_ADD:
-				case KeyEvent.VK_EQUALS:
-					mundo.escalonarObjeto(2f, true);
-					break;
-					
-				// Reduzir objeto selecionado
-				case KeyEvent.VK_MINUS:
-					mundo.escalonarObjeto(0.5, true);
-					break;
+					break;	
 			}
 		} else {
 			
@@ -160,18 +151,44 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					mundo.escalonarObjeto(0.5, false);
 					break;
 					
-				// Apresentar a matriz transformada do objeto selecionado no console 
+				// Aumetar objeto selecionado
+				case KeyEvent.VK_ADD:
+				case KeyEvent.VK_EQUALS:
+					mundo.escalonarObjeto(2f, true);
+					break;
+					
+				// Reduzir objeto selecionado
+				case KeyEvent.VK_MINUS:
+					mundo.escalonarObjeto(0.5, true);
+					break;
+					
+				// Duplicar objeto selecionado
 				case KeyEvent.VK_F1:
+					
+					// *** aqui colocar a chamada da duplicacao do poligono ***
+					
+					break;
+					
+				// Alterar cor do poligono selecionado
+				case KeyEvent.VK_F2:
+					if (mundo.isSelecionando()) {
+						Color corEscolhida = JColorChooser.showDialog(null, "Altere a cor do poligono selecionado", Color.BLACK);
+						mundo.getObjetoSelecionado().setCor(corEscolhida);
+					}
+					break;
+					
+				// Apresentar a matriz transformada do objeto selecionado no console 
+				case KeyEvent.VK_F10:
 					mundo.exibirMatrizObjeto();
 					break;
 					
 				// Apresentar os vertices(pontos) do objeto selecionado no console
-				case KeyEvent.VK_F2:
+				case KeyEvent.VK_F11:
 					mundo.exibirVerticesObjeto();
 					break;
 					
 				// Apresentar os pontos (vertices e centro) da bound box do objeto selecionado
-				case KeyEvent.VK_F3:
+				case KeyEvent.VK_F12:
 					mundo.exibirBboxObjeto();
 					break;
 			}
@@ -254,7 +271,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	public void mouseReleased(MouseEvent arg0) {
 //		System.out.println(" --- mouseReleased ---");
 		if (mundo.hasObjetoSelecionado()) {
-			mundo.calcularBondBox();
+			mundo.calcularBoundBox();
 			glDrawable.display();
 		}
 	}
