@@ -232,11 +232,14 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseMoved(MouseEvent e) {
 //		System.out.println(" --- mouseMoved ---");
-		if (mundo.isDesenhando()) {
-			Ponto4D novoPonto = this.getPontoCliqueMouse(e);
-			this.caneta.atualizarUltimoVertice(novoPonto);
-			glDrawable.display();
+		if (this.mundo != null) {
+			if (mundo.isDesenhando()) {
+				Ponto4D novoPonto = this.getPontoCliqueMouse(e);
+				this.caneta.atualizarUltimoVertice(novoPonto);
+				glDrawable.display();
+			}			
 		}
+		
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
