@@ -197,7 +197,7 @@ public class Mundo {
 	 * @param boolean manterPontoFixo = em relacao a sua Bound Box se true
 	 */
 	public void escalonarObjeto(double escala, boolean manterPontoFixo) {
-		if (! this.desenhando) {
+		if (this.isSelecionando()) {
 			if (manterPontoFixo)
 				this.objSelecionado.escalonarFixado(escala);
 			else
@@ -209,7 +209,7 @@ public class Mundo {
 	 * Rotacionar objeto grafico em relacao a sua Bound Box
 	 */
 	public void rotacionarObjeto() {
-		if (! this.desenhando)
+		if (this.isSelecionando() && this.hasObjetoSelecionado())
 			this.objSelecionado.rotacionar();
 	}
 	
@@ -219,7 +219,7 @@ public class Mundo {
 	 * @param y
 	 */
 	public void moverObjeto(double x, double y) {
-		if (! this.desenhando)
+		if (this.isSelecionando() && this.hasObjetoSelecionado())
 			this.objSelecionado.mover(x, y);
 	}
 	
@@ -234,7 +234,7 @@ public class Mundo {
 	 * Imprimir no console a Bound Box do objeto selecionado
 	 */
 	public void exibirBboxObjeto() {
-		if (! this.desenhando)
+		if (this.isSelecionando() && this.hasObjetoSelecionado())
 			this.objSelecionado.exibirBbox();
 	}
 	
@@ -242,7 +242,7 @@ public class Mundo {
 	 * Imprimir no console a Matriz objeto selecionado
 	 */
 	public void exibirMatrizObjeto() {
-		if (! this.desenhando)
+		if (this.isSelecionando() && this.hasObjetoSelecionado())
 			this.objSelecionado.exibirMatriz();
 	}
 	
@@ -250,7 +250,7 @@ public class Mundo {
 	 * Imprimir no console os vertices do objeto selecionado
 	 */
 	public void exibirVerticesObjeto() {
-		if (! this.desenhando)
+		if (this.isSelecionando() && this.hasObjetoSelecionado())
 			this.objSelecionado.exibirVertices();
 	}
 }

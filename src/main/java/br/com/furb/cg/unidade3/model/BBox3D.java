@@ -209,11 +209,7 @@ public class BBox3D {
 			if (p.obterY() < minY)
 				minY = p.obterY() - Ponto4D.DISTANCIA;
 		}
-		
-//		this.xMin = minX;
-//		this.xMax = maxX;
-//		this.yMin = minY;
-//		this.yMax = maxY;
+
 		this.atualizar(minX, maxX, minY, maxY);
 	}
 	
