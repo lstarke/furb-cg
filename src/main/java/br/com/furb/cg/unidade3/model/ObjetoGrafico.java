@@ -238,7 +238,7 @@ public final class ObjetoGrafico {
 	/**
 	 * Ampliar/reduzir Objeto Grafico (escala) 
 	 */
-	public void alterarEscala(double multiplicador) {
+	public void escalonar(double multiplicador) {
 		this.matriz.escalar(multiplicador);
 	}
 	

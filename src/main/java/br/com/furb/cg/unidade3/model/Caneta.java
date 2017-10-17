@@ -14,6 +14,28 @@ public final class Caneta {
 	private ObjetoGrafico objeto;
 	private ListaObjetosGraficos objetosTmp;
 	
+	public ObjetoGrafico getObjeto() {
+		return objeto;
+	}
+
+	public void setObjeto(ObjetoGrafico objeto) {
+		this.objeto = objeto;
+	}
+	
+	public void setObjetosGraficos(ListaObjetosGraficos objetos) {
+		this.objetosTmp = objetos;
+	}
+	
+	/**
+	 * Iniciar um novo desenho.
+	 * Seta null para as variaveis do objeto grafico.
+	 */
+	private void setNullAttributes() {
+		this.objeto = null;
+		this.pontoOrigem = null;
+		this.pontoDestino = null;		
+	}
+	
 	/**
 	 * Inserir/adicionar novo ponto na tela
 	 * @param ponto
@@ -35,20 +57,6 @@ public final class Caneta {
 					this.pontoDestino = this.objeto.addVertice(ponto.obterX(), ponto.obterY());
 			}
 	}
-	
-	
-	
-	public ObjetoGrafico getObjeto() {
-		return objeto;
-	}
-
-
-
-	public void setObjeto(ObjetoGrafico objeto) {
-		this.objeto = objeto;
-	}
-
-
 
 	/**
 	 * Atualizar o ultimo ponto para fazer o rastro ao mover o mouse.
@@ -59,10 +67,6 @@ public final class Caneta {
 			this.pontoDestino.atribuirX(ponto.obterX());
 			this.pontoDestino.atribuirY(ponto.obterY());
 		}
-	}
-	
-	public void setObjetosGraficos(ListaObjetosGraficos objetos) {
-		this.objetosTmp = objetos;
 	}
 
 	public void finalizar(boolean poligonoFechado) {
@@ -76,15 +80,5 @@ public final class Caneta {
 			
 			this.setNullAttributes();			
 		}
-	}
-
-	/**
-	 * Iniciar um novo desenho.
-	 * Seta null para as variaveis do objeto grafico.
-	 */
-	private void setNullAttributes() {
-		this.objeto = null;
-		this.pontoOrigem = null;
-		this.pontoDestino = null;		
 	}
 }

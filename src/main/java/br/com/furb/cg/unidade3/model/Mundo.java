@@ -15,14 +15,21 @@ public class Mundo {
 	private float tamEixoYsru;
 	private Camera2D camera;
 	private ListaObjetosGraficos objetos;
+	private ObjetoGrafico objSelecionado;
+	private Ponto4D ptoSelecionado;
+	private boolean desenhando;
 
+	/// Construtor
 	public Mundo() {
 		this.tamEixoXsru = 200f;
 		this.tamEixoYsru = 200f;
 		this.camera = new Camera2D();
 		this.objetos = new ListaObjetosGraficos();
+		this.objSelecionado = null;
+		this.ptoSelecionado = null;
+		this.desenhando = false;
 	}
-	
+
 	public float getTamEixoXSru() {
 		return this.tamEixoXsru;
 	}
@@ -43,26 +50,67 @@ public class Mundo {
 		return camera;
 	}
 	
-	/**
-	 * Retornar a lista de objetos graficos da cena
-	 */
+	public ObjetoGrafico getObjetoSelecionado() {
+		return this.objSelecionado;
+	}
+
 	public ListaObjetosGraficos getObjetosGraficos(){
 		return objetos;
 	}
 	
+	public Ponto4D getVerticeSelecionado() {
+		return this.ptoSelecionado;
+	}
+	
 	/**
-	 * Inserir um objeto grafico na cena (lista de objetos)
+	 * Indicar se existe objeto grafico selecionado no mundo
+	 * @return boolean
 	 */
-	public void addObjetoGrafico(ObjetoGrafico objeto) {
-		this.objetos.add(objeto);
-	}
-	
-	public void posicionarCamera(GL gl, GLU glu) {
-		this.camera.posicionar(gl, glu);
+	public boolean hasObjetoSelecionado() {
+		return objSelecionado != null;
 	}
 	
 	/**
-	 * Desenha os eixos X e Y na cena grafica
+	 * Indicar se existe ponto selecionado no mundo
+	 * @return boolean
+	 */
+	public boolean hasVerticeSelecionado() {
+		return ptoSelecionado != null;
+	}
+	
+	/**
+	 * Indicar se esta em tempo de edicao
+	 * Por padrao, se nao estiver desenhando estara selecionando
+	 * @return boolean
+	 */
+	public boolean isDesenhando() {
+		return this.desenhando;
+	}
+	
+	/**
+	 * Atribuir se esta em tempo de edicao
+	 */
+	public void setDesenhando(boolean desenhando) {
+		this.desenhando = desenhando;
+		
+		if (this.desenhando) {
+			this.objSelecionado = null;
+			this.ptoSelecionado = null;
+		}else
+			this.selecionarUltimoObjeto();
+	}
+	
+	/**
+	 * Indicar se estq em tempo de selecao
+	 * Por padrao se nao estiver desenando estara selecionando
+	 * @return boolean
+	 */
+	public boolean isSelecionando() {
+		return !this.desenhando;
+	}
+	
+	/**
+	 * Desenhar os eixos X e Y na cena grafica
 	 */	
 	public void SRU(GL gl, GLU glu) {
 		gl.glLineWidth(1.0f);
@@ -83,26 +131,121 @@ public class Mundo {
 	}
 	
 	/**
-	 * Desenhar todos os objetos graficos contidos
+	 * Posicionar a camera em um ponto especifico da cena
 	 */
-	public void desenharObjetos(GL gl, GLU glu) {
-//		this.objetos.desenharObjetos(gl, glu);
-
-		for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();) 
-			it.next().desenhar(gl, glu);		
-	}
-
-	/**
-	 * Procurar o ponto selecionado na lista de objetos contidos no mundo
-	 */
-	public Ponto4D selecionarPonto(Ponto4D p) {
-		return this.objetos.localizarPonto(p);		
+	public void posicionarCamera(GL gl, GLU glu) {
+		this.camera.posicionar(gl, glu);
 	}
 	
 	/**
-	 * Procurar um ponto na lista de objetos contidos no mundo
+	 * Desenhar todos os objetos graficos contidos
+	 */
+	public void desenharObjetos(GL gl, GLU glu) {
+		for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();) 
+			it.next().desenhar(gl, glu);		
+	}
+	
+	/**
+	 * Inserir um objeto grafico na cena (lista de objetos)
+	 */
+	public void addObjeto(ObjetoGrafico objeto) {
+		this.objetos.add(objeto);
+	}
+	
+	/**
+	 * Selecionar um objeto em relacao a um ponto no mundo
+	 * @param Ponto4D
+	 * @return ObjetoGrafico
 	 */
 	public ObjetoGrafico selecionarObjeto(Ponto4D p) {
-		return this.objetos.localizarObjeto(p);
+		this.objSelecionado = this.objetos.localizarObjeto(p);
+		return this.objSelecionado;
+	}
+	
+	/**
+	 * Selecionar um vertice especifico na lista de objetos do mundo
+	 * @param Ponto4D
+	 * @return Ponto4D se existe na lista de objetos graficos
+	 */
+	public Ponto4D selecionarVertice(Ponto4D p) {
+		this.ptoSelecionado = this.objetos.localizarPonto(p);
+		return this.ptoSelecionado;
+	}
+	
+	/**
+	 * Selecionar ultimo objeto grafico criado
+	 */
+	public void selecionarUltimoObjeto() {
+		this.objSelecionado = this.objetos.getUltimo();
+	}
+	
+	/**
+	 * Calcular bound box do objeto grafico selecionado
+	 */
+	public void calcularBondBox() {
+		this.objSelecionado.calcularBbox();
+	}
+	
+	/**
+	 * Alterar escala do objeto selecionado
+	 * @param double escala
+	 * @param boolean manterPontoFixo = em relacao a sua Bound Box se true
+	 */
+	public void escalonarObjeto(double escala, boolean manterPontoFixo) {
+		if (! this.desenhando) {
+			if (manterPontoFixo)
+				this.objSelecionado.alterarEscalaFixado(escala);
+			else
+				this.objSelecionado.escalonar(escala);
+		}
+	}
+	
+	/**
+	 * Rotacionar objeto grafico em relacao a sua Bound Box
+	 */
+	public void rotacionarObjeto() {
+		if (! this.desenhando)
+			this.objSelecionado.rotacionar();
+	}
+	
+	/**
+	 * Movimentar objeto grafico selecionado
+	 * @param x
+	 * @param y
+	 */
+	public void moverObjeto(double x, double y) {
+		if (! this.desenhando)
+			this.objSelecionado.mover(x, y);
+	}
+	
+	/**
+	 * Remover vertice selecionado do objeto selecionado
+	 */
+	public void removerVerticeObjeto() {
+		this.objSelecionado.removerVerticeSelecionado();
+	}
+	
+	/**
+	 * Imprimir no console a Bound Box do objeto selecionado
+	 */
+	public void exibirBboxObjeto() {
+		if (! this.desenhando)
+			this.objSelecionado.exibirBbox();
+	}
+	
+	/**
+	 * Imprimir no console a Matriz objeto selecionado
+	 */
+	public void exibirMatrizObjeto() {
+		if (! this.desenhando)
+			this.objSelecionado.exibirMatriz();
+	}
+	
+	/**
+	 * Imprimir no console os vertices do objeto selecionado
+	 */
+	public void exibirVerticesObjeto() {
+		if (! this.desenhando)
+			this.objSelecionado.exibirVertices();
 	}
 }
