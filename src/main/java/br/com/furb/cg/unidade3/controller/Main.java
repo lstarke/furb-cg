@@ -259,12 +259,19 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		if (mundo.isDesenhando())
 			this.caneta.inserirNovoPonto(p);
 		else {
+			boolean estaDentro = false;
 			this.mundo.selecionarVertice(p);
 			this.mundo.selecionarObjeto(p);
-			this.caneta.setObjeto(mundo.getObjetoSelecionado());
-
+			
 			if (mundo.hasObjetoSelecionado())
-				System.out.println("Clicou dentro do poligono? " + AlgoritmoDeSelecao.pontoEmPoligono(mundo.getObjetoSelecionado(), p));
+				estaDentro = AlgoritmoDeSelecao.pontoEmPoligono(mundo.getObjetoSelecionado(), p);
+			
+			if (estaDentro)
+				this.caneta.setObjeto(mundo.getObjetoSelecionado());
+			else
+				this.mundo.selecionarObjeto(null);
+			
+			System.out.println("Clicou dentro do poligono? " + estaDentro);
 		}
 
 		glDrawable.display();

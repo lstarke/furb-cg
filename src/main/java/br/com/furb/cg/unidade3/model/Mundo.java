@@ -165,13 +165,15 @@ public class Mundo {
 	 * @return ObjetoGrafico
 	 */
 	public ObjetoGrafico selecionarObjeto(Ponto4D p) {
-		if (this.objSelecionado != null)
-			this.objSelecionado.setSelecionado(false);
+//		if (this.objSelecionado != null)
+//			this.objSelecionado.setSelecionado(false);
+		if (p == null)
+			this.objSelecionado = null;
+		else
+			this.objSelecionado = this.objetos.localizarObjeto(p);
 		
-		this.objSelecionado = this.objetos.localizarObjeto(p);
-		
-		if (this.objSelecionado != null)
-			this.objSelecionado.setSelecionado(true);
+//		if (this.objSelecionado != null)
+//			this.objSelecionado.setSelecionado(true);
 		
 		return this.objSelecionado;
 	}
