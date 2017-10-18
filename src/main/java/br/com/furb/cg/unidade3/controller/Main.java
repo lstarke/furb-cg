@@ -59,6 +59,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				// Selecionar
 				case KeyEvent.VK_S:
 					mundo.setDesenhando(false);
+					System.out.println("Pronto para selecionar.");
 					break;	
 			}
 		} else {
@@ -66,8 +67,10 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			switch (e.getKeyCode()) {				
 				// Concluir o desenho do poligono (objeto grafico)
 				case KeyEvent.VK_ESCAPE:
-					mundo.setDesenhando(false);
-					this.caneta.finalizar(false);
+					if (this.mundo.isDesenhando()) {
+						mundo.setDesenhando(false);
+						this.caneta.finalizar(false);
+					}
 					break;
 
 				// Excluir o ponto selecionado
@@ -241,8 +244,14 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		}
 	}
 
-	public void mouseClicked(MouseEvent arg0) {
-//		System.out.println(" --- mouseClicked ---");
+	public void mouseClicked(MouseEvent e) {
+		System.out.println(" --- mouseClicked ---");
+		Ponto4D p = this.getPontoCliqueMouse(e);
+		if (this.mundo != null && this.mundo.isSelecionando()) {
+			this.mundo.selecionarVertice(p);
+			this.mundo.selecionarObjeto(p);			
+		}
+		
 	}
 
 	public void mouseEntered(MouseEvent arg0) {

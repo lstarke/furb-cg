@@ -31,22 +31,6 @@ public class Mundo {
 		this.ptoSelecionado = null;
 		this.desenhando = false;
 	}
-
-//	public float getTamEixoXSru() {
-//		return this.tamEixoXsru;
-//	}
-//	
-//	public void setTamEixoXSru(float tamX) {
-//		this.tamEixoXsru = tamX;
-//	}
-//	
-//	public float getTamEixoYStru() {
-//		return this.tamEixoYsru;
-//	}
-//	
-//	public void setTamEixoYSru(float tamY) {
-//		this.tamEixoYsru = tamY;
-//	}
 	
 	public Camera2D getCamera() {
 		return camera;
@@ -79,6 +63,8 @@ public class Mundo {
 	public boolean hasVerticeSelecionado() {
 		return ptoSelecionado != null;
 	}
+	
+	
 	
 	/**
 	 * Indicar se esta em tempo de edicao
