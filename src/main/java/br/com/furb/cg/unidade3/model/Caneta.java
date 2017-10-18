@@ -44,8 +44,6 @@ public final class Caneta {
 		
 		if (this.objetoTmp == null) {
 			this.objetoTmp = new ObjetoGrafico(GL.GL_LINE_STRIP);
-			this.objetoTmp.setDesenhando(true);
-			this.objetoTmp.setSelecionado(false);
 			this.pontoOrigem = this.objetoTmp.addVertice(ponto.obterX(), ponto.obterY());
 			this.pontoDestino = this.objetoTmp.addVertice(ponto.obterX(), ponto.obterY());
 			this.listaObjetosTmp.add(objetoTmp);
@@ -69,16 +67,25 @@ public final class Caneta {
 		}
 	}
 
+	/**
+	 * Finalizar o desenho do objeto grafico
+	 * @param poligonoFechado
+	 */
 	public void finalizar(boolean poligonoFechado) {
 		if (this.objetoTmp != null) {
 			this.objetoTmp.removerUltimoVertice();
-			this.objetoTmp.setDesenhando(false);	
-			this.objetoTmp.setSelecionado(true);
-			
 			if (poligonoFechado)
 				this.objetoTmp.setPrimitiva(GL.GL_LINE_LOOP);
 			
 			this.setNullAttributes();			
 		}
+	}
+	
+	/**
+	 * Duplicar o objeto grafico selecionado
+	 */
+	public void duplicarObjeto() {
+		if (objetoTmp != null && objetoTmp.isSelecionado())
+			objetoTmp.gerarFilho();
 	}
 }

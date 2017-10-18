@@ -24,9 +24,18 @@ public final class Matriz {
 		matrizGlobal = null;
 		matrizTransformacao = null;
 	}
+	
+	/**
+	 * Get matriz double
+	 * @return double[]
+	 */
+	public double[] getData() {
+		return matriz.GetDate();
+	}
 
 	/**
 	 * Get matriz principal
+	 * @return Transformacao4D
 	 */
 	public Transformacao4D getMatriz() {
 		return this.matriz;

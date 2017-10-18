@@ -164,9 +164,11 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					
 				// Duplicar objeto selecionado
 				case KeyEvent.VK_F1:
-					
-					// *** aqui colocar a chamada da duplicacao do poligono ***
-					
+					if (mundo.isSelecionando() && mundo.hasObjetoSelecionado()) {
+						this.caneta.setObjeto(mundo.getObjetoSelecionado());
+						this.caneta.setObjetosGraficos(mundo.getObjetosGraficos());
+						this.caneta.duplicarObjeto();
+					}
 					break;
 					
 				// Alterar cor do poligono selecionado
@@ -232,14 +234,11 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseMoved(MouseEvent e) {
 //		System.out.println(" --- mouseMoved ---");
-		if (this.mundo != null) {
-			if (mundo.isDesenhando()) {
-				Ponto4D novoPonto = this.getPontoCliqueMouse(e);
-				this.caneta.atualizarUltimoVertice(novoPonto);
-				glDrawable.display();
-			}			
+		if (this.mundo != null && mundo.isDesenhando()) {
+			Ponto4D novoPonto = this.getPontoCliqueMouse(e);
+			this.caneta.atualizarUltimoVertice(novoPonto);
+			glDrawable.display();
 		}
-		
 	}
 
 	public void mouseClicked(MouseEvent arg0) {

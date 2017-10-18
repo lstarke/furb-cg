@@ -21,19 +21,11 @@ public final class ObjetoGrafico {
 	private ListaVertices vertices;
 	private Color cor;
 	private BBox3D bbox;
-	
-	// Parametros Auxiliares
-	private boolean selecionado;
-	private boolean desenhando;	
-	
-	// Transformacao
 	private Matriz matriz;
-	
-	// Grafo de cena
 	private ListaObjetosGraficos filhos;
 	
-	// Variaveis de configurações das linhas
-	private float tamanho = 1.0f;
+	// Auxiliares
+	private boolean selecionado;
 
 	/**
 	 * Contrutor
@@ -47,19 +39,15 @@ public final class ObjetoGrafico {
 		this.vertices = new ListaVertices();
 		this.cor = Color.BLACK;
 		this.bbox = new BBox3D();
-		
-		this.selecionado = false;
-		this.desenhando = false;
-		
-		// Transformacao
 		this.matriz = new Matriz();
-		
-		// Grafo de cena
 		this.filhos = new ListaObjetosGraficos();
+		
+		// Auxiliares
+		this.selecionado = false;
 	}
 	
-	public List<Ponto4D> getVertices() {
-		return vertices.getVertices();
+	public int getPrimitiva() {
+		return this.primitiva;
 	}
 
 	/**
@@ -74,6 +62,14 @@ public final class ObjetoGrafico {
 			this.primitiva = primitiva;
 		else
 			throw new java.lang.RuntimeException("Objeto grafico nao preparado para esta primitva, utilize: GL_LINE_STRIP ou GL_LINE_LOOP");
+	}
+	
+	/**
+	 * Lista de vertices em pontos
+	 * @return List<Ponto4D>
+	 */
+	public List<Ponto4D> getVertices() {
+		return vertices.getVertices();
 	}
 	
 	/**
@@ -115,25 +111,7 @@ public final class ObjetoGrafico {
 	{
 		this.selecionado = selecionar;
 	}
-	
-	/**
-	 * Informar se o objeto grafico esta sendo desenhado
-	 */
-	public boolean isDesenhando()
-	{
-		return desenhando;
-	}
 
-	/**
-	 * Indicar se o objeto grafico esta sendo desenhado
-	 * 
-	 * @param desenhando
-	 */
-	public void setDesenhando(boolean desenhando)
-	{
-		this.desenhando = desenhando;
-	}
-	
 	/**
 	 * Desenhar objeto grafico
 	 * 
@@ -142,26 +120,29 @@ public final class ObjetoGrafico {
 	 */
 	public void desenhar(GL gl, GLU glu)
 	{
-	    // obedecer a cor escolhida pelo usuario
-		gl.glColor3ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue());
-
-		gl.glLineWidth(tamanho);
-		gl.glPointSize(tamanho);
-
 		gl.glPushMatrix();
-			gl.glMultMatrixd(matriz.getMatriz().GetDate(), 0);
-			gl.glBegin(primitiva);
-				for (byte i=0; i < vertices.size(); i++) {
-					gl.glVertex2d(vertices.get(i).obterX(), vertices.get(i).obterY());
-				}
-			gl.glEnd();
-
-			//////////// ATENCAO: chamar desenho dos filhos...
-			
-			if (this.isSelecionado()) {				
-				this.bbox.desenhar(gl);
+		{
+			gl.glMultMatrixd(this.matriz.getData(), 0);
+			{
+				// Obedecer a cor escolhida pelo usuario
+				gl.glColor3ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue());
+				
+				// Desenhar objeto
+				gl.glBegin(this.primitiva);
+				for (byte i = 0; i < this.vertices.size(); i++)
+					gl.glVertex2d(this.vertices.get(i).obterX(), 
+							      this.vertices.get(i).obterY());
+				gl.glEnd();
+				
+				// Desenhar filhos
+				for(int i = 0; i < this.filhos.size(); i++)
+					this.filhos.get(i).desenhar(gl, glu);
+				 
+				// Desenhar bound box quando selecionado
+				if (this.isSelecionado())
+					this.bbox.desenhar(gl);
 			}
-
+		}
 		gl.glPopMatrix();
 	}
 
@@ -184,6 +165,21 @@ public final class ObjetoGrafico {
 	 */
 	public void calcularBbox() {
 		this.bbox.calcular(this.vertices);
+	}
+	
+	/**
+	 * Criar objeto grafico filho
+	 */
+	public void gerarFilho() {
+		List<Ponto4D> verticesAux = this.getVertices();
+		ObjetoGrafico objAux = new ObjetoGrafico(GL.GL_LINE_STRIP);
+		
+		for (int i = 0; i < verticesAux.size(); i++)
+			objAux.addVertice(verticesAux.get(i).obterX() + Ponto4D.DISTANCIA * 5,
+							  verticesAux.get(i).obterY() + Ponto4D.DISTANCIA * 5);
+		
+		objAux.setPrimitiva(this.getPrimitiva());
+		this.filhos.add(objAux);
 	}
 
 	/**

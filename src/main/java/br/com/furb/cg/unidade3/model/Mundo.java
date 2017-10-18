@@ -15,6 +15,8 @@ public class Mundo {
 	private float tamEixoYsru;
 	private Camera2D camera;
 	private ListaObjetosGraficos objetos;
+	
+	// Auxiliares
 	private ObjetoGrafico objSelecionado;
 	private Ponto4D ptoSelecionado;
 	private boolean desenhando;
@@ -163,7 +165,14 @@ public class Mundo {
 	 * @return ObjetoGrafico
 	 */
 	public ObjetoGrafico selecionarObjeto(Ponto4D p) {
+		if (this.objSelecionado != null)
+			this.objSelecionado.setSelecionado(false);
+		
 		this.objSelecionado = this.objetos.localizarObjeto(p);
+		
+		if (this.objSelecionado != null)
+			this.objSelecionado.setSelecionado(true);
+		
 		return this.objSelecionado;
 	}
 	

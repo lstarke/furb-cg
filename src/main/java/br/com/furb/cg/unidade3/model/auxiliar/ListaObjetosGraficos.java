@@ -24,6 +24,10 @@ public class ListaObjetosGraficos {
 		this.selecionado = null;
 	}
 	
+	public ObjetoGrafico get(int i) {
+		return this.objetos.get(i);
+	}
+	
 	/**
 	 * Adicionar objeto grafico no grafo de cena
 	 * 
