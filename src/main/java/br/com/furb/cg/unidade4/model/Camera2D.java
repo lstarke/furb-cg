@@ -10,38 +10,38 @@ import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
 public class Camera2D {
-	
+
 	private final double DESLOCAMENTO = 20.0; // pode-se utilizar o valor que achar interessante
 
 	private float ortho2D_minX = -400.0f;
 	private float ortho2D_maxX =  400.0f;
 	private float ortho2D_minY = -400.0f;
 	private float ortho2D_maxY =  400.0f;
-	
+
 	public float getXmin() {
 		return ortho2D_minX;
 	}
-	
+
 	public float getXmax() {
 		return ortho2D_maxX;
 	}
-	
+
 	public float getYmin() {
 		return ortho2D_minY;
 	}
-	
+
 	public float getYmax() {
 		return ortho2D_maxY;
 	}
-	
+
 	public float getTamX() {
 		return ortho2D_maxX - ortho2D_minX;
 	}
-	
+
 	public float getTamY() {
 		return ortho2D_maxY - ortho2D_minY;
 	}
-	
+
 	/**
 	 * Posicionar a camera
 	 * 
@@ -66,7 +66,7 @@ public class Camera2D {
 		} else
 			System.out.println("Limite maximo do Zoom!");
 	}
-	
+
 	/**
 	 * Zoom Out da camera
 	 * valor de movimento fixo
@@ -80,7 +80,7 @@ public class Camera2D {
 		} else
 			System.out.println("Limite minimo do Zoom!");
 	}
-	
+
 	/**
 	 * Movimentar a camera para baixo
 	 * valor de movimento fixo
@@ -89,7 +89,7 @@ public class Camera2D {
 		ortho2D_minY += DESLOCAMENTO;
 		ortho2D_maxY += DESLOCAMENTO;
 	}
-	
+
 	/**
 	 * Movimentar a camera para cima
 	 * valor de movimento fixo
@@ -98,7 +98,7 @@ public class Camera2D {
 		ortho2D_minY -= DESLOCAMENTO;
 		ortho2D_maxY -= DESLOCAMENTO;
 	}
-	
+
 	/**
 	 * Movimentar a camera para a direita
 	 * valor de movimento fixo
@@ -107,7 +107,7 @@ public class Camera2D {
 		ortho2D_minX -= DESLOCAMENTO;
 		ortho2D_maxX -= DESLOCAMENTO;
 	}
-	
+
 	/**
 	 * Movimentar a camera para a esquerda
 	 * valor de movimento fixo

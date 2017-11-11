@@ -25,7 +25,8 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		glDrawable = drawable;
 		gl = drawable.getGL();
 		glu = new GLU();
-		glDrawable.setGL(new DebugGL(gl));		
+		glDrawable.setGL(new DebugGL(gl));
+		
 		gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		mundo = new Mundo();
