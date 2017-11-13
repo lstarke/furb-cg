@@ -8,7 +8,6 @@ package br.furb.cg.unidade4.model.auxiliar;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import br.furb.cg.unidade4.model.ObjetoGrafico;
 import br.furb.cg.unidade4.model.Ponto4D;
 

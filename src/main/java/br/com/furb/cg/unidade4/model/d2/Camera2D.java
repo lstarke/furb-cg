@@ -1,4 +1,4 @@
-package br.furb.cg.unidade4.model;
+package br.furb.cg.unidade4.model.d2;
 
 /**
  * Camera da cena grafica

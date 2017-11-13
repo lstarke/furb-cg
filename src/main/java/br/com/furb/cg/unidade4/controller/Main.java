@@ -5,7 +5,6 @@ import java.awt.event.*;
 import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JColorChooser;
-
 import br.furb.cg.unidade4.model.*;
 import br.furb.cg.unidade4.model.auxiliar.AlgoritmoDeSelecao;
 
@@ -31,6 +30,15 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		
 		mundo = new Mundo();
 		caneta = new Caneta();
+	}
+	
+	// metodo definido na interface GLEventListener.
+	// "render" feito depois que a janela foi redimensionada.
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+		// System.out.println(" --- reshape ---");
+	    gl.glViewport(0, 0, width, height);
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
 	}
 
 	public void display(GLAutoDrawable arg0) {
@@ -202,15 +210,6 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		}
 
 		glDrawable.display();
-	}
-
-	// metodo definido na interface GLEventListener.
-	// "render" feito depois que a janela foi redimensionada.
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-		// System.out.println(" --- reshape ---");
-	    gl.glViewport(0, 0, width, height);
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glLoadIdentity();
 	}
 
 	// metodo definido na interface GLEventListener.

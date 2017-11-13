@@ -5,7 +5,6 @@ package br.furb.cg.unidade4.model;
  */
 
 import javax.media.opengl.GL;
-
 import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
 
 public final class Caneta {

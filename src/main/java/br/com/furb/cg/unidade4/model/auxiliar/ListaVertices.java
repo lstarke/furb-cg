@@ -7,7 +7,6 @@ package br.furb.cg.unidade4.model.auxiliar;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import br.furb.cg.unidade4.model.Ponto4D;
 
 public class ListaVertices {

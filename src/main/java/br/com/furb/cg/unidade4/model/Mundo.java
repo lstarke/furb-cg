@@ -7,8 +7,8 @@ package br.furb.cg.unidade4.model;
 import java.util.Iterator;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
-
 import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
+import br.furb.cg.unidade4.model.d2.Camera2D;
 
 public class Mundo {
 	// Propriedades do Mundo/Universo
