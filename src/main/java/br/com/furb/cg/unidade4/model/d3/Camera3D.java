@@ -51,15 +51,15 @@ public class Camera3D {
 	 * Indicar objetivo para a camera seguir (LookAt)
 	 * 
 	 * @param xOrigem
-	 * @param yOrigem
-	 * @param zOrigem
-	 * @param xObjetivo
-	 * @param yObjetivo
-	 * @param zObjetivo
+	 * @param yEye
+	 * @param zEye
+	 * @param xTarget
+	 * @param yTarget
+	 * @param zTarget
 	 */
-	public void fixaObjetivo(float xOrigem, float yOrigem, float zOrigem, 
-							 float xObjetivo, float yObjetivo, float zObjetivo) {
+	public void fixaObjetivo(float xEye, float yEye, float zEye, 
+							 float xTarget, float yTarget, float zTarget) {
 
-		glu.gluLookAt(xOrigem, yOrigem, zOrigem, xObjetivo, yObjetivo, zObjetivo, 0, 1, 0);
+		glu.gluLookAt(xEye, yEye, zEye, xTarget, yTarget, zTarget, 0, 1, 0);
 	}
 }

@@ -70,7 +70,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				case KeyEvent.VK_S:
 					mundo.setDesenhando(false);
 					System.out.println("Pronto para selecionar.");
-					break;	
+					break;
 			}
 		} else {
 			
@@ -206,6 +206,16 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				case KeyEvent.VK_F12:
 					mundo.exibirBboxObjeto();
 					break;
+					
+				case KeyEvent.VK_0:
+					mundo.setDesenhando(true);
+					this.caneta.setObjetosGraficos(mundo.getObjetosGraficos());
+					
+					this.caneta.desenharQuadrado2d();
+					
+					mundo.setDesenhando(false);
+					this.caneta.finalizar(false);
+					break;
 			}
 		}
 
@@ -228,6 +238,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mouseDragged(MouseEvent e) {
+		//System.out.println(" --- mouseDragged ---");
 		if (mundo.isSelecionando() && mundo.hasVerticeSelecionado()) {
 			Ponto4D p = this.getPontoCliqueMouse(e);
 			mundo.getVerticeSelecionado().atribuirX(p.obterX());
@@ -252,7 +263,6 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			this.mundo.selecionarVertice(p);
 			this.mundo.selecionarObjeto(p);			
 		}
-		
 	}
 
 	public void mouseEntered(MouseEvent arg0) {
@@ -264,6 +274,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void mousePressed(MouseEvent e) {
+		//System.out.println(" --- mousePressed ---");
 		Ponto4D p = this.getPontoCliqueMouse(e);
 		
 		if (mundo.isDesenhando())

@@ -91,4 +91,30 @@ public final class Caneta {
 		if (objetoTmp != null && objetoTmp.isSelecionado())
 			objetoTmp.gerarFilho();
 	}
+	
+	/**
+	 * Desenhar um quadrado magicamente no mundo 2d...
+	 */
+	public void desenharQuadrado2d() {
+		Ponto4D p1 = new Ponto4D(50, 50, 0, 1);
+		Ponto4D p2 = new Ponto4D(50, 150, 0, 1);
+		Ponto4D p3 = new Ponto4D(150, 150, 0, 1);
+		Ponto4D p4 = new Ponto4D(150, 50, 0, 1);
+		Ponto4D p5 = new Ponto4D(50, 50, 0, 1);
+		
+		this.atualizarUltimoVertice(p1);
+		this.inserirNovoPonto(p1);
+		
+		this.atualizarUltimoVertice(p2);
+		this.inserirNovoPonto(p2);
+		
+		this.atualizarUltimoVertice(p3);
+		this.inserirNovoPonto(p3);
+		
+		this.atualizarUltimoVertice(p4);
+		this.inserirNovoPonto(p4);
+		
+		this.atualizarUltimoVertice(p5);
+		this.inserirNovoPonto(p5);
+	}
 }
