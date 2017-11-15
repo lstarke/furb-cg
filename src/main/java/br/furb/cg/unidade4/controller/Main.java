@@ -72,12 +72,14 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					mundo.setDesenhando(false);
 					System.out.println("Pronto para selecionar.");
 					break;
+
 				case KeyEvent.VK_L:
 					System.out.println("Qtde objetos no mundo: " + this.mundo.getObjetosGraficos().size());
 					for (int i = 0; i < this.mundo.getObjetosGraficos().size(); i++) {
 						System.out.println("Objeto " + i + " tem " + this.mundo.getObjetosGraficos().get(i).getVertices().size() + " vertices." );						
 					}
 					break;
+
 				case KeyEvent.VK_C:
 					int qtdeObjetosMundo = this.mundo.getObjetosGraficos().size();					
 					if (qtdeObjetosMundo == 2 ) {
@@ -109,7 +111,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					break;
 			}
 		} else {
-			
+
 			switch (e.getKeyCode()) {				
 				// Concluir o desenho do poligono (objeto grafico)
 				case KeyEvent.VK_ESCAPE:
