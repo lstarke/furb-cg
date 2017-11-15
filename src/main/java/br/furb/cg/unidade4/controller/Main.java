@@ -7,6 +7,7 @@ import javax.media.opengl.glu.GLU;
 import javax.swing.JColorChooser;
 import br.furb.cg.unidade4.model.*;
 import br.furb.cg.unidade4.model.auxiliar.AlgoritmoDeSelecao;
+import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
 
 public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 	private GL gl;
@@ -70,6 +71,41 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 				case KeyEvent.VK_S:
 					mundo.setDesenhando(false);
 					System.out.println("Pronto para selecionar.");
+					break;
+				case KeyEvent.VK_L:
+					System.out.println("Qtde objetos no mundo: " + this.mundo.getObjetosGraficos().size());
+					for (int i = 0; i < this.mundo.getObjetosGraficos().size(); i++) {
+						System.out.println("Objeto " + i + " tem " + this.mundo.getObjetosGraficos().get(i).getVertices().size() + " vertices." );						
+					}
+					break;
+				case KeyEvent.VK_C:
+					int qtdeObjetosMundo = this.mundo.getObjetosGraficos().size();					
+					if (qtdeObjetosMundo == 2 ) {
+						if(this.verificaQtdeVerticesIguais(this.mundo.getObjetosGraficos())) {							
+							//--percorrendo lista de vertices de cada objeto							
+							for (int j = 0; j < this.mundo.getObjetosGraficos().get(0).getVertices().size(); j++) {
+								ObjetoGrafico novoObjeto = new ObjetoGrafico(GL.GL_LINE_STRIP);
+								Ponto4D verticeA = this.mundo.getObjetosGraficos().get(0).getVertices().get(j);									
+								Ponto4D verticeB = this.mundo.getObjetosGraficos().get(1).getVertices().get(j);
+								novoObjeto.addVertice(verticeA.obterX(), verticeA.obterY());
+								this.mundo.getObjetosGraficos().add(novoObjeto);
+								novoObjeto.addVertice(verticeB.obterX(), verticeB.obterY());
+								this.mundo.getObjetosGraficos().add(novoObjeto);
+							}	
+//							primeira tentativa
+//							ObjetoGrafico novoObjeto = new ObjetoGrafico(GL.GL_LINE_LOOP);
+//							//--percorrendo lista de objeto do mundo
+//							for (int i = 0; i < this.mundo.getObjetosGraficos().size(); i++) {
+//								//--percorrendo lista de vertices de cada objeto
+//								for (int j = 0; j < this.mundo.getObjetosGraficos().get(i).getVertices().size(); j++) {
+//									Ponto4D vertice = this.mundo.getObjetosGraficos().get(i).getVertices().get(j);									
+//									novoObjeto.addVertice(vertice.obterX(), vertice.obterY());
+//								}								
+//							}
+//							this.mundo.getObjetosGraficos().removerObjetos();
+//							this.mundo.getObjetosGraficos().add(novoObjeto);
+						}
+					}
 					break;
 			}
 		} else {
@@ -220,6 +256,15 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		}
 
 		glDrawable.display();
+	}
+
+	private boolean verificaQtdeVerticesIguais(ListaObjetosGraficos objetosGraficos) {
+		ObjetoGrafico objeto1 = objetosGraficos.get(0);
+		ObjetoGrafico objeto2 = objetosGraficos.get(0);
+		if (objeto1.getVertices().size() == objeto2.getVertices().size()) {
+			return true;
+		}
+		return false;
 	}
 
 	// metodo definido na interface GLEventListener.

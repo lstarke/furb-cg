@@ -45,6 +45,10 @@ public class Mundo {
 		return this.objetos;
 	}
 	
+	public void removerObjetosGraficos() {
+		this.objetos.removerObjetos();
+	}
+	
 	public Ponto4D getVerticeSelecionado() {
 		return this.ptoSelecionado;
 	}

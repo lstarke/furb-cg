@@ -146,4 +146,9 @@ public class ListaObjetosGraficos {
 		for (int i = 0; i < objetos.size(); i++)
 			System.out.println(String.format("Objetos nro %d: %s", i, objetos.get(i).toString()));
 	}
+
+	public void removerObjetos() {
+		this.objetos.clear();
+		
+	}
 }
