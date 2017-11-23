@@ -182,6 +182,11 @@ public final class ObjetoGrafico {
 		objAux.setPrimitiva(this.getPrimitiva());
 		this.filhos.add(objAux);
 	}
+	
+	// Duplicar os vertices
+	public void duplicarVertices(float distancia) {
+		
+	}
 
 	/**
 	 * Remover ultimo vertice da lista de vertices

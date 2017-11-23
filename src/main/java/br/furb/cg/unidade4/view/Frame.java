@@ -15,7 +15,7 @@ public class Frame extends JFrame{
 	
 	public Frame() {		
 		// Cria o frame.
-		super("CG-N4_Equipe 05");   
+		super("CG-N4_Equipe 05 - Editor de poligono 3D");   
 		setBounds(300,250,janelaLargura,janelaAltura+22);  // 400 + 22 da borda do t�tulo da janela
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());

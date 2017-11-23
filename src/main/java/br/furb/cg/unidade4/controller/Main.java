@@ -4,15 +4,22 @@ import java.awt.Color;
 import java.awt.event.*;
 import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
+import com.sun.opengl.util.GLUT;
 import javax.swing.JColorChooser;
 import br.furb.cg.unidade4.model.*;
 import br.furb.cg.unidade4.model.auxiliar.AlgoritmoDeSelecao;
 import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
+import br.furb.cg.unidade4.model.d3.Caneta3D;
 
 public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 	private GL gl;
 	private GLU glu;
+	private GLUT glut;
 	private GLAutoDrawable glDrawable;
+	
+	// Temporario para aparecer 3D
+	private final float posLight[] = { 10f, 10f, 10.0f, 0.0f };
+	private boolean chaveCena2D;
 	
 	/// Mundo da cena
 	private Mundo mundo;
@@ -25,24 +32,41 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		glDrawable = drawable;
 		gl = drawable.getGL();
 		glu = new GLU();
+		glut = new GLUT();
 		glDrawable.setGL(new DebugGL(gl));
 		
-		gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		// Diretivas gerais
+	    gl.glEnable(GL.GL_CULL_FACE); // Diretiva que indica para desenhar apenas uma face do cubo
+	    gl.glEnable(GL.GL_DEPTH_TEST);
 		
 		mundo = new Mundo();
 		caneta = new Caneta();
+		chaveCena2D = false;
 	}
 	
 	// metodo definido na interface GLEventListener.
 	// "render" feito depois que a janela foi redimensionada.
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
 		// System.out.println(" --- reshape ---");
-	    gl.glViewport(0, 0, width, height);
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glLoadIdentity();
+		gl.glViewport(0, 0, width, height);
 	}
 
 	public void display(GLAutoDrawable arg0) {
+		if (chaveCena2D)
+			cena2D();
+		else
+			cena3D();
+		
+		gl.glFlush();
+	}
+	
+	public void cena2D() {
+		gl.glClearColor(1f, 1f, 1f, 1f);
+		
+		//gl.glViewport(0, 0, width, height);
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
@@ -53,7 +77,35 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		mundo.posicionarCamera(gl, glu);
 		mundo.SRU(gl, glu);
 		mundo.desenharObjetos(gl, glu);
-		gl.glFlush();
+	}
+	
+	public void cena3D() {
+		gl.glClearColor(0f, 0f, 0f, 0f);
+	    
+	    // Diretiva de limpeza de tela 3D
+		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+		
+		// Diretivas 3D
+		gl.glMatrixMode(GL.GL_PROJECTION);
+	    gl.glLoadIdentity();
+		//gl.glViewport(0, 0, width, height);
+	    glu.gluPerspective(60, 1, 0.1, 400);    
+
+		gl.glMatrixMode(GL.GL_MODELVIEW);
+		gl.glLoadIdentity();
+		glu.gluLookAt(10f, 10f, 10f, 
+					  0f, 0f, 0f, 
+					  0f, 1f, 0f);
+		
+		// Iluminacao ambiente
+	    gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, posLight, 0);
+	    gl.glEnable(GL.GL_LIGHT0);
+
+	    // Desenhar as linhas
+	    mundo.Sru3D(gl);
+	
+	    // Desenhar um cubo de forma fixa
+	    Caneta3D.desenhaCuboFaces(gl);
 	}
 	
 	public void keyPressed(KeyEvent e) {
@@ -93,19 +145,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 								this.mundo.getObjetosGraficos().add(novoObjeto);
 								novoObjeto.addVertice(verticeB.obterX(), verticeB.obterY());
 								this.mundo.getObjetosGraficos().add(novoObjeto);
-							}	
-//							primeira tentativa
-//							ObjetoGrafico novoObjeto = new ObjetoGrafico(GL.GL_LINE_LOOP);
-//							//--percorrendo lista de objeto do mundo
-//							for (int i = 0; i < this.mundo.getObjetosGraficos().size(); i++) {
-//								//--percorrendo lista de vertices de cada objeto
-//								for (int j = 0; j < this.mundo.getObjetosGraficos().get(i).getVertices().size(); j++) {
-//									Ponto4D vertice = this.mundo.getObjetosGraficos().get(i).getVertices().get(j);									
-//									novoObjeto.addVertice(vertice.obterX(), vertice.obterY());
-//								}								
-//							}
-//							this.mundo.getObjetosGraficos().removerObjetos();
-//							this.mundo.getObjetosGraficos().add(novoObjeto);
+							}
 						}
 					}
 					break;
@@ -254,6 +294,11 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					mundo.setDesenhando(false);
 					this.caneta.finalizar(false);
 					break;
+					
+				// Troca da Cena 2D para 3D
+				case KeyEvent.VK_3:
+					chaveCena2D = !chaveCena2D;
+					break;
 			}
 		}
 
@@ -286,29 +331,35 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseDragged(MouseEvent e) {
 		//System.out.println(" --- mouseDragged ---");
-		if (mundo.isSelecionando() && mundo.hasVerticeSelecionado()) {
-			Ponto4D p = this.getPontoCliqueMouse(e);
-			mundo.getVerticeSelecionado().atribuirX(p.obterX());
-			mundo.getVerticeSelecionado().atribuirY(p.obterY());
-			glDrawable.display();
+		if (chaveCena2D) {
+			if (mundo.isSelecionando() && mundo.hasVerticeSelecionado()) {
+				Ponto4D p = this.getPontoCliqueMouse(e);
+				mundo.getVerticeSelecionado().atribuirX(p.obterX());
+				mundo.getVerticeSelecionado().atribuirY(p.obterY());
+				glDrawable.display();
+			}
 		}
 	}
 
 	public void mouseMoved(MouseEvent e) {
 //		System.out.println(" --- mouseMoved ---");
-		if (this.mundo != null && mundo.isDesenhando()) {
-			Ponto4D novoPonto = this.getPontoCliqueMouse(e);
-			this.caneta.atualizarUltimoVertice(novoPonto);
-			glDrawable.display();
+		if (chaveCena2D) {
+			if (this.mundo != null && mundo.isDesenhando()) {
+				Ponto4D novoPonto = this.getPontoCliqueMouse(e);
+				this.caneta.atualizarUltimoVertice(novoPonto);
+				glDrawable.display();
+			}
 		}
 	}
 
 	public void mouseClicked(MouseEvent e) {
 		//System.out.println(" --- mouseClicked ---");
-		Ponto4D p = this.getPontoCliqueMouse(e);
-		if (this.mundo != null && this.mundo.isSelecionando()) {
-			this.mundo.selecionarVertice(p);
-			this.mundo.selecionarObjeto(p);			
+		if (chaveCena2D) {
+			Ponto4D p = this.getPontoCliqueMouse(e);
+			if (this.mundo != null && this.mundo.isSelecionando()) {
+				this.mundo.selecionarVertice(p);
+				this.mundo.selecionarObjeto(p);			
+			}
 		}
 	}
 
@@ -322,24 +373,26 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mousePressed(MouseEvent e) {
 		//System.out.println(" --- mousePressed ---");
-		Ponto4D p = this.getPontoCliqueMouse(e);
-		
-		if (mundo.isDesenhando())
-			this.caneta.inserirNovoPonto(p);
-		else {
-			boolean estaDentro = false;
-			this.mundo.selecionarVertice(p);
-			this.mundo.selecionarObjeto(p);
+		if (chaveCena2D) {
+			Ponto4D p = this.getPontoCliqueMouse(e);
 			
-			if (mundo.hasObjetoSelecionado())
-				estaDentro = AlgoritmoDeSelecao.pontoEmPoligono(mundo.getObjetoSelecionado(), p);
-			
-			if (estaDentro)
-				this.caneta.setObjeto(mundo.getObjetoSelecionado());
-			else
-				this.mundo.selecionarObjeto(null);
-			
-			System.out.println("Clicou dentro do poligono? " + estaDentro);
+			if (mundo.isDesenhando())
+				this.caneta.inserirNovoPonto(p);
+			else {
+				boolean estaDentro = false;
+				this.mundo.selecionarVertice(p);
+				this.mundo.selecionarObjeto(p);
+				
+				if (mundo.hasObjetoSelecionado())
+					estaDentro = AlgoritmoDeSelecao.pontoEmPoligono(mundo.getObjetoSelecionado(), p);
+				
+				if (estaDentro)
+					this.caneta.setObjeto(mundo.getObjetoSelecionado());
+				else
+					this.mundo.selecionarObjeto(null);
+				
+				System.out.println("Clicou dentro do poligono? " + estaDentro);
+			}
 		}
 
 		glDrawable.display();
@@ -347,9 +400,11 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseReleased(MouseEvent arg0) {
 //		System.out.println(" --- mouseReleased ---");
-		if (mundo.hasObjetoSelecionado()) {
-			mundo.calcularBoundBox();
-			glDrawable.display();
+		if (chaveCena2D) {
+			if (mundo.hasObjetoSelecionado()) {
+				mundo.calcularBoundBox();
+				glDrawable.display();
+			}
 		}
 	}
 	

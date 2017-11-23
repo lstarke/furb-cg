@@ -117,4 +117,11 @@ public final class Caneta {
 		this.atualizarUltimoVertice(p5);
 		this.inserirNovoPonto(p5);
 	}
+	
+	// Duplicar objeto desenhado em 2d e acrescentar ligacoes;
+	public void calcular2Dto3D(float profundidade) {
+		if (objetoTmp != null && objetoTmp.isSelecionado()) {
+			
+		}
+	}
 }

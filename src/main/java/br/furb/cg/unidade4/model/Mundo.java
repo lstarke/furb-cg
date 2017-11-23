@@ -123,6 +123,34 @@ public class Mundo {
 	}
 	
 	/**
+	 * Desenhar os eixos X, Y e Z na cena grafica
+	 */	
+	public void Sru3D(GL gl) {
+		gl.glLineWidth(1.0f);
+
+		// eixo X - Red
+		gl.glColor3f(1.0f, 0.0f, 0.0f);
+		gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(0.0f, 0.0f, 0.0f);
+			gl.glVertex3f(10.0f, 0.0f, 0.0f);
+		gl.glEnd();
+
+		// eixo Y - Green
+		gl.glColor3f(0.0f, 1.0f, 0.0f);
+		gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(0.0f, 0.0f, 0.0f);
+			gl.glVertex3f(0.0f, 10.0f, 0.0f);
+		gl.glEnd();
+
+		// eixo Z - Blue
+		gl.glColor3f(0.0f, 0.0f, 1.0f);
+		gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(0.0f, 0.0f, 0.0f);
+			gl.glVertex3f(0.0f, 0.0f, 10.0f);
+		gl.glEnd();
+	}
+	
+	/**
 	 * Posicionar a camera em um ponto especifico da cena
 	 * @param gl
 	 * @param glu
