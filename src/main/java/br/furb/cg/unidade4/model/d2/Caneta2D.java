@@ -1,13 +1,16 @@
-package br.furb.cg.unidade4.model;
+package br.furb.cg.unidade4.model.d2;
 
 /**
  * Objeto responsavel por desenhar os poligonos na cena grafica
  */
 
 import javax.media.opengl.GL;
+
+import br.furb.cg.unidade4.model.ObjetoGrafico;
+import br.furb.cg.unidade4.model.Ponto4D;
 import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
 
-public final class Caneta {
+public final class Caneta2D {
 
 	private Ponto4D pontoOrigem;
 	private Ponto4D pontoDestino;

@@ -1,118 +1,119 @@
 package br.furb.cg.unidade4.controller;
 
-import java.awt.Color;
 import java.awt.event.*;
 import javax.media.opengl.*;
-import javax.media.opengl.glu.GLU;
-import com.sun.opengl.util.GLUT;
-import javax.swing.JColorChooser;
+//import javax.media.opengl.glu.GLU;
+//import com.sun.opengl.util.GLUT;
 import br.furb.cg.unidade4.model.*;
-import br.furb.cg.unidade4.model.auxiliar.AlgoritmoDeSelecao;
-import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
-import br.furb.cg.unidade4.model.d3.Caneta3D;
+//import br.furb.cg.unidade4.model.auxiliar.AlgoritmoDeSelecao;
+//import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
+//import br.furb.cg.unidade4.model.d3.Caneta3D;
+import br.furb.cg.unidade4.model.d2.Caneta2D;
 
 public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
-	private GL gl;
-	private GLU glu;
+//	private GL gl;
+//	private GLU glu;
 //	private GLUT glut;
-	private GLAutoDrawable glDrawable;
-	
-	// Temporario para aparecer 3D
-	private final float posLight[] = { 10f, 10f, 10.0f, 0.0f };
+//	private GLAutoDrawable glDrawable;
+
+	/// Objetos do OpenGL
+	private OpenGL o;
 	
 	/// Mundo da cena
 	private Mundo mundo;
 	
-	/// Desenha demais objetos graficos
-	private Caneta caneta;
-	
 	/// Especificacao de controladores
 	private Controller2D cont2d;
+	private Controller3D cont3d;
 	
 	// "render" feito logo apos a inicializacao do contexto OpenGL.
 	public void init(GLAutoDrawable drawable) {
-		glDrawable = drawable;
-		gl = drawable.getGL();
-		glu = new GLU();
+//		glDrawable = drawable;
+//		gl = drawable.getGL();
+//		glu = new GLU();
 //		glut = new GLUT();
-		glDrawable.setGL(new DebugGL(gl));
+//		glDrawable.setGL(new DebugGL(gl));
+		o = new OpenGL(drawable);
 		
 		mundo = new Mundo(true);
-		caneta = new Caneta();
-		cont2d = new Controller2D(drawable, mundo, caneta);
+		cont2d = new Controller2D(o, mundo);
+		cont3d = new Controller3D(o, mundo);
 	}
 	
 	// metodo definido na interface GLEventListener.
 	// "render" feito depois que a janela foi redimensionada.
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
 		// System.out.println(" --- reshape ---");
-		gl.glViewport(0, 0, width, height);
+		o.gl.glViewport(0, 0, width, height);
+		cont3d.reshape3D();
 	}
 
 	public void display(GLAutoDrawable arg0) {
 		if (mundo.is2D())
-			cena2D();
+			cont2d.cena2D();
 		else
-			cena3D();
+			cont3d.cena3D();
 		
-		gl.glFlush();
+		o.gl.glFlush();
 	}
 	
-	public void cena2D() {
-		gl.glClearColor(1f, 1f, 1f, 1f);
-		
-		//gl.glViewport(0, 0, width, height);
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glLoadIdentity();
-        
-		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-		gl.glMatrixMode(GL.GL_MODELVIEW);
-		gl.glLoadIdentity();
-
-		gl.glLineWidth(1.0f);
-		gl.glPointSize(1.0f);
-		
-		mundo.posicionarCamera(gl, glu);
-		mundo.SRU(gl, glu);
-		mundo.desenharObjetos(gl, glu);
-	}
+//	public void cena2D() {
+//		gl.glClearColor(1f, 1f, 1f, 1f);
+//		
+//		//gl.glViewport(0, 0, width, height);
+//        gl.glMatrixMode(GL.GL_PROJECTION);
+//        gl.glLoadIdentity();
+//        
+//		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+//		gl.glMatrixMode(GL.GL_MODELVIEW);
+//		gl.glLoadIdentity();
+//
+//		gl.glLineWidth(1.0f);
+//		gl.glPointSize(1.0f);
+//		
+//		mundo.posicionarCamera(gl, glu);
+//		mundo.SRU(gl, glu);
+//		mundo.desenharObjetos(gl, glu);
+//	}
 	
-	public void cena3D() {
-		gl.glClearColor(0f, 0f, 0f, 0f);
-	    
-	    // Diretiva de limpeza de tela 3D
-		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-		
-		// Diretivas gerais
-	    gl.glEnable(GL.GL_CULL_FACE); // Diretiva que indica para desenhar apenas uma face do cubo
-	    gl.glEnable(GL.GL_DEPTH_TEST);
-		
-		// Diretivas 3D
-		gl.glMatrixMode(GL.GL_PROJECTION);
-	    gl.glLoadIdentity();
-		//gl.glViewport(0, 0, width, height);
-	    glu.gluPerspective(60, 1, 0.1, 400);    
-
-		gl.glMatrixMode(GL.GL_MODELVIEW);
-		gl.glLoadIdentity();
-		glu.gluLookAt(10f, 10f, 10f, 
-					  0f, 0f, 0f, 
-					  0f, 1f, 0f);
-		
-		// Iluminacao ambiente
-	    gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, posLight, 0);
-	    gl.glEnable(GL.GL_LIGHT0);
-
-	    // Desenhar as linhas
-	    mundo.Sru3D(gl);
-	
-	    // Desenhar um cubo de forma fixa
-	    Caneta3D.desenhaCuboFaces(gl);
-	}
+//	public void cena3D() {
+//		gl.glClearColor(0f, 0f, 0f, 0f);
+//	    
+//	    // Diretiva de limpeza de tela 3D
+//		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+//		
+//		// Diretivas gerais
+//	    gl.glEnable(GL.GL_CULL_FACE); // Diretiva que indica para desenhar apenas uma face do cubo
+//	    gl.glEnable(GL.GL_DEPTH_TEST);
+//		
+//		// Diretivas 3D
+//		gl.glMatrixMode(GL.GL_PROJECTION);
+//	    gl.glLoadIdentity();
+//		//gl.glViewport(0, 0, width, height);
+//	    glu.gluPerspective(60, 1, 0.1, 400);    
+//
+//		gl.glMatrixMode(GL.GL_MODELVIEW);
+//		gl.glLoadIdentity();
+//		glu.gluLookAt(10f, 10f, 10f, 
+//					  0f, 0f, 0f, 
+//					  0f, 1f, 0f);
+//		
+//		// Iluminacao ambiente
+//	    gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, posLight, 0);
+//	    gl.glEnable(GL.GL_LIGHT0);
+//
+//	    // Desenhar as linhas
+//	    mundo.Sru3D(gl);
+//	
+//	    // Desenhar um cubo de forma fixa
+//	    Caneta3D.desenhaCuboFaces(gl);
+//	}
 	
 	public void keyPressed(KeyEvent e) {
 		if (mundo.is2D())
 			cont2d.keyPressed(e);
+		else
+			cont3d.keyPressed(e);
 /*
 		if (e.isControlDown()) {
 			switch (e.getKeyCode()) {
@@ -306,7 +307,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			}
 		}
 */
-		glDrawable.display();
+		o.glDrawable.display();
 	}
 
 	// metodo definido na interface GLEventListener.
@@ -394,7 +395,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 			cont2d.mousePressed(e);
 		}
 
-		glDrawable.display();
+		o.glDrawable.display();
 	}
 
 	public void mouseReleased(MouseEvent e) {

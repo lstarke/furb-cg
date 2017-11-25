@@ -4,29 +4,48 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
 import javax.swing.JColorChooser;
-import br.furb.cg.unidade4.model.Caneta;
+
 import br.furb.cg.unidade4.model.Mundo;
 import br.furb.cg.unidade4.model.ObjetoGrafico;
 import br.furb.cg.unidade4.model.Ponto4D;
 import br.furb.cg.unidade4.model.auxiliar.AlgoritmoDeSelecao;
 import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
+import br.furb.cg.unidade4.model.d2.Caneta2D;
 
 public class Controller2D {
-	// OpenGl drawable (vindo do main)
-	private GLAutoDrawable glDrawable;
+	// OpenGl (vindo do main)
+	private OpenGL o;
 	
 	/// Mundo da cena (vindo do main)
 	private Mundo mundo;
 	
-	/// Desenha demais objetos graficos (vindo do main)
-	private Caneta caneta;
+	/// Desenha demais objetos graficos
+	private Caneta2D caneta;
 	
-	public Controller2D(GLAutoDrawable drawable, Mundo mundo, Caneta caneta) {
-		this.glDrawable = drawable;
+	public Controller2D(OpenGL o, Mundo mundo) {
+		this.o = o;
 		this.mundo = mundo;
-		this.caneta = caneta;
+		this.caneta = new Caneta2D();
+	}
+	
+	public void cena2D() {
+		o.gl.glClearColor(1f, 1f, 1f, 1f);
+		
+		//o.gl.glViewport(0, 0, width, height);
+        o.gl.glMatrixMode(GL.GL_PROJECTION);
+        o.gl.glLoadIdentity();
+        
+		o.gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+		o.gl.glMatrixMode(GL.GL_MODELVIEW);
+		o.gl.glLoadIdentity();
+
+		o.gl.glLineWidth(1.0f);
+		o.gl.glPointSize(1.0f);
+		
+		mundo.posicionarCamera(o.gl, o.glu);
+		mundo.SRU(o.gl, o.glu);
+		mundo.desenharObjetos(o.gl, o.glu);
 	}
 	
 	public void keyPressed(KeyEvent e) {
@@ -223,7 +242,7 @@ public class Controller2D {
 			}
 		}
 
-		//glDrawable.display();
+		//o.glDrawable.display();
 	}
 
 	public void keyReleased(KeyEvent arg0) {
@@ -239,7 +258,7 @@ public class Controller2D {
 			Ponto4D p = this.getPontoCliqueMouse(e);
 			mundo.getVerticeSelecionado().atribuirX(p.obterX());
 			mundo.getVerticeSelecionado().atribuirY(p.obterY());
-			glDrawable.display();
+			o.glDrawable.display();
 		}
 	}
 
@@ -247,7 +266,7 @@ public class Controller2D {
 		if (mundo != null && mundo.isDesenhando()) {
 			Ponto4D novoPonto = this.getPontoCliqueMouse(e);
 			caneta.atualizarUltimoVertice(novoPonto);
-			glDrawable.display();
+			o.glDrawable.display();
 		}
 	}
 
@@ -288,13 +307,13 @@ public class Controller2D {
 			System.out.println("Clicou dentro do poligono? " + estaDentro);
 		}
 
-//		glDrawable.display();
+//		o.glDrawable.display();
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
 		if (mundo.hasObjetoSelecionado()) {
 			mundo.calcularBoundBox();
-			glDrawable.display();
+			o.glDrawable.display();
 		}
 	}
 	
