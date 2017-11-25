@@ -13,7 +13,6 @@ import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
 import br.furb.cg.unidade4.model.auxiliar.ListaVertices;
-import br.furb.cg.unidade4.model.d2.BBox2D;
 
 public final class ObjetoGrafico {
 	
@@ -21,7 +20,7 @@ public final class ObjetoGrafico {
 	private int primitiva;
 	private ListaVertices vertices;
 	private Color cor;
-	private BBox2D bbox;
+	private BBox3D bbox;
 	private Matriz matriz;
 	private ListaObjetosGraficos filhos;
 	
@@ -39,7 +38,7 @@ public final class ObjetoGrafico {
 		this.setPrimitiva(primitiva);
 		this.vertices = new ListaVertices();
 		this.cor = Color.BLACK;
-		this.bbox = new BBox2D();
+		this.bbox = new BBox3D();
 		this.matriz = new Matriz();
 		this.filhos = new ListaObjetosGraficos();
 		
@@ -90,7 +89,7 @@ public final class ObjetoGrafico {
 	/**
 	 * Retornar Bound Box do objeto gráfico
 	 */
-	public BBox2D getBbox()
+	public BBox3D getBbox()
 	{	
 		return bbox;
 	}
