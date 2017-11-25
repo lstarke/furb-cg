@@ -19,7 +19,6 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	
 	// Temporario para aparecer 3D
 	private final float posLight[] = { 10f, 10f, 10.0f, 0.0f };
-	private boolean chaveCena2D;
 	
 	/// Mundo da cena
 	private Mundo mundo;
@@ -35,13 +34,8 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		glut = new GLUT();
 		glDrawable.setGL(new DebugGL(gl));
 		
-		// Diretivas gerais
-	    gl.glEnable(GL.GL_CULL_FACE); // Diretiva que indica para desenhar apenas uma face do cubo
-	    gl.glEnable(GL.GL_DEPTH_TEST);
-		
-		mundo = new Mundo();
+		mundo = new Mundo(true);
 		caneta = new Caneta();
-		chaveCena2D = false;
 	}
 	
 	// metodo definido na interface GLEventListener.
@@ -52,7 +46,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void display(GLAutoDrawable arg0) {
-		if (chaveCena2D)
+		if (mundo.is2D())
 			cena2D();
 		else
 			cena3D();
@@ -84,6 +78,10 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	    
 	    // Diretiva de limpeza de tela 3D
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+		
+		// Diretivas gerais
+	    gl.glEnable(GL.GL_CULL_FACE); // Diretiva que indica para desenhar apenas uma face do cubo
+	    gl.glEnable(GL.GL_DEPTH_TEST);
 		
 		// Diretivas 3D
 		gl.glMatrixMode(GL.GL_PROJECTION);
@@ -297,7 +295,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					
 				// Troca da Cena 2D para 3D
 				case KeyEvent.VK_3:
-					chaveCena2D = !chaveCena2D;
+					mundo.set3D();
 					break;
 			}
 		}
@@ -331,7 +329,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseDragged(MouseEvent e) {
 		//System.out.println(" --- mouseDragged ---");
-		if (chaveCena2D) {
+		if (mundo.is2D()) {
 			if (mundo.isSelecionando() && mundo.hasVerticeSelecionado()) {
 				Ponto4D p = this.getPontoCliqueMouse(e);
 				mundo.getVerticeSelecionado().atribuirX(p.obterX());
@@ -343,7 +341,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseMoved(MouseEvent e) {
 //		System.out.println(" --- mouseMoved ---");
-		if (chaveCena2D) {
+		if (mundo.is2D()) {
 			if (this.mundo != null && mundo.isDesenhando()) {
 				Ponto4D novoPonto = this.getPontoCliqueMouse(e);
 				this.caneta.atualizarUltimoVertice(novoPonto);
@@ -354,7 +352,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseClicked(MouseEvent e) {
 		//System.out.println(" --- mouseClicked ---");
-		if (chaveCena2D) {
+		if (mundo.is2D()) {
 			Ponto4D p = this.getPontoCliqueMouse(e);
 			if (this.mundo != null && this.mundo.isSelecionando()) {
 				this.mundo.selecionarVertice(p);
@@ -373,7 +371,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mousePressed(MouseEvent e) {
 		//System.out.println(" --- mousePressed ---");
-		if (chaveCena2D) {
+		if (mundo.is2D()) {
 			Ponto4D p = this.getPontoCliqueMouse(e);
 			
 			if (mundo.isDesenhando())
@@ -400,7 +398,7 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseReleased(MouseEvent arg0) {
 //		System.out.println(" --- mouseReleased ---");
-		if (chaveCena2D) {
+		if (mundo.is2D()) {
 			if (mundo.hasObjetoSelecionado()) {
 				mundo.calcularBoundBox();
 				glDrawable.display();

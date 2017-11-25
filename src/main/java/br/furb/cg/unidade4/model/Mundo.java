@@ -21,9 +21,10 @@ public class Mundo {
 	private ObjetoGrafico objSelecionado;
 	private Ponto4D ptoSelecionado;
 	private boolean desenhando;
+	private boolean is2D;
 
 	/// Construtor
-	public Mundo() {
+	public Mundo(boolean is2D) {
 		this.tamEixoXsru = 200f;
 		this.tamEixoYsru = 200f;
 		this.camera = new Camera2D();
@@ -31,6 +32,15 @@ public class Mundo {
 		this.objSelecionado = null;
 		this.ptoSelecionado = null;
 		this.desenhando = false;
+		this.is2D = is2D;
+	}
+	
+	public boolean is2D() {
+		return is2D;
+	}
+	
+	public void set3D() {
+		this.is2D = false;
 	}
 
 	public Camera2D getCamera() {
