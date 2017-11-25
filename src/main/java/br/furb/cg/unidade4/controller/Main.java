@@ -14,7 +14,7 @@ import br.furb.cg.unidade4.model.d3.Caneta3D;
 public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 	private GL gl;
 	private GLU glu;
-	private GLUT glut;
+//	private GLUT glut;
 	private GLAutoDrawable glDrawable;
 	
 	// Temporario para aparecer 3D
@@ -26,16 +26,20 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	/// Desenha demais objetos graficos
 	private Caneta caneta;
 	
+	/// Especificacao de controladores
+	private Controller2D cont2d;
+	
 	// "render" feito logo apos a inicializacao do contexto OpenGL.
 	public void init(GLAutoDrawable drawable) {
 		glDrawable = drawable;
 		gl = drawable.getGL();
 		glu = new GLU();
-		glut = new GLUT();
+//		glut = new GLUT();
 		glDrawable.setGL(new DebugGL(gl));
 		
 		mundo = new Mundo(true);
 		caneta = new Caneta();
+		cont2d = new Controller2D(drawable, mundo, caneta);
 	}
 	
 	// metodo definido na interface GLEventListener.
@@ -107,7 +111,9 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		
+		if (mundo.is2D())
+			cont2d.keyPressed(e);
+/*
 		if (e.isControlDown()) {
 			switch (e.getKeyCode()) {
 				// Desenhar
@@ -299,17 +305,8 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 					break;
 			}
 		}
-
+*/
 		glDrawable.display();
-	}
-
-	private boolean verificaQtdeVerticesIguais(ListaObjetosGraficos objetosGraficos) {
-		ObjetoGrafico objeto1 = objetosGraficos.get(0);
-		ObjetoGrafico objeto2 = objetosGraficos.get(0);
-		if (objeto1.getVertices().size() == objeto2.getVertices().size()) {
-			return true;
-		}
-		return false;
 	}
 
 	// metodo definido na interface GLEventListener.
@@ -330,121 +327,84 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 	public void mouseDragged(MouseEvent e) {
 		//System.out.println(" --- mouseDragged ---");
 		if (mundo.is2D()) {
-			if (mundo.isSelecionando() && mundo.hasVerticeSelecionado()) {
-				Ponto4D p = this.getPontoCliqueMouse(e);
-				mundo.getVerticeSelecionado().atribuirX(p.obterX());
-				mundo.getVerticeSelecionado().atribuirY(p.obterY());
-				glDrawable.display();
-			}
+//			if (mundo.isSelecionando() && mundo.hasVerticeSelecionado()) {
+//				Ponto4D p = this.getPontoCliqueMouse(e);
+//				mundo.getVerticeSelecionado().atribuirX(p.obterX());
+//				mundo.getVerticeSelecionado().atribuirY(p.obterY());
+//				glDrawable.display();
+//			}
+			cont2d.mouseDragged(e);
 		}
 	}
 
 	public void mouseMoved(MouseEvent e) {
 //		System.out.println(" --- mouseMoved ---");
 		if (mundo.is2D()) {
-			if (this.mundo != null && mundo.isDesenhando()) {
-				Ponto4D novoPonto = this.getPontoCliqueMouse(e);
-				this.caneta.atualizarUltimoVertice(novoPonto);
-				glDrawable.display();
-			}
+//			if (this.mundo != null && mundo.isDesenhando()) {
+//				Ponto4D novoPonto = this.getPontoCliqueMouse(e);
+//				this.caneta.atualizarUltimoVertice(novoPonto);
+//				glDrawable.display();
+//			}
+			cont2d.mouseMoved(e);
 		}
 	}
 
 	public void mouseClicked(MouseEvent e) {
 		//System.out.println(" --- mouseClicked ---");
 		if (mundo.is2D()) {
-			Ponto4D p = this.getPontoCliqueMouse(e);
-			if (this.mundo != null && this.mundo.isSelecionando()) {
-				this.mundo.selecionarVertice(p);
-				this.mundo.selecionarObjeto(p);			
-			}
+//			Ponto4D p = this.getPontoCliqueMouse(e);
+//			if (this.mundo != null && this.mundo.isSelecionando()) {
+//				this.mundo.selecionarVertice(p);
+//				this.mundo.selecionarObjeto(p);			
+//			}
+			cont2d.mouseClicked(e);
 		}
 	}
 
-	public void mouseEntered(MouseEvent arg0) {
+	public void mouseEntered(MouseEvent e) {
 //		System.out.println(" --- mouseEntered ---");
 	}
 
-	public void mouseExited(MouseEvent arg0) {
+	public void mouseExited(MouseEvent e) {
 //		System.out.println(" --- mouseExited ---");
 	}
 
 	public void mousePressed(MouseEvent e) {
 		//System.out.println(" --- mousePressed ---");
 		if (mundo.is2D()) {
-			Ponto4D p = this.getPontoCliqueMouse(e);
-			
-			if (mundo.isDesenhando())
-				this.caneta.inserirNovoPonto(p);
-			else {
-				boolean estaDentro = false;
-				this.mundo.selecionarVertice(p);
-				this.mundo.selecionarObjeto(p);
-				
-				if (mundo.hasObjetoSelecionado())
-					estaDentro = AlgoritmoDeSelecao.pontoEmPoligono(mundo.getObjetoSelecionado(), p);
-				
-				if (estaDentro)
-					this.caneta.setObjeto(mundo.getObjetoSelecionado());
-				else
-					this.mundo.selecionarObjeto(null);
-				
-				System.out.println("Clicou dentro do poligono? " + estaDentro);
-			}
+//			Ponto4D p = this.getPontoCliqueMouse(e);
+//			
+//			if (mundo.isDesenhando())
+//				this.caneta.inserirNovoPonto(p);
+//			else {
+//				boolean estaDentro = false;
+//				this.mundo.selecionarVertice(p);
+//				this.mundo.selecionarObjeto(p);
+//				
+//				if (mundo.hasObjetoSelecionado())
+//					estaDentro = AlgoritmoDeSelecao.pontoEmPoligono(mundo.getObjetoSelecionado(), p);
+//				
+//				if (estaDentro)
+//					this.caneta.setObjeto(mundo.getObjetoSelecionado());
+//				else
+//					this.mundo.selecionarObjeto(null);
+//				
+//				System.out.println("Clicou dentro do poligono? " + estaDentro);
+//			}
+			cont2d.mousePressed(e);
 		}
 
 		glDrawable.display();
 	}
 
-	public void mouseReleased(MouseEvent arg0) {
+	public void mouseReleased(MouseEvent e) {
 //		System.out.println(" --- mouseReleased ---");
 		if (mundo.is2D()) {
-			if (mundo.hasObjetoSelecionado()) {
-				mundo.calcularBoundBox();
-				glDrawable.display();
-			}
+//			if (mundo.hasObjetoSelecionado()) {
+//				mundo.calcularBoundBox();
+//				glDrawable.display();
+//			}
+			cont2d.mouseReleased(e);
 		}
-	}
-	
-	/**
-	 * Informar em qual ponto da tela (Frame) se refere o clique do mouse
-	 * @param MouseEvent
-	 * @return Ponto4D
-	 */
-	private Ponto4D getPontoCliqueMouse(MouseEvent e)
-	{	
-		/*
-		 Congela local (X e Y) absoluto (tela real) e do frame
-		 para converter o local real de clique do mouse para a tela do programa.
-		 
-		 Sem congelar nao funciona
-		 
-		 Onde:
-		   - e.getX() = X absoluto (X real) do clique do mouse;
-		   - e.getY() = Y absoluto (Y real) do clique do mouse;
-		   - e.getComponent().getWidth() = X referente ao componente clicado (neste caso, frame);
-		   - e.getComponent().getHeight() = Y referente ao componente clicado (neste caso, frame);
-		*/
-		return converterPontoCliqueMouse(e.getX(), e.getY(), e.getComponent().getWidth(), e.getComponent().getHeight());
-	}
-	
-	/**
-	 * Converter o x, y do clique do mouse (absoluto) para ponto na tela do programa
-	 * @param double xAbsoluto
-	 * @param double yAbsoluto
-	 * @param double xFrame
-	 * @param double yFrame
-	 */
-	public Ponto4D converterPontoCliqueMouse(double xAbsoluto, double yAbsoluto, double xFrame, double yFrame)
-	{
-        // Encontrar a diferenca entre ortho e frame e transforma em indice de conversao de escala
-		double indiceConvX = mundo.getCamera().getTamX() / xFrame;
-		double indiceConvY = mundo.getCamera().getTamY() / yFrame;
-
-		// Encontrar em que ponto do frame se refere o ponto real (absolunto) do clique do mouse  
-		double xNovoPto = ((xAbsoluto * indiceConvX) + mundo.getCamera().getXmin());
-		double yNovoPto = ((yAbsoluto * indiceConvY) + mundo.getCamera().getYmin()) * -1;
-		
-		return new Ponto4D(xNovoPto, yNovoPto, 0.0, 1.0);
 	}
 }
