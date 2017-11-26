@@ -11,12 +11,12 @@ public class Frame extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private Main renderer = new Main();
-	private int janelaLargura  = 400, janelaAltura = 400;
+	private int janelaLargura  = 800, janelaAltura = 800;
 	
 	public Frame() {		
 		// Cria o frame.
 		super("CG-N4_Equipe 05 - Editor de poligono 3D");   
-		setBounds(300,250,janelaLargura,janelaAltura+22);  // 400 + 22 da borda do t�tulo da janela
+		setBounds(300, 100,janelaLargura,janelaAltura+22);  // 400 + 22 da borda do t�tulo da janela
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 

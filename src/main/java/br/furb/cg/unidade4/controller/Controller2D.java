@@ -148,48 +148,48 @@ public class Controller2D {
 	
 				// Rotacionar objeto grafico selecionado
 				case KeyEvent.VK_R:
-					mundo.rotacionarObjeto();
+					mundo.rotacionarObjeto2d();
 					break;
 	
 				// Mover o objeto grafico selecionado para direita
 				case KeyEvent.VK_RIGHT:
-					mundo.moverObjeto(2f, 0f);
+					mundo.moverObjeto2d(2f, 0f);
 					break;
 	
 				// Mover o objeto grafico selecionado para esquerda
 				case KeyEvent.VK_LEFT:
-					mundo.moverObjeto(-2f, 0f);
+					mundo.moverObjeto2d(-2f, 0f);
 					break;
 	
 				// Mover o objeto grafico selecionado para cima
 				case KeyEvent.VK_UP:
-					mundo.moverObjeto(0f, 2f);
+					mundo.moverObjeto2d(0f, 2f);
 					break;
 	
 				// Mover o objeto grafico selecionado para baixo
 				case KeyEvent.VK_DOWN:
-					mundo.moverObjeto(0f, -2f);
+					mundo.moverObjeto2d(0f, -2f);
 					break;
 					
 				// Ampliar escala do objeto selecionado
 				case KeyEvent.VK_PAGE_UP:
-					mundo.escalonarObjeto(1.5, false);
+					mundo.escalonarObjeto2d(1.5, false);
 					break;
 				
 				// Reduzir escala do objeto selecionado
 				case KeyEvent.VK_PAGE_DOWN:
-					mundo.escalonarObjeto(0.5, false);
+					mundo.escalonarObjeto2d(0.5, false);
 					break;
 					
 				// Aumetar objeto selecionado
 				case KeyEvent.VK_ADD:
 				case KeyEvent.VK_EQUALS:
-					mundo.escalonarObjeto(2f, true);
+					mundo.escalonarObjeto2d(2f, true);
 					break;
 					
 				// Reduzir objeto selecionado
 				case KeyEvent.VK_MINUS:
-					mundo.escalonarObjeto(0.5, true);
+					mundo.escalonarObjeto2d(0.5, true);
 					break;
 					
 				// Duplicar objeto selecionado

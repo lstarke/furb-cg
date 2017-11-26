@@ -25,11 +25,7 @@ public class Controller3D {
     private boolean chaveEixos = true;
     private boolean chaveLuz = true;
     private boolean chaveCam = false;
-//    private boolean chaveEscala = true;
-//    private boolean chaveRotacao = true;
-//    private boolean chaveTranslacao = true;
-    private boolean cuboSimples = true;
-    
+    private boolean chaveTransformacao = true;
     private boolean primeiraChamada = true;
 	
 	public Controller3D(OpenGL o, Mundo mundo) {
@@ -85,11 +81,7 @@ public class Controller3D {
 
 		// Visualizar/Esconder cubo
 		if (chaveCubo) {
-			if (cuboSimples)
-				//Caneta3D.desenhaCuboFaces(o.gl);
-				mundo.desenharObjetos(o.gl, o.glu);
-			//else
-				//Caneta3D.desenharCuboTextura(o.gl, textura, 0);
+			mundo.desenharObjetos(o.gl, o.glu);
 		}
 	}
 	
@@ -114,7 +106,7 @@ public class Controller3D {
 			// Travar camera
 			case KeyEvent.VK_F4:
 				chaveCam = !chaveCam;
-//				chaveRotacao = !chaveCam;
+				chaveTransformacao = !chaveCam;
 				System.out.println("Camera 3d ativa? " + chaveCam);
 				break;
 
@@ -144,22 +136,22 @@ public class Controller3D {
 				// Faz nada ainda...
 				break;
 
-			// Rotacionar fixo (girar)
+			// Escalar fixo
 			case KeyEvent.VK_F8:
 				// Faz nada ainda...
 				break;
 
-			// Rotacionar (sobre um eixo)
+			// Rotacionar fixo (girar)
 			case KeyEvent.VK_F9:
 				// Faz nada ainda...
 				break;
 
-			// Transladar
+			// Rotacionar (sobre um eixo)
 			case KeyEvent.VK_F10:
 				// Faz nada ainda...
 				break;
 
-			
+			// Transladar
 			case KeyEvent.VK_F11:
 				// Faz nada ainda...
 				break;
@@ -169,17 +161,21 @@ public class Controller3D {
 				// Faz nada ainda...
 				break;
 
-			// Zoom in (aproximar camera)
+			// Zoom in (aproximar camera) ou escalora objeto
 			case KeyEvent.VK_EQUALS:
 			case KeyEvent.VK_ADD:
 				if (chaveCam)
 					camera.zoomIn();
+				else
+					mundo.escalonarObjeto3d(1.5, true);
 				break;
 
-			// Zoom out (afastar cameraa)
+			// Zoom out (afastar camera) ou escalora objeto
 			case KeyEvent.VK_MINUS:
 				if (chaveCam)
 					camera.zoomOut();
+				else
+					mundo.escalonarObjeto3d(0.5, true);
 				break;
 
 			// Rotacionar camera para baixo
@@ -225,7 +221,22 @@ public class Controller3D {
 				System.out.println(camera);
 				break;
 				
-			case KeyEvent.VK_3:
+			// Rotacao 3d em X
+			case KeyEvent.VK_X:
+				if (!chaveCam)
+					mundo.rotacionarObjeto3dx();
+				break;
+				
+			// Rotacao 3d em Y
+			case KeyEvent.VK_Y:
+				if (!chaveCam)
+					mundo.rotacionarObjeto3dy();
+				break;
+				
+			// Rotacao 3d em Z
+			case KeyEvent.VK_Z:
+				if (!chaveCam)
+					mundo.rotacionarObjeto3dz();
 				break;
 		}
 

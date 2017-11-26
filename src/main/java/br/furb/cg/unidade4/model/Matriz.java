@@ -69,26 +69,55 @@ public final class Matriz {
 	}
 
 	/**
-	 * Transformar a matriz para escala do objeto grafico
+	 * Transformar a matriz para escala do objeto grafico 2d
 	 */
-	public void escalar(double multiplicador)
+	public void escalar2d(double multiplicador)
 	{		
-		this.matriz = escalarInterno(multiplicador, this.matriz);
+		this.matriz = escalarInterno2d(multiplicador, this.matriz);
 	}
 	
-	public Transformacao4D escalarInterno(double multiplicador, Transformacao4D matrizOperacao) {
+	public Transformacao4D escalarInterno2d(double multiplicador, Transformacao4D matrizOperacao) {
 		getUniqueMatrizTransformacao().atribuirEscala(multiplicador, multiplicador, 1f);
 		return matrizTransformacao.transformMatrix(matrizOperacao);
 	}
 	
 	/**
-	 * Transformar a matriz para escala em ponto fixo
+	 * Transformar a matriz para escala do objeto grafico 3d
 	 */
-	public void escalarFixo(double multiplicador, Ponto4D pontoFixo) {
+	public void escalar3d(double multiplicador)
+	{		
+		this.matriz = escalarInterno3d(multiplicador, this.matriz);
+	}
+	
+	public Transformacao4D escalarInterno3d(double multiplicador, Transformacao4D matrizOperacao) {
+		getUniqueMatrizTransformacao().atribuirEscala(multiplicador, multiplicador, multiplicador);
+		return matrizTransformacao.transformMatrix(matrizOperacao);
+	}
+	
+	/**
+	 * Transformar a matriz para escala em ponto fixo 2d
+	 */
+	public void escalarFixo2d(double multiplicador, Ponto4D pontoFixo) {
 		getUniqueMatrizGlobal().atribuirIdentidade();
-		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), matrizGlobal, true);
-		matrizGlobal = escalarInterno(multiplicador, matrizGlobal);
-		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), matrizGlobal, false);
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), 0, matrizGlobal, true);
+		matrizGlobal = escalarInterno2d(multiplicador, matrizGlobal);
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), 0, matrizGlobal, false);
+
+		matriz = matriz.transformMatrix(matrizGlobal);
+	}
+	
+	/**
+	 * Transformar a matriz para escala em ponto fixo 3d
+	 */
+	public void escalarFixo3d(double multiplicador, Ponto4D pontoFixo) {
+		getUniqueMatrizGlobal().atribuirIdentidade();
+		this.matrizGlobal.exibeMatriz();
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), pontoFixo.obterZ(), matrizGlobal, true);
+		this.matrizGlobal.exibeMatriz();
+		matrizGlobal = escalarInterno3d(multiplicador, matrizGlobal);
+		this.matrizGlobal.exibeMatriz();
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), pontoFixo.obterZ(), matrizGlobal, false);
+		this.matrizGlobal.exibeMatriz();
 
 		matriz = matriz.transformMatrix(matrizGlobal);
 	}
@@ -96,32 +125,80 @@ public final class Matriz {
 	/**
 	 * Transformar a matriz para translacao do objeto grafico
 	 */
-	public void transladar(double x, double y)
+	public void transladar2d(double x, double y)
 	{
-		this.matriz = transladarInterno(x, y, this.matriz, false);
+		this.matriz = transladarInterno(x, y, 0, this.matriz, false);
 	}
 	
-	private Transformacao4D transladarInterno(double x, double y, Transformacao4D matrizOperacao, boolean negativo) {
+	private Transformacao4D transladarInterno(double x, double y, double z, Transformacao4D matrizOperacao, boolean negativo) {
 		if (negativo)
-			getUniqueMatrizTransformacao().atribuirTranslacao(-x, -y, 0f);
+			getUniqueMatrizTransformacao().atribuirTranslacao(-x, -y, -z);
 		else
-			getUniqueMatrizTransformacao().atribuirTranslacao(x, y, 0f);
+			getUniqueMatrizTransformacao().atribuirTranslacao(x, y, z);
 		
 		return matrizTransformacao.transformMatrix(matrizOperacao);
 	}
 	
 	/**
-	 * Transformar a matriz para rotacao do objeto grafico em ponto fixo
+	 * Transformar a matriz para rotacao 2d do objeto grafico em ponto fixo
 	 */
-	public void rotacionarFixo(double angulo, Ponto4D pontoFixo)
+	public void rotacionarFixo2d(double angulo, Ponto4D pontoFixo)
 	{		
 		getUniqueMatrizGlobal().atribuirIdentidade();
-		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), matrizGlobal, true);
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), 0, matrizGlobal, true);
 		
 		matrizTransformacao.atribuirRotacaoZ(Transformacao4D.DEG_TO_RAD * angulo);
 		matrizGlobal = matrizTransformacao.transformMatrix(matrizGlobal);
 	
-		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), matrizGlobal, false);
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), 0, matrizGlobal, false);
+
+		matriz = matriz.transformMatrix(matrizGlobal);
+	}
+	
+	/**
+	 * Transformar a matriz para rotacao 3d em X do objeto grafico em ponto fixo
+	 */
+	public void rotacionarFixo3dX(double angulo, Ponto4D pontoFixo)
+	{		
+		getUniqueMatrizGlobal().atribuirIdentidade();
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), pontoFixo.obterZ(), matrizGlobal, true);
+		
+		matrizTransformacao.atribuirRotacaoX(Transformacao4D.DEG_TO_RAD * angulo);
+		matrizGlobal = matrizTransformacao.transformMatrix(matrizGlobal);
+	
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), pontoFixo.obterZ(), matrizGlobal, false);
+
+		matriz = matriz.transformMatrix(matrizGlobal);
+	}
+	
+	/**
+	 * Transformar a matriz para rotacao 3d em Y do objeto grafico em ponto fixo
+	 */
+	public void rotacionarFixo3dY(double angulo, Ponto4D pontoFixo)
+	{		
+		getUniqueMatrizGlobal().atribuirIdentidade();
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), pontoFixo.obterZ(), matrizGlobal, true);
+		
+		matrizTransformacao.atribuirRotacaoY(Transformacao4D.DEG_TO_RAD * angulo);
+		matrizGlobal = matrizTransformacao.transformMatrix(matrizGlobal);
+	
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), pontoFixo.obterZ(), matrizGlobal, false);
+
+		matriz = matriz.transformMatrix(matrizGlobal);
+	}
+	
+	/**
+	 * Transformar a matriz para rotacao 3d em Z do objeto grafico em ponto fixo
+	 */
+	public void rotacionarFixo3dZ(double angulo, Ponto4D pontoFixo)
+	{		
+		getUniqueMatrizGlobal().atribuirIdentidade();
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), pontoFixo.obterZ(), matrizGlobal, true);
+		
+		matrizTransformacao.atribuirRotacaoZ(Transformacao4D.DEG_TO_RAD * angulo);
+		matrizGlobal = matrizTransformacao.transformMatrix(matrizGlobal);
+	
+		matrizGlobal = transladarInterno(pontoFixo.obterX(), pontoFixo.obterY(), pontoFixo.obterZ(), matrizGlobal, false);
 
 		matriz = matriz.transformMatrix(matrizGlobal);
 	}

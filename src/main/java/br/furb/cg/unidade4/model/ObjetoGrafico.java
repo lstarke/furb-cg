@@ -147,10 +147,10 @@ public final class ObjetoGrafico {
 	}
 	
 	public void desenhar3D(GL gl, GLU glu) {
-//		gl.glPushMatrix();
-//		{
-//			gl.glMultMatrixd(this.matriz.getData(), 0);
-//			{
+		gl.glPushMatrix();
+		{
+			gl.glMultMatrixd(this.matriz.getData(), 0);
+			{
 				// Obedecer a cor escolhida pelo usuario
 				gl.glColor4ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue(), (byte)cor.getAlpha());
 				
@@ -188,9 +188,9 @@ public final class ObjetoGrafico {
 					for (byte i = (byte) iSize; i < iSize*2; i++)
 						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
 				gl.glEnd();
-//			}
-//		}
-//		gl.glPopMatrix();
+			}
+		}
+		gl.glPopMatrix();
 	}
 
 	/**
@@ -225,6 +225,8 @@ public final class ObjetoGrafico {
 			p = new Ponto4D(vertices.get(i).obterX(), vertices.get(i).obterY(), profundidade, 1);
 			vertices.add(p);
 		}
+		
+		this.calcularBbox();
 	}
 	
 	/**
@@ -274,35 +276,86 @@ public final class ObjetoGrafico {
 	/**
 	 * Mover Objeto Grafico para os lados (translacao)
 	 */
-	public void mover(double x, double y) {
-		this.matriz.transladar(x, y);
+	public void mover2d(double x, double y) {
+		this.matriz.transladar2d(x, y);
 	}
 	
 	/**
-	 * Ampliar/reduzir Objeto Grafico (escala) 
+	 * Ampliar/reduzir Objeto Grafico (escala) 2d
 	 */
-	public void escalonar(double multiplicador) {
-		this.matriz.escalar(multiplicador);
+	public void escalonar2d(double multiplicador) {
+		this.matriz.escalar2d(multiplicador);
+	}
+	
+	/**
+	 * Ampliar/reduzir Objeto Grafico (escala) 3d
+	 */
+	public void escalonar3d(double multiplicador) {
+		this.matriz.escalar3d(multiplicador);
 	}
 	
 	/**
 	 * Ampliar/reduzir Objeto Grafico (escala) e mantendo no mesmo local 
 	 */
-	public void escalonarFixado(double multiplicador) {
-		this.matriz.escalarFixo(multiplicador, 
-								new Ponto4D(this.bbox.getCentro().obterX(), 
-										    this.bbox.getCentro().obterY(), 
-										    0f, 0f));
+	public void escalonarFixado2d(double multiplicador) {
+		this.matriz.escalarFixo2d(multiplicador, 
+								  new Ponto4D(this.bbox.getCentro().obterX(), 
+									          this.bbox.getCentro().obterY(), 
+										      0f, 0f));
 	}
 	
 	/**
-	 * Rotacionar o Objeto Grafico em Z
+	 * Ampliar/reduzir Objeto Grafico (escala) e mantendo no mesmo local 
 	 */
-	public void rotacionar() {
-		this.matriz.rotacionarFixo(10f, 
-								   new Ponto4D(this.bbox.getCentro().obterX(), 
-										   	   this.bbox.getCentro().obterY(), 
-										       0f, 0f));
+	public void escalonarFixado3d(double multiplicador) {
+		this.matriz.escalarFixo3d(multiplicador, 
+								  new Ponto4D(this.bbox.getCentro().obterX(), 
+									          this.bbox.getCentro().obterY(), 
+									          this.bbox.getCentro().obterZ(),
+									          0f));
+	}
+	
+	/**
+	 * Rotacionar o Objeto Grafico 2d em Z
+	 */
+	public void rotacionar2d() {
+		this.matriz.rotacionarFixo2d(10f, 
+								     new Ponto4D(this.bbox.getCentro().obterX(), 
+									             this.bbox.getCentro().obterY(), 
+										         0f, 0f));
+	}
+	
+	/**
+	 * Rotacionar o Objeto Grafico 3d em X
+	 */
+	public void rotacionar3dx() {
+		this.matriz.rotacionarFixo3dX(10f, 
+								      new Ponto4D(this.bbox.getCentro().obterX(), 
+									              this.bbox.getCentro().obterY(), 
+									              this.bbox.getCentro().obterZ(), 
+									              0f));
+	}
+	
+	/**
+	 * Rotacionar o Objeto Grafico 3d em Y
+	 */
+	public void rotacionar3dy() {
+		this.matriz.rotacionarFixo3dY(10f, 
+								      new Ponto4D(this.bbox.getCentro().obterX(), 
+									              this.bbox.getCentro().obterY(), 
+									              this.bbox.getCentro().obterZ(), 
+									              0f));
+	}
+	
+	/**
+	 * Rotacionar o Objeto Grafico 3d em Z
+	 */
+	public void rotacionar3dz() {
+		this.matriz.rotacionarFixo3dZ(10f, 
+								      new Ponto4D(this.bbox.getCentro().obterX(), 
+									              this.bbox.getCentro().obterY(), 
+									              this.bbox.getCentro().obterZ(), 
+									              0f));
 	}
 	
 	/**

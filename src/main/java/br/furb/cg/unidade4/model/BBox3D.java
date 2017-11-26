@@ -219,7 +219,7 @@ public class BBox3D {
 				minZ = p.obterZ() - Ponto4D.DISTANCIA;
 		}
 
-		this.atualizar(minX, maxX, minY, maxY);
+		this.atualizar(minX, maxX, minY, maxY, minZ, maxZ);
 	}
 	
 	public boolean pontoEstaDentro(Ponto4D ponto) {
@@ -240,10 +240,12 @@ public class BBox3D {
 	 */
 	public void exibir()
 	{
-		System.out.println(String.format("Vertice nro 1: x = %f; y = %f", xMin, yMin));
-		System.out.println(String.format("Vertice nro 2: x = %f; y = %f", xMax, yMin));
-		System.out.println(String.format("Vertice nro 3: x = %f; y = %f", xMax, yMax));
-		System.out.println(String.format("Vertice nro 4: x = %f; y = %f", xMin, yMax));
+		System.out.println(String.format("Vertice nro 1: x = %f; y = %f; z = %f", xMin, yMin, zMin));
+		System.out.println(String.format("Vertice nro 2: x = %f; y = %f; z = %f", xMin, yMin, zMax));
+		System.out.println(String.format("Vertice nro 3: x = %f; y = %f; z = %f", xMax, yMin, zMin));
+		System.out.println(String.format("Vertice nro 4: x = %f; y = %f; z = %f", xMax, yMin, zMax));
+		System.out.println(String.format("Vertice nro 5: x = %f; y = %f; z = %f", xMax, yMax, zMin));
+		System.out.println(String.format("Vertice nro 6: x = %f; y = %f; z = %f", xMin, yMax, zMax));
 		System.out.println(String.format("Centro: %s",  centro));
 	}
 }

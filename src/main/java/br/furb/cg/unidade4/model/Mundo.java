@@ -247,25 +247,63 @@ public class Mundo {
 	}
 	
 	/**
-	 * Alterar escala do objeto selecionado
+	 * Alterar escala do objeto selecionado 2d
 	 * @param double escala
 	 * @param boolean manterPontoFixo = em relacao a sua Bound Box se true
 	 */
-	public void escalonarObjeto(double escala, boolean manterPontoFixo) {
+	public void escalonarObjeto2d(double escala, boolean manterPontoFixo) {
 		if (this.isSelecionando()) {
 			if (manterPontoFixo)
-				this.objSelecionado.escalonarFixado(escala);
+				this.objSelecionado.escalonarFixado2d(escala);
 			else
-				this.objSelecionado.escalonar(escala);
+				this.objSelecionado.escalonar2d(escala);
 		}
 	}
 	
 	/**
-	 * Rotacionar objeto grafico em relacao a sua Bound Box
+	 * Alterar escala do objeto selecionado 3d
+	 * @param double escala
+	 * @param boolean manterPontoFixo = em relacao a sua Bound Box se true
 	 */
-	public void rotacionarObjeto() {
+	public void escalonarObjeto3d(double escala, boolean manterPontoFixo) {
+		if (this.isSelecionando()) {
+			if (manterPontoFixo)
+				this.objSelecionado.escalonarFixado3d(escala);
+			else
+				this.objSelecionado.escalonar3d(escala);
+		}
+	}
+	
+	/**
+	 * Rotacionar objeto grafico 2d em relacao a sua Bound Box
+	 */
+	public void rotacionarObjeto2d() {
 		if (this.isSelecionando() && this.hasObjetoSelecionado())
-			this.objSelecionado.rotacionar();
+			this.objSelecionado.rotacionar2d();
+	}
+	
+	/**
+	 * Rotacionar objeto grafico 3d em X em relacao a sua Bound Box
+	 */
+	public void rotacionarObjeto3dx() {
+		if (this.isSelecionando() && this.hasObjetoSelecionado())
+			this.objSelecionado.rotacionar3dx();
+	}
+	
+	/**
+	 * Rotacionar objeto grafico 3d em Y em relacao a sua Bound Box
+	 */
+	public void rotacionarObjeto3dy() {
+		if (this.isSelecionando() && this.hasObjetoSelecionado())
+			this.objSelecionado.rotacionar3dy();
+	}
+	
+	/**
+	 * Rotacionar objeto grafico 3d em X em relacao a sua Bound Box
+	 */
+	public void rotacionarObjeto3dz() {
+		if (this.isSelecionando() && this.hasObjetoSelecionado())
+			this.objSelecionado.rotacionar3dz();
 	}
 	
 	/**
@@ -273,9 +311,9 @@ public class Mundo {
 	 * @param x
 	 * @param y
 	 */
-	public void moverObjeto(double x, double y) {
+	public void moverObjeto2d(double x, double y) {
 		if (this.isSelecionando() && this.hasObjetoSelecionado())
-			this.objSelecionado.mover(x, y);
+			this.objSelecionado.mover2d(x, y);
 	}
 	
 	/**
