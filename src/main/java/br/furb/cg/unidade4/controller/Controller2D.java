@@ -11,6 +11,7 @@ import br.furb.cg.unidade4.model.Ponto4D;
 import br.furb.cg.unidade4.model.auxiliar.AlgoritmoDeSelecao;
 import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
 import br.furb.cg.unidade4.model.d2.Caneta2D;
+import br.furb.cg.unidade4.util.Arquivo;
 
 public class Controller2D {
 	// OpenGl (vindo do main)
@@ -61,7 +62,7 @@ public class Controller2D {
 				// Selecionar
 				case KeyEvent.VK_S:
 					mundo.setDesenhando(false);
-					System.out.println("Pronto para selecionar.");
+					System.out.println("Pronto para selecionar.");					
 					break;
 
 				case KeyEvent.VK_L:
@@ -239,6 +240,14 @@ public class Controller2D {
 					mundo.getObjetoSelecionado().gerar3d(100);
 					mundo.set3D();
 					break;
+				case KeyEvent.VK_F9:
+					//if (this.mundo.getObjetoSelecionado() != null && this.mundo.getObjetoSelecionado().getStrArquivo() != "") {
+					System.out.println("entrou f9");
+						Arquivo.gravar(this.mundo.getObjetoSelecionado().getStrArquivo());
+					//}
+					break;
+					
+					
 			}
 		}
 

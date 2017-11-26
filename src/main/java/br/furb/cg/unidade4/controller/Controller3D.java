@@ -10,6 +10,7 @@ import br.furb.cg.unidade4.model.d3.Camera3D;
 import br.furb.cg.unidade4.model.d3.Caneta3D;
 import br.furb.cg.unidade4.model.d3.Iluminacao;
 import br.furb.cg.unidade4.model.d3.Textura;
+import br.furb.cg.unidade4.util.Arquivo;
 
 public class Controller3D {
 	private OpenGL o;
@@ -151,7 +152,9 @@ public class Controller3D {
 
 			// Rotacionar (sobre um eixo)
 			case KeyEvent.VK_F9:
-				// Faz nada ainda...
+				if (this.mundo.getObjetoSelecionado() != null && this.mundo.getObjetoSelecionado().getStrArquivo() != "") {				
+					Arquivo.gravar(this.mundo.getObjetoSelecionado().getStrArquivo());
+				}
 				break;
 
 			// Transladar
