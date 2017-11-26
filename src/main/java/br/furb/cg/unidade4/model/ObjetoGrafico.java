@@ -23,6 +23,7 @@ public final class ObjetoGrafico {
 	private BBox3D bbox;
 	private Matriz matriz;
 	private ListaObjetosGraficos filhos;
+	private String strArquivo = "";
 	
 	// Auxiliares
 	private boolean selecionado;
@@ -48,6 +49,12 @@ public final class ObjetoGrafico {
 	
 	public int getPrimitiva() {
 		return this.primitiva;
+	}
+	
+	
+
+	public String getStrArquivo() {
+		return strArquivo;
 	}
 
 	/**
@@ -147,50 +154,85 @@ public final class ObjetoGrafico {
 	}
 	
 	public void desenhar3D(GL gl, GLU glu) {
+<<<<<<< HEAD
 		gl.glPushMatrix();
 		{
 			gl.glMultMatrixd(this.matriz.getData(), 0);
 			{
+=======
+		
+		
+//		gl.glPushMatrix();
+//		{
+//			gl.glMultMatrixd(this.matriz.getData(), 0);
+//			{
+>>>>>>> 004e2b6922db4c6232f97d82d5972144bbae02ce
 				// Obedecer a cor escolhida pelo usuario
 				gl.glColor4ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue(), (byte)cor.getAlpha());
+				strArquivo += "gl.glColor4ub(" + (byte)cor.getRed() +", " + (byte)cor.getGreen() + ", " + (byte)cor.getBlue() + ", " + (byte)cor.getAlpha() + ");\n";				
 				
 				// Desenhar objeto
 				int iSize = this.vertices.meio();
 				
 				// Frente
 				gl.glBegin(GL.GL_POLYGON);
+				strArquivo += "gl.glBegin(" + GL.GL_POLYGON + ");\n"; 
 					//gl.glNormal3d(0f, 0f, -1f);
-					for (byte i = 0; i < iSize; i++)
+					for (byte i = 0; i < iSize; i++) {
 						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
+						strArquivo += "gl.glVertex3d(" + this.vertices.get(i).obterX() + ", " + this.vertices.get(i).obterY() + ", " + this.vertices.get(i).obterZ() + ");\n"; 
+					}						
 				gl.glEnd();
+				strArquivo += "gl.glEnd();\n"; 
 				
 				// Lateral
 				//gl.glNormal3f(0f, 0f, -1f);
 				for (byte i = 0; i < iSize; i++) {
 					gl.glBegin(GL.GL_TRIANGLE_STRIP);
+					strArquivo += "gl.glBegin(" + GL.GL_TRIANGLE_STRIP + ");\n";
 					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
+					strArquivo += "gl.glVertex3d(" + this.vertices.get(i).obterX() + ", " + this.vertices.get(i).obterY() + ", " + this.vertices.get(i).obterZ() + ");\n";
 					gl.glVertex3d(this.vertices.get(i+1).obterX(), this.vertices.get(i+1).obterY(), this.vertices.get(i+1).obterZ());
+					strArquivo += "gl.glVertex3d(" + this.vertices.get(i+1).obterX() + ", " + this.vertices.get(i+1).obterY() + ", " + this.vertices.get(i+1).obterZ() + ");\n";
 					gl.glVertex3d(this.vertices.get(i+iSize).obterX(), this.vertices.get(i+iSize).obterY(), this.vertices.get(i+iSize).obterZ());
+					strArquivo += "gl.glVertex3d(" + this.vertices.get(i+iSize).obterX() + ", " + this.vertices.get(i+iSize).obterY() + ", " + this.vertices.get(i+iSize).obterZ() + ");\n";
 					gl.glEnd();
-				}
+					strArquivo += "gl.glEnd();\n";
+				}				
 				
 				for (byte i = (byte) iSize; i < iSize*2; i++) {
 					gl.glBegin(GL.GL_TRIANGLE_STRIP);
+					strArquivo += "gl.glBegin(" + GL.GL_TRIANGLE_STRIP + ");\n";
 					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
+					strArquivo += "gl.glVertex3d(" + this.vertices.get(i).obterX() + ", " + this.vertices.get(i).obterY() + ", " + this.vertices.get(i).obterZ() + ");\n";
 					gl.glVertex3d(this.vertices.get(i-1).obterX(), this.vertices.get(i-1).obterY(), this.vertices.get(i-1).obterZ());
+					strArquivo += "gl.glVertex3d(" + this.vertices.get(i-1).obterX() + ", " + this.vertices.get(i-1).obterY() + ", " + this.vertices.get(i-1).obterZ() + ");\n";
 					gl.glVertex3d(this.vertices.get(i-iSize).obterX(), this.vertices.get(i-iSize).obterY(), this.vertices.get(i-iSize).obterZ());
+					strArquivo += "gl.glVertex3d(" + this.vertices.get(i-iSize).obterX() + ", " + this.vertices.get(i-iSize).obterY() + ", " + this.vertices.get(i-iSize).obterZ() + ");\n";
 					gl.glEnd();
+					strArquivo += "gl.glEnd();\n";
 				}
 				
 				// Traseira
 				gl.glBegin(GL.GL_POLYGON);
+				strArquivo += "gl.glBegin(" + GL.GL_POLYGON + ");\n";
 					//gl.glNormal3d(0f, 0f, 1f);
-					for (byte i = (byte) iSize; i < iSize*2; i++)
+					for (byte i = (byte) iSize; i < iSize*2; i++) {
 						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
+						strArquivo += "gl.glVertex3d(" + this.vertices.get(i).obterX() + ", " + this.vertices.get(i).obterY() + ", " + this.vertices.get(i).obterZ() + ");\n";
+					}
+					
 				gl.glEnd();
+<<<<<<< HEAD
 			}
 		}
 		gl.glPopMatrix();
+=======
+				strArquivo += "gl.glEnd();\n";
+//			}
+//		}		
+//		gl.glPopMatrix();
+>>>>>>> 004e2b6922db4c6232f97d82d5972144bbae02ce
 	}
 
 	/**
