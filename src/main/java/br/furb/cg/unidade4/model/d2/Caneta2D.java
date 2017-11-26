@@ -81,7 +81,7 @@ public final class Caneta2D {
 			this.objetoTmp.setSelecionado(true);
 			
 			if (poligonoFechado)
-				this.objetoTmp.setPrimitiva(GL.GL_LINE_LOOP);
+				this.objetoTmp.setPrimitiva2d(GL.GL_LINE_LOOP);
 			
 			this.setNullAttributes();			
 		}
@@ -119,12 +119,5 @@ public final class Caneta2D {
 		
 		this.atualizarUltimoVertice(p5);
 		this.inserirNovoPonto(p5);
-	}
-	
-	// Duplicar objeto desenhado em 2d e acrescentar ligacoes;
-	public void calcular2Dto3D(float profundidade) {
-		if (objetoTmp != null && objetoTmp.isSelecionado()) {
-			
-		}
 	}
 }

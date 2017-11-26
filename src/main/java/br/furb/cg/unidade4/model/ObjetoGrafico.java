@@ -9,6 +9,7 @@ package br.furb.cg.unidade4.model;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Locale;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
@@ -23,7 +24,7 @@ public final class ObjetoGrafico {
 	private BBox3D bbox;
 	private Matriz matriz;
 	private ListaObjetosGraficos filhos;
-	private String strArquivo = "";
+	private StringBuilder strArquivo;
 	
 	// Auxiliares
 	private boolean selecionado;
@@ -33,10 +34,10 @@ public final class ObjetoGrafico {
 	 * 
 	 * @param primitiva = primitiva grafica (lines)
 	 */
-	public ObjetoGrafico(int primitiva)
+	public ObjetoGrafico(int primitiva2d)
 	{
 		// Caracteristicas
-		this.setPrimitiva(primitiva);
+		this.setPrimitiva2d(primitiva2d);
 		this.vertices = new ListaVertices();
 		this.cor = Color.BLACK;
 		this.bbox = new BBox3D();
@@ -47,12 +48,12 @@ public final class ObjetoGrafico {
 		this.selecionado = false;
 	}
 	
-	public int getPrimitiva() {
+	public int getPrimitiva2d() {
 		return this.primitiva;
 	}
 	
 	public String getStrArquivo() {
-		return strArquivo;
+		return strArquivo.toString();
 	}
 
 	/**
@@ -60,7 +61,7 @@ public final class ObjetoGrafico {
 	 * 
 	 * @param primitiva = primitiva grafica (GL_LINE_STRIP ou GL_LINE_LOOP)
 	 */
-	public void setPrimitiva(int primitiva)
+	public void setPrimitiva2d(int primitiva)
 	{
 		if (primitiva == javax.media.opengl.GL.GL_LINE_STRIP ||
 			primitiva == javax.media.opengl.GL.GL_LINE_LOOP)
@@ -118,7 +119,7 @@ public final class ObjetoGrafico {
 	}
 
 	/**
-	 * Desenhar objeto grafico
+	 * Desenhar objeto grafico 2d
 	 * 
 	 * @param gl = OpenGl gl
 	 * @param glu = OpenGl glu
@@ -151,70 +152,116 @@ public final class ObjetoGrafico {
 		gl.glPopMatrix();
 	}
 	
+	/**
+	 * Desenhar objeto grafico 3d
+	 * 
+	 * @param gl = OpenGl gl
+	 * @param glu = OpenGl glu
+	 */
 	public void desenhar3D(GL gl, GLU glu) {
 		gl.glPushMatrix();
 		{
 			gl.glMultMatrixd(this.matriz.getData(), 0);
 			{
 				// Obedecer a cor escolhida pelo usuario
-				gl.glColor4ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue(), (byte)cor.getAlpha());
-				strArquivo += "gl.glColor4ub(" + (byte)cor.getRed() +", " + (byte)cor.getGreen() + ", " + (byte)cor.getBlue() + ", " + (byte)cor.getAlpha() + ");\n";				
+				gl.glColor4ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue(), (byte)cor.getAlpha());				
 				
 				// Desenhar objeto
 				int iSize = this.vertices.meio();
 				
 				// Frente
-				gl.glBegin(GL.GL_POLYGON);
-				strArquivo += "gl.glBegin(" + GL.GL_POLYGON + ");\n"; 
-					//gl.glNormal3d(0f, 0f, -1f);
-					for (byte i = 0; i < iSize; i++) {
-						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
-						strArquivo += "gl.glVertex3d(" + this.vertices.get(i).obterX() + ", " + this.vertices.get(i).obterY() + ", " + this.vertices.get(i).obterZ() + ");\n"; 
-					}						
+				gl.glBegin(GL.GL_POLYGON); 
+				for (byte i = 0; i < iSize; i++)
+					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ()); 
 				gl.glEnd();
-				strArquivo += "gl.glEnd();\n"; 
 				
 				// Lateral
-				//gl.glNormal3f(0f, 0f, -1f);
 				for (byte i = 0; i < iSize; i++) {
 					gl.glBegin(GL.GL_TRIANGLE_STRIP);
-					strArquivo += "gl.glBegin(" + GL.GL_TRIANGLE_STRIP + ");\n";
 					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
-					strArquivo += "gl.glVertex3d(" + this.vertices.get(i).obterX() + ", " + this.vertices.get(i).obterY() + ", " + this.vertices.get(i).obterZ() + ");\n";
 					gl.glVertex3d(this.vertices.get(i+1).obterX(), this.vertices.get(i+1).obterY(), this.vertices.get(i+1).obterZ());
-					strArquivo += "gl.glVertex3d(" + this.vertices.get(i+1).obterX() + ", " + this.vertices.get(i+1).obterY() + ", " + this.vertices.get(i+1).obterZ() + ");\n";
 					gl.glVertex3d(this.vertices.get(i+iSize).obterX(), this.vertices.get(i+iSize).obterY(), this.vertices.get(i+iSize).obterZ());
-					strArquivo += "gl.glVertex3d(" + this.vertices.get(i+iSize).obterX() + ", " + this.vertices.get(i+iSize).obterY() + ", " + this.vertices.get(i+iSize).obterZ() + ");\n";
 					gl.glEnd();
-					strArquivo += "gl.glEnd();\n";
 				}				
 				
 				for (byte i = (byte) iSize; i < iSize*2; i++) {
 					gl.glBegin(GL.GL_TRIANGLE_STRIP);
-					strArquivo += "gl.glBegin(" + GL.GL_TRIANGLE_STRIP + ");\n";
 					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
-					strArquivo += "gl.glVertex3d(" + this.vertices.get(i).obterX() + ", " + this.vertices.get(i).obterY() + ", " + this.vertices.get(i).obterZ() + ");\n";
 					gl.glVertex3d(this.vertices.get(i-1).obterX(), this.vertices.get(i-1).obterY(), this.vertices.get(i-1).obterZ());
-					strArquivo += "gl.glVertex3d(" + this.vertices.get(i-1).obterX() + ", " + this.vertices.get(i-1).obterY() + ", " + this.vertices.get(i-1).obterZ() + ");\n";
 					gl.glVertex3d(this.vertices.get(i-iSize).obterX(), this.vertices.get(i-iSize).obterY(), this.vertices.get(i-iSize).obterZ());
-					strArquivo += "gl.glVertex3d(" + this.vertices.get(i-iSize).obterX() + ", " + this.vertices.get(i-iSize).obterY() + ", " + this.vertices.get(i-iSize).obterZ() + ");\n";
 					gl.glEnd();
-					strArquivo += "gl.glEnd();\n";
 				}
 				
 				// Traseira
 				gl.glBegin(GL.GL_POLYGON);
-				strArquivo += "gl.glBegin(" + GL.GL_POLYGON + ");\n";
-					//gl.glNormal3d(0f, 0f, 1f);
-					for (byte i = (byte) iSize; i < iSize*2; i++) {
-						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
-						strArquivo += "gl.glVertex3d(" + this.vertices.get(i).obterX() + ", " + this.vertices.get(i).obterY() + ", " + this.vertices.get(i).obterZ() + ");\n";
-					}
-					
+				for (byte i = (byte) iSize; i < iSize*2; i++)
+					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
 				gl.glEnd();
 			}
 		}
 		gl.glPopMatrix();
+	}
+	
+	private final String GLCOLOR4UB = "gl.glColor4ub('%d, %d, %d, %d);\n";
+	private final String GLBEGIN    = "gl.glBegin(%s);\n";
+	private final String GLVERTEX3D = "gl.glVertex3d(%.2f, %.2f, %.2f);\n";
+	private final String GLEND      = "gl.glEnd();\n";
+	
+	private String beginPrimitivaStr(int primitiva) {
+		
+		String result = "";
+		switch (primitiva) {
+			case GL.GL_TRIANGLE_STRIP:
+				result = String.format(GLBEGIN, "GL.GL_TRIANGLE_STRIP");
+				break;
+				
+			case GL.GL_POLYGON:
+				result = String.format(GLBEGIN, "GL.GL_POLYGON");
+				break;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Gerar arquivo texto com comandos de geracao do poligono 3d
+	 */
+	public void gerarArquivo3d() {
+
+		strArquivo = new StringBuilder();
+		strArquivo.append(String.format(GLCOLOR4UB, (byte) cor.getRed(), (byte) cor.getGreen(), (byte) cor.getBlue(), (byte) cor.getAlpha()));
+		
+		int iSize = this.vertices.meio();
+		
+		// Frente
+		strArquivo.append(beginPrimitivaStr(GL.GL_POLYGON));
+		for (byte i = 0; i < iSize; i++)
+			strArquivo.append(String.format(Locale.US, GLVERTEX3D, this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ()));
+		strArquivo.append(GLEND);
+		
+		// Lateriais
+		for (byte i = 0; i < iSize; i++) {
+			strArquivo.append(beginPrimitivaStr(GL.GL_TRIANGLE_STRIP));
+			strArquivo.append(String.format(Locale.US, GLVERTEX3D, this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ()));
+			strArquivo.append(String.format(Locale.US, GLVERTEX3D, this.vertices.get(i+1).obterX(), this.vertices.get(i+1).obterY(), this.vertices.get(i+1).obterZ()));
+			strArquivo.append(String.format(Locale.US, GLVERTEX3D, this.vertices.get(i+iSize).obterX(), this.vertices.get(i+iSize).obterY(), this.vertices.get(i+iSize).obterZ()));
+			strArquivo.append(GLEND);
+		}				
+		
+		// Lateriais
+		for (byte i = (byte) iSize; i < iSize*2; i++) {
+			strArquivo.append(beginPrimitivaStr(GL.GL_TRIANGLE_STRIP));
+			strArquivo.append(String.format(Locale.US, GLVERTEX3D, this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ()));
+			strArquivo.append(String.format(Locale.US, GLVERTEX3D, this.vertices.get(i-1).obterX(), this.vertices.get(i-1).obterY(), this.vertices.get(i-1).obterZ()));
+			strArquivo.append(String.format(Locale.US, GLVERTEX3D, this.vertices.get(i-iSize).obterX(), this.vertices.get(i-iSize).obterY(), this.vertices.get(i-iSize).obterZ()));
+			strArquivo.append(GLEND);
+		}
+		
+		// Traseira
+		strArquivo.append(beginPrimitivaStr(GL.GL_POLYGON));
+		for (byte i = (byte) iSize; i < iSize*2; i++)
+			strArquivo.append(String.format(Locale.US, GLVERTEX3D, this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ()));
+		strArquivo.append(GLEND);
 	}
 
 	/**
@@ -264,13 +311,8 @@ public final class ObjetoGrafico {
 			objAux.addVertice(verticesAux.get(i).obterX() + Ponto4D.DISTANCIA * 5,
 							  verticesAux.get(i).obterY() + Ponto4D.DISTANCIA * 5);
 		
-		objAux.setPrimitiva(this.getPrimitiva());
+		objAux.setPrimitiva2d(this.getPrimitiva2d());
 		this.filhos.add(objAux);
-	}
-	
-	// Duplicar os vertices
-	public void duplicarVertices(float distancia) {
-		
 	}
 
 	/**

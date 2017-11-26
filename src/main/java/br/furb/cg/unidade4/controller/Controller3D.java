@@ -132,29 +132,31 @@ public class Controller3D {
 //
 //				break;
 
-			// Escalar
+			// Gravar em arquivo texto
 			case KeyEvent.VK_F7:
-				// Faz nada ainda...
+				if (this.mundo.getObjetoSelecionado() != null && ! this.mundo.is2D()) {
+					JFileChooser jfc = new JFileChooser();
+					jfc.setDialogTitle("Save File");
+					
+					if (jfc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+						mundo.getObjetoSelecionado().gerarArquivo3d();
+						Arquivo.gravar(jfc.getSelectedFile().getAbsolutePath(), this.mundo.getObjetoSelecionado().getStrArquivo());
+					}
+				}
 				break;
 
-			// Escalar fixo
 			case KeyEvent.VK_F8:
 				// Faz nada ainda...
 				break;
 
-			// Rotacionar fixo (girar)
 			case KeyEvent.VK_F9:
-				if (this.mundo.getObjetoSelecionado() != null && this.mundo.getObjetoSelecionado().getStrArquivo() != "") {				
-					Arquivo.gravar(this.mundo.getObjetoSelecionado().getStrArquivo());
-				}
+				// Faz nada ainda...
 				break;
 
-			// Rotacionar (sobre um eixo)
 			case KeyEvent.VK_F10:
 				// Faz nada ainda...
 				break;
 
-			// Transladar
 			case KeyEvent.VK_F11:
 				// Faz nada ainda...
 				break;
@@ -242,7 +244,5 @@ public class Controller3D {
 					mundo.rotacionarObjeto3dz();
 				break;
 		}
-
-//		glDrawable.display();	
 	}
 }

@@ -241,16 +241,12 @@ public class Controller2D {
 					mundo.set3D();
 					break;
 
-				case KeyEvent.VK_F9:
-					//if (this.mundo.getObjetoSelecionado() != null && this.mundo.getObjetoSelecionado().getStrArquivo() != "") {
-					System.out.println("entrou f9");
-						Arquivo.gravar(this.mundo.getObjetoSelecionado().getStrArquivo());
-					//}
-					break;	
+//				case KeyEvent.VK_F9:
+//					System.out.println("Gravando arquivo...");
+//					Arquivo.gravar(this.mundo.getObjetoSelecionado().getStrArquivo());
+//					break;	
 			}
 		}
-
-		//o.glDrawable.display();
 	}
 
 	public void keyReleased(KeyEvent arg0) {
@@ -314,8 +310,6 @@ public class Controller2D {
 			
 			System.out.println("Clicou dentro do poligono? " + estaDentro);
 		}
-
-//		o.glDrawable.display();
 	}
 
 	public void mouseReleased(MouseEvent arg0) {

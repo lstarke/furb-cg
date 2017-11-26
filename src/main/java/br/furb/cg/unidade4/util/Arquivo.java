@@ -7,14 +7,12 @@ import java.io.IOException;
 
 public class Arquivo {
 	
-	
-	
-	public static void gravar(String str) {
+	public static void gravar(String path, String str) {
 		
 		BufferedWriter writer = null;
 		
 		try {
-	        writer = new BufferedWriter(new FileWriter(new File("ex5.cg")));
+	        writer = new BufferedWriter(new FileWriter(new File(path)));
 	        writer.write(str);
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -22,13 +20,10 @@ public class Arquivo {
 	            try {
 					writer.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}   
 	    }
+
 		System.out.println("Arquivo gravado!");
-		
 	}
-	
-    
 }
