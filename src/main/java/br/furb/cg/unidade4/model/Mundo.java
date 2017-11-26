@@ -307,13 +307,23 @@ public class Mundo {
 	}
 	
 	/**
-	 * Movimentar objeto grafico selecionado
+	 * Movimentar objeto grafico selecionado 2d
 	 * @param x
 	 * @param y
 	 */
 	public void moverObjeto2d(double x, double y) {
 		if (this.isSelecionando() && this.hasObjetoSelecionado())
 			this.objSelecionado.mover2d(x, y);
+	}
+	
+	/**
+	 * Movimentar objeto grafico selecionado 3d
+	 * @param x
+	 * @param y
+	 */
+	public void moverObjeto3d(double x, double y, double z) {
+		if (this.isSelecionando() && this.hasObjetoSelecionado())
+			this.objSelecionado.mover3d(x, y, z);
 	}
 	
 	/**

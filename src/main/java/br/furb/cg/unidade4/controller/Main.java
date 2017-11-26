@@ -4,7 +4,6 @@ import java.awt.event.*;
 import javax.media.opengl.*;
 import br.furb.cg.unidade4.model.*;
 
-
 public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 	
 	/// Objetos do OpenGL
@@ -42,7 +41,6 @@ public class Main implements GLEventListener, KeyListener, MouseListener, MouseM
 		o.gl.glFlush();
 	}
 
-	
 	public void keyPressed(KeyEvent e) {
 		if (mundo.is2D())
 			cont2d.keyPressed(e);

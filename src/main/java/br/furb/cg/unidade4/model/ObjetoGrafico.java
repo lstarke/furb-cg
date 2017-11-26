@@ -347,6 +347,13 @@ public final class ObjetoGrafico {
 	}
 	
 	/**
+	 * Mover Objeto Grafico para os lados (translacao)
+	 */
+	public void mover3d(double x, double y, double z) {
+		this.matriz.transladar3d(x, y, z);
+	}
+	
+	/**
 	 * Ampliar/reduzir Objeto Grafico (escala) 2d
 	 */
 	public void escalonar2d(double multiplicador) {

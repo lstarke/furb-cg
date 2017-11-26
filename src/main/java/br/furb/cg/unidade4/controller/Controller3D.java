@@ -26,7 +26,6 @@ public class Controller3D {
     private boolean chaveEixos = true;
     private boolean chaveLuz = true;
     private boolean chaveCam = false;
-    private boolean chaveTransformacao = true;
     private boolean primeiraChamada = true;
 	
 	public Controller3D(OpenGL o, Mundo mundo) {
@@ -107,7 +106,6 @@ public class Controller3D {
 			// Travar camera
 			case KeyEvent.VK_F4:
 				chaveCam = !chaveCam;
-				chaveTransformacao = !chaveCam;
 				System.out.println("Camera 3d ativa? " + chaveCam);
 				break;
 
@@ -145,23 +143,25 @@ public class Controller3D {
 				}
 				break;
 
+			// Apresentar os vertices(pontos) do objeto selecionado no console
 			case KeyEvent.VK_F8:
-				// Faz nada ainda...
+				mundo.exibirVerticesObjeto();
 				break;
 
+			// Apresentar os pontos (vertices e centro) da bound box do objeto selecionado
 			case KeyEvent.VK_F9:
-				// Faz nada ainda...
+				mundo.exibirBboxObjeto();
 				break;
 
+			// local da camera
 			case KeyEvent.VK_F10:
-				// Faz nada ainda...
+				System.out.println(camera);
 				break;
 
 			case KeyEvent.VK_F11:
 				// Faz nada ainda...
 				break;
 
-			
 			case KeyEvent.VK_F12:
 				// Faz nada ainda...
 				break;
@@ -185,59 +185,68 @@ public class Controller3D {
 
 			// Rotacionar camera para baixo
 			// Aparentemente o objeto gira para o lado contrario
-			case KeyEvent.VK_NUMPAD2:
+			// Transladar objeto pelo eixo Z (aumentar)
+			case KeyEvent.VK_DOWN:
 				if (chaveCam)
 					camera.baixo();
+				else
+					mundo.moverObjeto3d(0f, 0f, 10f);
 				break;
 
 			// Rotacionar camera para esquerda
 			// Aparentemente o objeto gira para o lado contrario
-			case KeyEvent.VK_NUMPAD4:
+			// Transladar objeto pelo eixo X (diminuir)
+			case KeyEvent.VK_LEFT:
 				if (chaveCam)
 					camera.esquerda();
+				else
+					mundo.moverObjeto3d(-10f, 0f, 0f);
 				break;
 
 			// Rotacionar camera para direita
 			// Aparentemente o objeto gira para o lado contrario
-			case KeyEvent.VK_NUMPAD6:
+			// Transladar objeto pelo eixo X (aumentar)
+			case KeyEvent.VK_RIGHT:
 				if (chaveCam)
 					camera.direita();
+				else
+					mundo.moverObjeto3d(10f, 0f, 0f);
 				break;
 
 			// Rotacionar cmaer para cima
 			// Aparentemente o objeto gira para o lado contrario
-			case KeyEvent.VK_NUMPAD8:
+			// Transladar objeto pelo eixo Z (diminuir)
+			case KeyEvent.VK_UP:
 				if (chaveCam)
 					camera.cima();
+				else
+					mundo.moverObjeto3d(0f, 0f, -10f);
 				break;
 				
-			// Apresentar os vertices(pontos) do objeto selecionado no console
-			case KeyEvent.VK_0:
-				mundo.exibirVerticesObjeto();
+			// Transladar objeto pelo eixo Y (aumentar)
+			case KeyEvent.VK_PAGE_UP:
+				if (!chaveCam)
+					mundo.moverObjeto3d(0f, 10f, 0f);
 				break;
 				
-			// Apresentar os pontos (vertices e centro) da bound box do objeto selecionado
-			case KeyEvent.VK_1:
-				mundo.exibirBboxObjeto();
+			// Transladar objeto pelo eixo Y (diminuir)
+			case KeyEvent.VK_PAGE_DOWN:
+				if (!chaveCam)
+					mundo.moverObjeto3d(0f, -10f, 0f);
 				break;
-				
-			// local da camera
-			case KeyEvent.VK_2:
-				System.out.println(camera);
-				break;
-				
+
 			// Rotacao 3d em X
 			case KeyEvent.VK_X:
 				if (!chaveCam)
 					mundo.rotacionarObjeto3dx();
 				break;
-				
+
 			// Rotacao 3d em Y
 			case KeyEvent.VK_Y:
 				if (!chaveCam)
 					mundo.rotacionarObjeto3dy();
 				break;
-				
+
 			// Rotacao 3d em Z
 			case KeyEvent.VK_Z:
 				if (!chaveCam)

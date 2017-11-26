@@ -123,11 +123,19 @@ public final class Matriz {
 	}
 	
 	/**
-	 * Transformar a matriz para translacao do objeto grafico
+	 * Transformar a matriz para translacao do objeto grafico 2d
 	 */
 	public void transladar2d(double x, double y)
 	{
 		this.matriz = transladarInterno(x, y, 0, this.matriz, false);
+	}
+	
+	/**
+	 * Transformar a matriz para translacao do objeto grafico 3d
+	 */
+	public void transladar3d(double x, double y, double z)
+	{
+		this.matriz = transladarInterno(x, y, z, this.matriz, false);
 	}
 	
 	private Transformacao4D transladarInterno(double x, double y, double z, Transformacao4D matrizOperacao, boolean negativo) {
