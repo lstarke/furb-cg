@@ -82,6 +82,15 @@ public class ListaVertices {
 		return vertices.size();
 	}
 	
+	public int meio() {
+		int iSize = vertices.size();
+		
+		if (iSize%2 == 0)
+			return iSize / 2;
+		else
+			return 0;
+	}
+	
 	/**
 	 * Remover o vertice selecionado
 	 */

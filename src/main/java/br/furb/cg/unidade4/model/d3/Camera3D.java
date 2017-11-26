@@ -11,7 +11,7 @@ import javax.media.opengl.glu.GLU;
 
 public class Camera3D {
 	
-	private final float MOVIMENTO = 2f;
+	private final float MOVIMENTO = 10f;
 
 	private GL gl;
 	private GLU glu;
@@ -107,5 +107,10 @@ public class Camera3D {
 
 	public void zoomOut() {
 		this.zEye += MOVIMENTO;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("Eye: x = %f; y = %f; z = %f", xEye, yEye, zEye);
 	}
 }

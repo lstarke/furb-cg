@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.media.opengl.GL;
 import javax.swing.JColorChooser;
-
 import br.furb.cg.unidade4.model.Mundo;
 import br.furb.cg.unidade4.model.ObjetoGrafico;
 import br.furb.cg.unidade4.model.Ponto4D;
@@ -43,8 +42,8 @@ public class Controller2D {
 		o.gl.glLineWidth(1.0f);
 		o.gl.glPointSize(1.0f);
 		
-		mundo.posicionarCamera(o.gl, o.glu);
-		mundo.SRU(o.gl, o.glu);
+		mundo.posicionarCamera2d(o.gl, o.glu);
+		mundo.Sru2d(o.gl, o.glu);
 		mundo.desenharObjetos(o.gl, o.glu);
 	}
 	
@@ -111,40 +110,40 @@ public class Controller2D {
 				// (deslocar camera para baixo)
 				case KeyEvent.VK_B:
 					if (mundo.isSelecionando())
-						mundo.getCamera().panBaixo();
+						mundo.getCamera2d().panBaixo();
 					break;
 					
 				// Camera Pan Cima
 				// (deslocar camera para cima)
 				case KeyEvent.VK_C:
 					if (mundo.isSelecionando())
-						mundo.getCamera().panCima();
+						mundo.getCamera2d().panCima();
 					break;
 					
 				// Camera Pan Direita
 				// (deslocar camera para direita)
 				case KeyEvent.VK_D:
 					if (mundo.isSelecionando())
-						mundo.getCamera().panDireita();
+						mundo.getCamera2d().panDireita();
 					break;
 					
 				// Camera Pan Esquerda
 				// (deslocar camera para esquerda)
 				case KeyEvent.VK_E:
 					if (mundo.isSelecionando())
-						mundo.getCamera().panEsquerda();
+						mundo.getCamera2d().panEsquerda();
 					break;
 					
 				// Camera Zoom In
 				case KeyEvent.VK_I:
 					if (mundo.isSelecionando())
-						mundo.getCamera().zoomIn();
+						mundo.getCamera2d().zoomIn();
 					break;
 					
 				// Camera Zoom Out
 				case KeyEvent.VK_O:
 					if (mundo.isSelecionando())
-						mundo.getCamera().zoomOut();
+						mundo.getCamera2d().zoomOut();
 					break;
 	
 				// Rotacionar objeto grafico selecionado
@@ -237,6 +236,7 @@ public class Controller2D {
 					
 				// Troca da Cena 2D para 3D
 				case KeyEvent.VK_3:
+					mundo.getObjetoSelecionado().gerar3d(100);
 					mundo.set3D();
 					break;
 			}
@@ -356,12 +356,12 @@ public class Controller2D {
 	public Ponto4D converterPontoCliqueMouse(double xAbsoluto, double yAbsoluto, double xFrame, double yFrame)
 	{
         // Encontrar a diferenca entre ortho e frame e transforma em indice de conversao de escala
-		double indiceConvX = mundo.getCamera().getTamX() / xFrame;
-		double indiceConvY = mundo.getCamera().getTamY() / yFrame;
+		double indiceConvX = mundo.getCamera2d().getTamX() / xFrame;
+		double indiceConvY = mundo.getCamera2d().getTamY() / yFrame;
 
 		// Encontrar em que ponto do frame se refere o ponto real (absolunto) do clique do mouse  
-		double xNovoPto = ((xAbsoluto * indiceConvX) + mundo.getCamera().getXmin());
-		double yNovoPto = ((yAbsoluto * indiceConvY) + mundo.getCamera().getYmin()) * -1;
+		double xNovoPto = ((xAbsoluto * indiceConvX) + mundo.getCamera2d().getXmin());
+		double yNovoPto = ((yAbsoluto * indiceConvY) + mundo.getCamera2d().getYmin()) * -1;
 		
 		return new Ponto4D(xNovoPto, yNovoPto, 0.0, 1.0);
 	}

@@ -2,13 +2,8 @@ package br.furb.cg.unidade4.controller;
 
 import java.awt.event.*;
 import javax.media.opengl.*;
-//import javax.media.opengl.glu.GLU;
-//import com.sun.opengl.util.GLUT;
 import br.furb.cg.unidade4.model.*;
-//import br.furb.cg.unidade4.model.auxiliar.AlgoritmoDeSelecao;
-//import br.furb.cg.unidade4.model.auxiliar.ListaObjetosGraficos;
-//import br.furb.cg.unidade4.model.d3.Caneta3D;
-import br.furb.cg.unidade4.model.d2.Caneta2D;
+
 
 public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 //	private GL gl;

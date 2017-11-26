@@ -13,9 +13,9 @@ public class Iluminacao {
 		this.setEnable(false);
 	}
 	
-	public Iluminacao(GL gl, float corR, float corG, float corB, float alfa) {
+	public Iluminacao(GL gl, float x, float y, float z) {
 		this.gl = gl;
-		this.setIluminacao(corR, corG, corB, alfa);
+		this.setPos(x, y, z);
 		this.setEnable(false);
 	}
 	
@@ -28,11 +28,11 @@ public class Iluminacao {
 		return iluminacao;
 	}
 	
-	public void setIluminacao(float corR, float corG, float corB, float alfa) {
-		this.posLight[0] = corR;
-		this.posLight[1] = corG;
-		this.posLight[2] = corB;
-		this.posLight[3] = alfa;
+	public void setPos(float x, float y, float z) {
+		this.posLight[0] = x;
+		this.posLight[1] = y;
+		this.posLight[2] = z;
+		this.posLight[3] = 0;
 	}
 	
 	public void setEnable(boolean enable) {

@@ -14,7 +14,9 @@ public class Mundo {
 	// Propriedades do Mundo/Universo
 	private float tamEixoXsru;
 	private float tamEixoYsru;
-	private Camera2D camera;
+	private float tamEixoZsru;
+	private Camera2D camera2d;
+//	private Camera3D camera3d;
 	private ListaObjetosGraficos objetos;
 	
 	// Auxiliares
@@ -27,7 +29,10 @@ public class Mundo {
 	public Mundo(boolean is2D) {
 		this.tamEixoXsru = 200f;
 		this.tamEixoYsru = 200f;
-		this.camera = new Camera2D();
+		this.tamEixoZsru = 200f;
+		
+		this.camera2d = new Camera2D();
+//		this.camera3d = new Camera3D(o.gl, o.glu);
 		this.objetos = new ListaObjetosGraficos();
 		this.objSelecionado = null;
 		this.ptoSelecionado = null;
@@ -43,8 +48,20 @@ public class Mundo {
 		this.is2D = false;
 	}
 
-	public Camera2D getCamera() {
-		return camera;
+	public Camera2D getCamera2d() {
+		return camera2d;
+	}
+	
+	public float getTamX() {
+		return this.tamEixoXsru;
+	}
+	
+	public float getTamY() {
+		return this.tamEixoYsru;
+	}
+	
+	public float getTamZ() {
+		return this.tamEixoZsru;
 	}
 	
 	public ObjetoGrafico getObjetoSelecionado() {
@@ -114,7 +131,7 @@ public class Mundo {
 	/**
 	 * Desenhar os eixos X e Y na cena grafica
 	 */	
-	public void SRU(GL gl, GLU glu) {
+	public void Sru2d(GL gl, GLU glu) {
 		gl.glLineWidth(1.0f);
 	
 		// eixo X
@@ -135,38 +152,38 @@ public class Mundo {
 	/**
 	 * Desenhar os eixos X, Y e Z na cena grafica
 	 */	
-	public void Sru3D(GL gl) {
+	public void Sru3d(GL gl) {
 		gl.glLineWidth(1.0f);
 
 		// eixo X - Red
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
 		gl.glBegin(GL.GL_LINES);
 			gl.glVertex3f(0.0f, 0.0f, 0.0f);
-			gl.glVertex3f(10.0f, 0.0f, 0.0f);
+			gl.glVertex3f(tamEixoXsru, 0.0f, 0.0f);
 		gl.glEnd();
 
 		// eixo Y - Green
 		gl.glColor3f(0.0f, 1.0f, 0.0f);
 		gl.glBegin(GL.GL_LINES);
 			gl.glVertex3f(0.0f, 0.0f, 0.0f);
-			gl.glVertex3f(0.0f, 10.0f, 0.0f);
+			gl.glVertex3f(0.0f, tamEixoYsru, 0.0f);
 		gl.glEnd();
 
 		// eixo Z - Blue
 		gl.glColor3f(0.0f, 0.0f, 1.0f);
 		gl.glBegin(GL.GL_LINES);
 			gl.glVertex3f(0.0f, 0.0f, 0.0f);
-			gl.glVertex3f(0.0f, 0.0f, 10.0f);
+			gl.glVertex3f(0.0f, 0.0f, tamEixoZsru);
 		gl.glEnd();
 	}
 	
 	/**
-	 * Posicionar a camera em um ponto especifico da cena
+	 * Posicionar a camera2d em um ponto especifico da cena
 	 * @param gl
 	 * @param glu
 	 */
-	public void posicionarCamera(GL gl, GLU glu) {
-		this.camera.posicionar(gl, glu);
+	public void posicionarCamera2d(GL gl, GLU glu) {
+		this.camera2d.posicionar(gl, glu);
 	}
 	
 	/**
@@ -175,8 +192,13 @@ public class Mundo {
 	 * @param glu
 	 */
 	public void desenharObjetos(GL gl, GLU glu) {
-		for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();)
-			it.next().desenhar(gl, glu);		
+		if (is2D()) {
+			for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();)
+				it.next().desenhar(gl, glu);
+		} else {
+			for (Iterator<ObjetoGrafico> it = this.objetos.iterador(); it.hasNext();)
+				it.next().desenhar3D(gl, glu);
+		}
 	}
 	
 	/**

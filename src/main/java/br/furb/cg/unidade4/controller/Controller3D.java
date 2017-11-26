@@ -2,12 +2,9 @@ package br.furb.cg.unidade4.controller;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-
 import javax.media.opengl.GL;
-//import javax.media.opengl.glu.GLU;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
-
 import br.furb.cg.unidade4.model.Mundo;
 import br.furb.cg.unidade4.model.d3.Camera3D;
 import br.furb.cg.unidade4.model.d3.Caneta3D;
@@ -19,15 +16,15 @@ public class Controller3D {
 	
 	// Meus objetos
 	private Camera3D camera;
-	private Textura textura;
-	private Iluminacao luz;
+	//private Textura textura;
+	//private Iluminacao luz;
 	private Mundo mundo;
 	
 	// Meus parametros
 	private boolean chaveCubo = true;
     private boolean chaveEixos = true;
     private boolean chaveLuz = true;
-    private boolean chaveCam = true;
+    private boolean chaveCam = false;
 //    private boolean chaveEscala = true;
 //    private boolean chaveRotacao = true;
 //    private boolean chaveTranslacao = true;
@@ -39,15 +36,25 @@ public class Controller3D {
 		this.o = o;
 		
 		this.mundo = mundo;
-		this.luz = new Iluminacao(o.gl, 5f, 5f, 10f, 0f);
+		//this.luz = new Iluminacao(o.gl);
 		this.camera = new Camera3D(o.gl, o.glu);
-		this.textura = new Textura(o.gl);
+		//this.textura = new Textura(o.gl);
 	}
 	
 	public void reshape3D() {
-		// Camera
-		camera.especificar(60, 0.1, 1000);
-		camera.olharPara(5f, 5f, 5f, 0, 0, 0);
+		float near = (mundo.getTamX() + mundo.getTamY() + mundo.getTamZ()) * 100;
+		//luz.setPos(mundo.getTamX() * 100, mundo.getTamY() * 100, mundo.getTamZ()* 100);
+		camera.especificar(60, 0.1, near);
+		
+		if (mundo.hasObjetoSelecionado()) {
+			camera.olharPara(250f, 250f, 250f,
+					         (float) mundo.getObjetoSelecionado().getBbox().getCentro().obterX(),
+					         (float) mundo.getObjetoSelecionado().getBbox().getCentro().obterY(),
+					         (float) mundo.getObjetoSelecionado().getBbox().getCentro().obterZ());
+
+			mundo.getObjetoSelecionado().setCor(Color.GRAY);
+		} else
+			camera.olharPara(mundo.getTamX(), mundo.getTamY(), mundo.getTamZ(), 0, 0, 0);
 	}
 	
 	public void cena3D() {
@@ -62,7 +69,7 @@ public class Controller3D {
 		o.gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 		
 		// Diretivas gerais
-		o.gl.glEnable(GL.GL_CULL_FACE); // Diretiva que indica para desenhar apenas uma face do cubo
+		//o.gl.glEnable(GL.GL_CULL_FACE); // Diretiva que indica para desenhar apenas uma face do cubo
 		o.gl.glEnable(GL.GL_DEPTH_TEST);
 		
 		// Camera livre: chaveCam = true;
@@ -70,18 +77,19 @@ public class Controller3D {
 			camera.posicionar();
 		
 		// Acender/Apagar luz
-		luz.setEnable(chaveLuz);
+		//luz.setEnable(chaveLuz);
 
 		// Visualizar/Esconder eixos
 		if (chaveEixos)
-			mundo.Sru3D(o.gl);
+			mundo.Sru3d(o.gl);
 
 		// Visualizar/Esconder cubo
 		if (chaveCubo) {
 			if (cuboSimples)
-				Caneta3D.desenhaCuboFaces(o.gl);
-			else
-				Caneta3D.desenharCuboTextura(o.gl, textura, 0);
+				//Caneta3D.desenhaCuboFaces(o.gl);
+				mundo.desenharObjetos(o.gl, o.glu);
+			//else
+				//Caneta3D.desenharCuboTextura(o.gl, textura, 0);
 		}
 	}
 	
@@ -112,22 +120,24 @@ public class Controller3D {
 
 			// Trocar a cor do cubo
 			case KeyEvent.VK_F5:
-				Color cor = JColorChooser.showDialog(null, "Altere a cor do poligono selecionado", Color.BLACK);
-				Caneta3D.setCorCubo(cor);
+				if (mundo.isSelecionando()) {
+					Color corEscolhida = JColorChooser.showDialog(null, "Altere a cor do poligono selecionado", Color.GRAY);
+					mundo.getObjetoSelecionado().setCor(corEscolhida);
+				}
 				break;
 
 			// Escolher e aplicar textura 2D
-			case KeyEvent.VK_F6:
-				JFileChooser chooser = new JFileChooser();
-			    chooser.setMultiSelectionEnabled(false);
-			    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-			    	 cuboSimples = false;
-			    	 System.out.println(chooser.getSelectedFile().getAbsolutePath());
-			    	 this.textura.carregarImagem(0, chooser.getSelectedFile().getAbsolutePath());
-			    } else
-			    	cuboSimples = true;
-
-				break;
+//			case KeyEvent.VK_F6:
+//				JFileChooser chooser = new JFileChooser();
+//			    chooser.setMultiSelectionEnabled(false);
+//			    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+//			    	 cuboSimples = false;
+//			    	 System.out.println(chooser.getSelectedFile().getAbsolutePath());
+//			    	 this.textura.carregarImagem(0, chooser.getSelectedFile().getAbsolutePath());
+//			    } else
+//			    	cuboSimples = true;
+//
+//				break;
 
 			// Escalar
 			case KeyEvent.VK_F7:
@@ -149,10 +159,12 @@ public class Controller3D {
 				// Faz nada ainda...
 				break;
 
+			
 			case KeyEvent.VK_F11:
 				// Faz nada ainda...
 				break;
 
+			
 			case KeyEvent.VK_F12:
 				// Faz nada ainda...
 				break;
@@ -196,6 +208,24 @@ public class Controller3D {
 			case KeyEvent.VK_NUMPAD8:
 				if (chaveCam)
 					camera.cima();
+				break;
+				
+			// Apresentar os vertices(pontos) do objeto selecionado no console
+			case KeyEvent.VK_0:
+				mundo.exibirVerticesObjeto();
+				break;
+				
+			// Apresentar os pontos (vertices e centro) da bound box do objeto selecionado
+			case KeyEvent.VK_1:
+				mundo.exibirBboxObjeto();
+				break;
+				
+			// local da camera
+			case KeyEvent.VK_2:
+				System.out.println(camera);
+				break;
+				
+			case KeyEvent.VK_3:
 				break;
 		}
 

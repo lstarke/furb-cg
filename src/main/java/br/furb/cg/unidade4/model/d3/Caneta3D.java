@@ -5,7 +5,7 @@ import javax.media.opengl.GL;
 
 public class Caneta3D {
 	
-private static float corLuz[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	private static float corLuz[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	
 	// Obedecer a cor escolhida pelo usuario
 	//gl.glColor3ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue());

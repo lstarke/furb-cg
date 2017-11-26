@@ -193,6 +193,8 @@ public class BBox3D {
 		double maxX = Integer.MIN_VALUE;
 		double minY = Integer.MAX_VALUE;
 		double maxY = Integer.MIN_VALUE;
+		double maxZ = Integer.MIN_VALUE;
+		double minZ = Integer.MAX_VALUE;
 
 		for (int i = 0; i < vertices.size(); i++) {
 			
@@ -209,6 +211,12 @@ public class BBox3D {
 			
 			if (p.obterY() < minY)
 				minY = p.obterY() - Ponto4D.DISTANCIA;
+			
+			if (p.obterZ() > maxZ)
+				maxZ = p.obterZ() + Ponto4D.DISTANCIA;
+			
+			if (p.obterZ() < minZ)
+				minZ = p.obterZ() - Ponto4D.DISTANCIA;
 		}
 
 		this.atualizar(minX, maxX, minY, maxY);

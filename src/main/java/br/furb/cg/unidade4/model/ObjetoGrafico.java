@@ -145,6 +145,53 @@ public final class ObjetoGrafico {
 		}
 		gl.glPopMatrix();
 	}
+	
+	public void desenhar3D(GL gl, GLU glu) {
+//		gl.glPushMatrix();
+//		{
+//			gl.glMultMatrixd(this.matriz.getData(), 0);
+//			{
+				// Obedecer a cor escolhida pelo usuario
+				gl.glColor4ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue(), (byte)cor.getAlpha());
+				
+				// Desenhar objeto
+				int iSize = this.vertices.meio();
+				
+				// Frente
+				gl.glBegin(GL.GL_POLYGON);
+					//gl.glNormal3d(0f, 0f, -1f);
+					for (byte i = 0; i < iSize; i++)
+						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
+				gl.glEnd();
+				
+				// Lateral
+				//gl.glNormal3f(0f, 0f, -1f);
+				for (byte i = 0; i < iSize; i++) {
+					gl.glBegin(GL.GL_TRIANGLE_STRIP);
+					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
+					gl.glVertex3d(this.vertices.get(i+1).obterX(), this.vertices.get(i+1).obterY(), this.vertices.get(i+1).obterZ());
+					gl.glVertex3d(this.vertices.get(i+iSize).obterX(), this.vertices.get(i+iSize).obterY(), this.vertices.get(i+iSize).obterZ());
+					gl.glEnd();
+				}
+				
+				for (byte i = (byte) iSize; i < iSize*2; i++) {
+					gl.glBegin(GL.GL_TRIANGLE_STRIP);
+					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
+					gl.glVertex3d(this.vertices.get(i-1).obterX(), this.vertices.get(i-1).obterY(), this.vertices.get(i-1).obterZ());
+					gl.glVertex3d(this.vertices.get(i-iSize).obterX(), this.vertices.get(i-iSize).obterY(), this.vertices.get(i-iSize).obterZ());
+					gl.glEnd();
+				}
+				
+				// Traseira
+				gl.glBegin(GL.GL_POLYGON);
+					//gl.glNormal3d(0f, 0f, 1f);
+					for (byte i = (byte) iSize; i < iSize*2; i++)
+						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
+				gl.glEnd();
+//			}
+//		}
+//		gl.glPopMatrix();
+	}
 
 	/**
 	 * Inserir vertice na lista de vertices
@@ -165,6 +212,19 @@ public final class ObjetoGrafico {
 	 */
 	public void calcularBbox() {
 		this.bbox.calcular(this.vertices);
+	}
+	
+	/**
+	 * Criar objeto grafico 3d
+	 */
+	public void gerar3d(float profundidade) {
+		int iSize = vertices.size();
+		Ponto4D p = null;
+		
+		for (int i = 0; i < iSize; i++) {
+			p = new Ponto4D(vertices.get(i).obterX(), vertices.get(i).obterY(), profundidade, 1);
+			vertices.add(p);
+		}
 	}
 	
 	/**
