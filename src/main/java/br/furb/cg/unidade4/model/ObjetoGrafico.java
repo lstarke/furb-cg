@@ -21,10 +21,12 @@ public final class ObjetoGrafico {
 	private int primitiva;
 	private ListaVertices vertices;
 	private Color cor;
+	private float corLuz[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	private BBox3D bbox;
 	private Matriz matriz;
 	private ListaObjetosGraficos filhos;
 	private StringBuilder strArquivo;
+	private boolean usaLuz;
 	
 	// Auxiliares
 	private boolean selecionado;
@@ -46,6 +48,7 @@ public final class ObjetoGrafico {
 		
 		// Auxiliares
 		this.selecionado = false;
+		this.usaLuz = true;
 	}
 	
 	public int getPrimitiva2d() {
@@ -53,7 +56,13 @@ public final class ObjetoGrafico {
 	}
 	
 	public String getStrArquivo() {
-		return strArquivo.toString();
+		if (strArquivo != null)
+			return strArquivo.toString();
+		return "";
+	}
+	
+	public void setPercebeLuz(boolean usaLuz) {
+		this.usaLuz = usaLuz;
 	}
 
 	/**
@@ -88,8 +97,14 @@ public final class ObjetoGrafico {
 	{
 		if (cor == null)
 			this.cor = Color.BLACK;
-		else	
+		else {
 			this.cor = cor;
+			
+			corLuz[0] = cor.getRed()   / 255f;
+			corLuz[1] = cor.getGreen() / 255f;
+			corLuz[2] = cor.getBlue()  / 255f;
+			corLuz[3] = cor.getAlpha() / 255f;
+		}
 	}
 	
 	/**
@@ -163,40 +178,51 @@ public final class ObjetoGrafico {
 		{
 			gl.glMultMatrixd(this.matriz.getData(), 0);
 			{
-				// Obedecer a cor escolhida pelo usuario
-				gl.glColor4ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue(), (byte)cor.getAlpha());				
-				
-				// Desenhar objeto
-				int iSize = this.vertices.meio();
-				
-				// Frente
-				gl.glBegin(GL.GL_POLYGON); 
-				for (byte i = 0; i < iSize; i++)
-					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ()); 
-				gl.glEnd();
-				
-				// Lateral
-				for (byte i = 0; i < iSize; i++) {
-					gl.glBegin(GL.GL_TRIANGLE_STRIP);
-					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
-					gl.glVertex3d(this.vertices.get(i+1).obterX(), this.vertices.get(i+1).obterY(), this.vertices.get(i+1).obterZ());
-					gl.glVertex3d(this.vertices.get(i+iSize).obterX(), this.vertices.get(i+iSize).obterY(), this.vertices.get(i+iSize).obterZ());
+				if (usaLuz) {
+					gl.glMaterialfv(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE, corLuz, 0);  // iluminacao
+					gl.glEnable(GL.GL_LIGHTING);
+				}
+				{
+					if (!usaLuz) {
+						// Obedecer a cor escolhida pelo usuario
+						gl.glColor4ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue(), (byte)cor.getAlpha());
+					}
+					
+					// Desenhar objeto
+					int iSize = this.vertices.meio();
+					
+					// Frente
+					gl.glBegin(GL.GL_POLYGON); 
+					for (byte i = 0; i < iSize; i++)
+						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ()); 
 					gl.glEnd();
-				}				
-				
-				for (byte i = (byte) iSize; i < iSize*2; i++) {
-					gl.glBegin(GL.GL_TRIANGLE_STRIP);
-					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
-					gl.glVertex3d(this.vertices.get(i-1).obterX(), this.vertices.get(i-1).obterY(), this.vertices.get(i-1).obterZ());
-					gl.glVertex3d(this.vertices.get(i-iSize).obterX(), this.vertices.get(i-iSize).obterY(), this.vertices.get(i-iSize).obterZ());
+					
+					// Laterais (frente para traz)
+					for (byte i = 0; i < iSize; i++) {
+						gl.glBegin(GL.GL_TRIANGLE_STRIP);
+						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
+						gl.glVertex3d(this.vertices.get(i+1).obterX(), this.vertices.get(i+1).obterY(), this.vertices.get(i+1).obterZ());
+						gl.glVertex3d(this.vertices.get(i+iSize).obterX(), this.vertices.get(i+iSize).obterY(), this.vertices.get(i+iSize).obterZ());
+						gl.glEnd();
+					}				
+					
+					// Laterais (traz para frente)
+					for (byte i = (byte) iSize; i < iSize*2; i++) {
+						gl.glBegin(GL.GL_TRIANGLE_STRIP);
+						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
+						gl.glVertex3d(this.vertices.get(i-1).obterX(), this.vertices.get(i-1).obterY(), this.vertices.get(i-1).obterZ());
+						gl.glVertex3d(this.vertices.get(i-iSize).obterX(), this.vertices.get(i-iSize).obterY(), this.vertices.get(i-iSize).obterZ());
+						gl.glEnd();
+					}
+					
+					// Traseira
+					gl.glBegin(GL.GL_POLYGON);
+					for (byte i = (byte) iSize; i < iSize*2; i++)
+						gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
 					gl.glEnd();
 				}
-				
-				// Traseira
-				gl.glBegin(GL.GL_POLYGON);
-				for (byte i = (byte) iSize; i < iSize*2; i++)
-					gl.glVertex3d(this.vertices.get(i).obterX(), this.vertices.get(i).obterY(), this.vertices.get(i).obterZ());
-				gl.glEnd();
+				if (usaLuz)
+					gl.glDisable(GL.GL_LIGHTING);
 			}
 		}
 		gl.glPopMatrix();

@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.media.opengl.GL;
 import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
 import br.furb.cg.unidade4.model.Mundo;
 import br.furb.cg.unidade4.model.ObjetoGrafico;
 import br.furb.cg.unidade4.model.Ponto4D;
@@ -237,8 +238,11 @@ public class Controller2D {
 					
 				// Troca da Cena 2D para 3D
 				case KeyEvent.VK_3:
-					mundo.getObjetoSelecionado().gerar3d(100);
-					mundo.set3D();
+					if (mundo.is2D() && mundo.isSelecionando() && mundo.hasObjetoSelecionado()) {
+						float profundidade = Float.parseFloat(JOptionPane.showInputDialog("Insira um valor (float) para a profundidade do objeto: ", 100f));
+						mundo.getObjetoSelecionado().gerar3d(profundidade);
+						mundo.set3D();
+					}
 					break;
 
 //				case KeyEvent.VK_F9:

@@ -18,13 +18,14 @@ public class Controller3D {
 	// Meus objetos
 	private Camera3D camera;
 	//private Textura textura;
-	//private Iluminacao luz;
+	private Iluminacao luz;
 	private Mundo mundo;
 	
 	// Meus parametros
 	private boolean chaveCubo = true;
     private boolean chaveEixos = true;
     private boolean chaveLuz = true;
+    private boolean usaLuz   = true;
     private boolean chaveCam = false;
     private boolean primeiraChamada = true;
 	
@@ -32,23 +33,26 @@ public class Controller3D {
 		this.o = o;
 		
 		this.mundo = mundo;
-		//this.luz = new Iluminacao(o.gl);
+		this.luz = new Iluminacao(o.gl);
 		this.camera = new Camera3D(o.gl, o.glu);
 		//this.textura = new Textura(o.gl);
 	}
 	
 	public void reshape3D() {
-		float near = (mundo.getTamX() + mundo.getTamY() + mundo.getTamZ()) * 100;
-		//luz.setPos(mundo.getTamX() * 100, mundo.getTamY() * 100, mundo.getTamZ()* 100);
-		camera.especificar(60, 0.1, near);
+		float far = (mundo.getTamX() + mundo.getTamY() + mundo.getTamZ()) * 2;
+		camera.especificar(60, 0.1, far);
 		
 		if (mundo.hasObjetoSelecionado()) {
-			camera.olharPara(250f, 250f, 250f,
+			luz.setPos((float) mundo.getObjetoSelecionado().getBbox().getCentro().obterX(), 
+					   (float) mundo.getTamY() * 3f, 
+					   (float) mundo.getObjetoSelecionado().getBbox().getCentro().obterZ());
+
+			camera.olharPara(350f, 350f, 350f,
 					         (float) mundo.getObjetoSelecionado().getBbox().getCentro().obterX(),
 					         (float) mundo.getObjetoSelecionado().getBbox().getCentro().obterY(),
 					         (float) mundo.getObjetoSelecionado().getBbox().getCentro().obterZ());
 
-			mundo.getObjetoSelecionado().setCor(Color.GRAY);
+			mundo.getObjetoSelecionado().setCor(Color.RED);
 		} else
 			camera.olharPara(mundo.getTamX(), mundo.getTamY(), mundo.getTamZ(), 0, 0, 0);
 	}
@@ -73,7 +77,7 @@ public class Controller3D {
 			camera.posicionar();
 		
 		// Acender/Apagar luz
-		//luz.setEnable(chaveLuz);
+		luz.setEnable(chaveLuz);
 
 		// Visualizar/Esconder eixos
 		if (chaveEixos)
@@ -100,7 +104,10 @@ public class Controller3D {
 
 			// Acender/Apagar luz
 			case KeyEvent.VK_F3:
-				chaveLuz = !chaveLuz;
+				if (usaLuz) {
+					chaveLuz = !chaveLuz;
+					System.out.println("Luz acesa: " + chaveLuz);
+				}
 				break;
 
 			// Travar camera
@@ -112,7 +119,7 @@ public class Controller3D {
 			// Trocar a cor do cubo
 			case KeyEvent.VK_F5:
 				if (mundo.isSelecionando()) {
-					Color corEscolhida = JColorChooser.showDialog(null, "Altere a cor do poligono selecionado", Color.GRAY);
+					Color corEscolhida = JColorChooser.showDialog(null, "Altere a cor do poligono selecionado", Color.RED);
 					mundo.getObjetoSelecionado().setCor(corEscolhida);
 				}
 				break;
@@ -137,8 +144,15 @@ public class Controller3D {
 					jfc.setDialogTitle("Save File");
 					
 					if (jfc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+						camera.gerarArquivo3d();
+						StringBuilder sbArquivo = new StringBuilder("===== Camera - Inicio =====\n");
+						sbArquivo.append(camera.getStrArquivo());
+						
 						mundo.getObjetoSelecionado().gerarArquivo3d();
-						Arquivo.gravar(jfc.getSelectedFile().getAbsolutePath(), this.mundo.getObjetoSelecionado().getStrArquivo());
+						sbArquivo.append("\n===== Objeto - Inicio =====\n");
+						sbArquivo.append(mundo.getObjetoSelecionado().getStrArquivo());
+
+						Arquivo.gravar(jfc.getSelectedFile().getAbsolutePath(), sbArquivo.toString());
 					}
 				}
 				break;
@@ -163,7 +177,14 @@ public class Controller3D {
 				break;
 
 			case KeyEvent.VK_F12:
-				// Faz nada ainda...
+				if (mundo.hasObjetoSelecionado()) {
+					usaLuz = !usaLuz;
+					mundo.getObjetoSelecionado().setPercebeLuz(usaLuz);
+					System.out.println("Utilizar luz: " + usaLuz);
+					
+					if (usaLuz)
+						System.out.println("Luz acesa: " + chaveLuz);
+				}
 				break;
 
 			// Zoom in (aproximar camera) ou escalora objeto

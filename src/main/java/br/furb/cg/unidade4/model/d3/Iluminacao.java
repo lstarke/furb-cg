@@ -32,7 +32,7 @@ public class Iluminacao {
 		this.posLight[0] = x;
 		this.posLight[1] = y;
 		this.posLight[2] = z;
-		this.posLight[3] = 0;
+		this.posLight[3] = 1f;
 	}
 	
 	public void setEnable(boolean enable) {
@@ -40,6 +40,10 @@ public class Iluminacao {
 			gl.glEnable(GL.GL_LIGHT0);
 		else
 			gl.glDisable(GL.GL_LIGHT0);
+	}
+	
+	public boolean isEnable() {
+		return gl.glIsEnabled(GL.GL_LIGHT0);
 	}
 	
 	public void poscionar() {

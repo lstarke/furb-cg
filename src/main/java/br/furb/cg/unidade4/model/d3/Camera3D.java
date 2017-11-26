@@ -1,5 +1,7 @@
 package br.furb.cg.unidade4.model.d3;
 
+import java.util.Locale;
+
 /**
  * Camera da cena grafica
  * 
@@ -17,6 +19,8 @@ public class Camera3D {
 	private GLU glu;
 	private double aspect;
 	private float xEye, yEye, zEye;
+	private float xTarget, yTarget, zTarget;
+	private StringBuilder strArquivo;
 	
 	public Camera3D(GL gl, GLU glu) {
 		this.glu = glu;
@@ -26,6 +30,9 @@ public class Camera3D {
 		this.xEye = 0;
 		this.yEye = 0;
 		this.zEye = 0;
+		this.xTarget = 0; 
+		this.yTarget = 0; 
+		this.zTarget = 0;
 	}
 
 	public double getAspect() {
@@ -34,6 +41,12 @@ public class Camera3D {
 
 	public void setAspect(double aspect) {
 		this.aspect = aspect;
+	}
+	
+	public String getStrArquivo() {
+		if (strArquivo != null)
+			return strArquivo.toString();
+		return "";
 	}
 
 	/**
@@ -66,6 +79,9 @@ public class Camera3D {
 		this.xEye = xEye;
 		this.yEye = yEye;
 		this.zEye = zEye;
+		this.xTarget = xTarget;
+		this.yTarget = yTarget;
+		this.zTarget = zTarget;
 
 		gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
@@ -109,8 +125,29 @@ public class Camera3D {
 		this.zEye += MOVIMENTO;
 	}
 	
+	/**
+	 * Gerar arquivo texto a posicao da camera 3d
+	 */
+	public void gerarArquivo3d() {
+
+		strArquivo = new StringBuilder();
+		strArquivo.append("gl.glMatrixMode(GL.GL_MODELVIEW);\n");
+		strArquivo.append("gl.glLoadIdentity();\n");
+		strArquivo.append(String.format(Locale.US, "glu.gluLookAt(%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, 0, 1, 0);\n", xEye, yEye, zEye, xTarget, yTarget, zTarget));
+		strArquivo.append("\n");
+		strArquivo.append("gl.glMatrixMode(GL.GL_MODELVIEW);\n");
+		strArquivo.append("gl.glLoadIdentity();\n");
+		strArquivo.append(String.format(Locale.US, "gl.glTranslatef(0, 0, %.2f);\n", -zEye));
+		strArquivo.append(String.format(Locale.US, "gl.glRotatef(%.2f, 1, 0, 0);\n", xEye));
+		strArquivo.append(String.format(Locale.US, "gl.glRotatef(%.2f, 0, 1, 0);\n", yEye));
+	}
+	
 	@Override
 	public String toString() {
-		return String.format("Eye: x = %f; y = %f; z = %f", xEye, yEye, zEye);
+		StringBuilder sb = new StringBuilder("Camera3d:\n");
+		sb.append(String.format("Eye: x = %f; y = %f; z = %f\n", xEye, yEye, zEye));
+		sb.append(String.format("Target: x = %f; y = %f; z = %f", xTarget, yTarget, zTarget));
+		
+		return sb.toString(); 
 	}
 }
