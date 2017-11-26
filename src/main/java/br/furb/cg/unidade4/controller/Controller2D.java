@@ -240,14 +240,13 @@ public class Controller2D {
 					mundo.getObjetoSelecionado().gerar3d(100);
 					mundo.set3D();
 					break;
+
 				case KeyEvent.VK_F9:
 					//if (this.mundo.getObjetoSelecionado() != null && this.mundo.getObjetoSelecionado().getStrArquivo() != "") {
 					System.out.println("entrou f9");
 						Arquivo.gravar(this.mundo.getObjetoSelecionado().getStrArquivo());
 					//}
-					break;
-					
-					
+					break;	
 			}
 		}
 

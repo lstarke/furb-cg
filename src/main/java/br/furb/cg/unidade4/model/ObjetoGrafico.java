@@ -51,8 +51,6 @@ public final class ObjetoGrafico {
 		return this.primitiva;
 	}
 	
-	
-
 	public String getStrArquivo() {
 		return strArquivo;
 	}
@@ -154,19 +152,10 @@ public final class ObjetoGrafico {
 	}
 	
 	public void desenhar3D(GL gl, GLU glu) {
-<<<<<<< HEAD
 		gl.glPushMatrix();
 		{
 			gl.glMultMatrixd(this.matriz.getData(), 0);
 			{
-=======
-		
-		
-//		gl.glPushMatrix();
-//		{
-//			gl.glMultMatrixd(this.matriz.getData(), 0);
-//			{
->>>>>>> 004e2b6922db4c6232f97d82d5972144bbae02ce
 				// Obedecer a cor escolhida pelo usuario
 				gl.glColor4ub((byte)cor.getRed(), (byte)cor.getGreen(), (byte)cor.getBlue(), (byte)cor.getAlpha());
 				strArquivo += "gl.glColor4ub(" + (byte)cor.getRed() +", " + (byte)cor.getGreen() + ", " + (byte)cor.getBlue() + ", " + (byte)cor.getAlpha() + ");\n";				
@@ -223,16 +212,9 @@ public final class ObjetoGrafico {
 					}
 					
 				gl.glEnd();
-<<<<<<< HEAD
 			}
 		}
 		gl.glPopMatrix();
-=======
-				strArquivo += "gl.glEnd();\n";
-//			}
-//		}		
-//		gl.glPopMatrix();
->>>>>>> 004e2b6922db4c6232f97d82d5972144bbae02ce
 	}
 
 	/**
